@@ -18,51 +18,71 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       body: Stack(
         fit: StackFit.expand,
         children: [
+          Container(
+            child: Image.asset(
+              "assets/login_background.png",
+              fit: BoxFit.fill,
+              height: double.infinity,
+              width: double.infinity,
+              alignment: Alignment.center,
+              // color: Colors.black.withOpacity(0.4),
+              // colorBlendMode: BlendMode.colorDodge
+            ),
+          ),
+          Container(
+            color: Colors.black.withOpacity(0.6),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                  Appcolors.appbluecolor.withOpacity(0.5),
+                  Appcolors.appgreencolor.withOpacity(0.5),
+                ])),
+          ),
+          
           Center(
             child: Padding(
               padding: const EdgeInsets.all(9.0),
-              child: Card(
-                margin: EdgeInsets.only(top:30,bottom:30),
-                color: Colors.white38,
-                child:Center(child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                            height: 30,
-                          ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: fieldtitle("Forget Password"),
-                    ),
-
-                    const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text("Enter Registered Email where you can get password reset link"),
-                          ),
-                    
-                    const SizedBox(
-                            height: 3,
-                          ),
+              child: Center(child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                          height: 45,
+                        ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: fieldtitle("Forget Password"),
+                  ),
+                  const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Enter Registered Email where you can get password reset link",style: TextStyle(color: Colors.white),),
+                        ),
+                  
+                  const SizedBox(
+                          height: 3,
+                        ),
 
 
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: customfield('Enter Registered Email', _emailcontroller),
-                    ),
-                    const SizedBox(
-                            height: 10,
-                          ),
-                    
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: custombutton("Send Link"),
-                    )
-                  ],
-                ))
-              ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: customfield('Enter Registered Email', _emailcontroller),
+                  ),
+                  const SizedBox(
+                          height: 10,
+                        ),
+                  
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: custombutton("Send Link"),
+                  )
+                ],
+              )),
             ),
           )
         ],
@@ -74,12 +94,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
     return Container(
         margin: const EdgeInsets.only(bottom: 10),
         child: Text(
-
           title,
-          style: const TextStyle(
+          style:  TextStyle(
             fontSize: 30,
-            color: Appcolors.appmaincolor,
-             fontWeight: FontWeight.bold),
+            color:Colors.white,
+            letterSpacing: 3.0,
+             fontWeight: FontWeight.bold,
+             fontFamily: "BebasNeue"),
         ));
   }
 
@@ -102,7 +123,10 @@ Widget customfield(String hint, TextEditingController controller) {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              child: Icon(Icons.email),
+              child: Icon(Icons.email,
+              color: Appcolors.Appbuttoncolor,
+              )
+              
             ),
           ),
           Expanded(
@@ -131,14 +155,14 @@ Widget customfield(String hint, TextEditingController controller) {
    Widget custombutton(String text) {
     return GestureDetector(
       onTap: () {
-       Navigator.pushReplacementNamed(context, "/memberidlogin");
+       Navigator.pushReplacementNamed(context, "/signin");
       },
       child: Container(
           // GestureDetector(),
           margin: EdgeInsets.only(bottom: 25),
           height: 50,
           decoration: const BoxDecoration(
-              color: Appcolors.appmaincolor,
+              color: Appcolors.Appbuttoncolor,
               borderRadius: BorderRadius.all(Radius.circular(42))),
           child: Center(
             child: Text(

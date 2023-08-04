@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:pak_endo/pages/Signin.dart';
 import 'package:pak_endo/pages/forget_password.dart';
 import 'package:pak_endo/pages/homepage.dart';
-import 'package:pak_endo/pages/login_member_id.dart';
 import 'package:pak_endo/pages/login_member_password.dart';
 import 'package:pak_endo/pages/signup.dart';
 
@@ -16,15 +16,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Event management App",
-      home:memberpasswordloginpage(),
-      initialRoute: '/memberidlogin',
+      home:homepage(),
+      initialRoute: '/home',
       routes: {
-        '/memberidlogin':(context) => memberIdloginpage(),
+        // '/memberidlogin':(context) => memberIdloginpage(),
         '/passwordlogin':(context) => memberpasswordloginpage(),
         '/forgetpassword':(context) => ForgetPassword(),
         '/signup':(context) => register(),
-        '/home':(context) => homepage()
+        '/home':(context) => homepage(),
+        '/signin':(context)=>memberIdSigninpage(),
+        // '/signin':(context)=>memberIdSigninpage(),
       },
     );
   }

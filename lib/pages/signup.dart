@@ -1,3 +1,4 @@
+
 import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:pak_endo/widgets/DropdownWidget.dart';
@@ -12,16 +13,18 @@ class register extends StatefulWidget {
 }
 
 class _registerState extends State<register> {
+  bool value=false;
   final _formkey = GlobalKey<FormState>();
 
   TextEditingController _emailcontroller = TextEditingController();
   TextEditingController _passwordcontroller = TextEditingController();
   TextEditingController _namecontroller = TextEditingController();
-   TextEditingController _membercontroller = TextEditingController();
+  TextEditingController _membercontroller = TextEditingController();
 
   String _email = "";
   String _password = "";
   String _name = "";
+  bool myvalue=false;
 
   @override
   void dispose() {
@@ -45,111 +48,152 @@ class _registerState extends State<register> {
         fit: StackFit.expand,
         children: [
           Container(
-            color: Colors.black,
             child: Image.asset(
               "assets/login_background.png",
               fit: BoxFit.fill,
               height: double.infinity,
               width: double.infinity,
               alignment: Alignment.center,
-              color: Colors.black.withOpacity(0.4),
-              colorBlendMode: BlendMode.darken,
+              // color: Colors.black.withOpacity(0.4),
+              // colorBlendMode: BlendMode.colorDodge
             ),
           ),
           Container(
-            color: Colors.black38,
+            color: Colors.black.withOpacity(0.6),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                  Appcolors.appbluecolor.withOpacity(0.5),
+                  Appcolors.appgreencolor.withOpacity(0.5),
+                ])),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.only(left: 16,right: 16),
             child: Center(
               child: SingleChildScrollView(
-                child: Card(
-                  margin: EdgeInsets.only(top: 10),
-                  color: Colors.white70,
-                  child: Center(
-                    child: Column(
-                      children: [
-                        const Icon(
-                          Icons.app_registration,
-                          size: 80,
-                          color: Appcolors.appmaincolor,
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 35),
+                        child: const ImageIcon(
+                          AssetImage(
+                            "assets/Logo_Icon.png",
+                          ),
+                          size: 130,
                         ),
-                        // SizedBox(
-                        //   height: 10,
-                        // ),
-                        const Text(
-                          "Register Yourself",
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              fontSize: 20,
-                              color: Color.fromARGB(255, 242, 245, 248),
-                              fontFamily: "Lobster-Regular"),
-                        ),
-      
-                        const SizedBox(
-                          height: 8,
-                        ),
-                         MyDropdownWidget(),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            child: Form(
-                              key: _formkey,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      const Text(
+                        "Register Yourself",
+                        style: TextStyle(
+                            letterSpacing: 2.8,
+                            fontSize: 20,
+                            color: Color.fromARGB(255, 242, 245, 248),
+                            fontFamily: "BebasNeue"),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Form(
+                            key: _formkey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        fieldtitle(" Choose one"),
+                                        // customfield(
+                                        //     'First name', _namecontroller),
+                                        MyDropdownWidget(),
+                                      ],
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        fieldtitle(" Enter Last Name"),
+                                        customfield(
+                                            'Last name', _namecontroller),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          fieldtitle(" Enter First Name"),
-                                          customfield(
-                                              'First name', _namecontroller),
-                                        ],
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          fieldtitle(" Enter Last Name"),
-                                          customfield(
-                                              'Last name', _namecontroller),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(height: 10,),
-                                  fieldtitle(" member_id"),
-                                  member_idcustomfield("eg:- PES/E/01", _membercontroller),
-                                  const SizedBox(height: 10),
-                                  fieldtitle(" Phone Number"),
-                                  member_idcustomfield("+9230000000000", _membercontroller),
-                                  const SizedBox(height: 10),
-                                  fieldtitle(" Enter your email"),
-                                  member_idcustomfield("abc@123.com", _membercontroller),
-                                  const SizedBox(height: 10),
-                                  fieldtitle("   Password"),
-                                  passwordfield(
-                                      'Enter Password', _passwordcontroller),
-                                  fieldtitle("   Confirm Password"),
-                                  passwordfield('Enter confirm Password',
-                                      _passwordcontroller),
-                                  const SizedBox(height: 10),
-                                  custombutton("Register"),
-                                  // register(),
-                                ],
-                              ),
+                                    Text("Gender",style: TextStyle(color: Colors.white,fontSize:20, fontWeight: FontWeight.bold ),),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 15),
+                                      child: Checkbox(value: value, onChanged: (bool? value){
+                                        this.value=value!;
+                                      }),
+                                    ) ,
+                                    Text("Male",style: TextStyle(color: Colors.white,fontSize:15, fontWeight: FontWeight.bold ),), 
+                                    Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      child: Checkbox(value: value, onChanged: (bool? value){
+                                        this.value=value!;
+                                      }),
+                                    ) ,
+                                    Text("Female",style: TextStyle(color: Colors.white,fontSize:15, fontWeight: FontWeight.bold ),),
+                                  ],),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                fieldtitle(" Last Name"),
+                                member_idcustomfield(
+                                    "Last Name", _membercontroller),
+                                const SizedBox(height: 10),
+                                fieldtitle(" Phone Number"),
+                                member_idcustomfield(
+                                    "+9230000000000", _membercontroller),
+                                const SizedBox(height: 10),
+                                fieldtitle(" Enter your email"),
+                                member_idcustomfield(
+                                    "abc@123.com", _membercontroller),
+                                const SizedBox(height: 10),
+                                fieldtitle("   Password"),
+                                passwordfield(
+                                    'Enter Password', _passwordcontroller),
+                                fieldtitle("   Confirm Password"),
+                                passwordfield('Enter confirm Password',
+                                    _passwordcontroller),
+                                const SizedBox(height: 10),
+                                custombutton("Register"),
+                                // register(),
+                              ],
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -191,7 +235,7 @@ class _registerState extends State<register> {
             child: Container(
               child: const Icon(
                 Icons.email,
-                color: Appcolors.appmaincolor,
+                color: Appcolors.Appbuttoncolor,
               ),
             ),
           ),
@@ -243,7 +287,7 @@ class _registerState extends State<register> {
             child: Container(
               child: Icon(
                 Icons.email,
-                color: Appcolors.appmaincolor,
+                color: Appcolors.Appbuttoncolor,
               ),
             ),
           ),
@@ -274,12 +318,6 @@ class _registerState extends State<register> {
     );
   }
 
-
-
-
-
-
-
   Widget passwordfield(String hint, TextEditingController controller) {
     return Container(
       height: 50,
@@ -302,7 +340,7 @@ class _registerState extends State<register> {
             child: Container(
               child: Icon(
                 Icons.password,
-                color: Appcolors.appmaincolor,
+                color: Appcolors.Appbuttoncolor,
               ),
             ),
           ),
@@ -345,13 +383,14 @@ class _registerState extends State<register> {
         // }
 
         cleartext();
-        Navigator.pushReplacementNamed(context, "/memberidlogin");
+        Navigator.pushReplacementNamed(context, "/signin");
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 25),
+        margin: const EdgeInsets.only(bottom: 25,top: 5,left: 80),
         height: 50,
+        width: 180,
         decoration: const BoxDecoration(
-            color: Appcolors.appmaincolor,
+            color: Appcolors.Appbuttoncolor,
             borderRadius: BorderRadius.all(Radius.circular(42))),
         child: Center(
           child: Text(
@@ -377,12 +416,12 @@ class _registerState extends State<register> {
           Container(
             child: TextButton(
                 onPressed: (() {
-                  Navigator.pushNamed(context, "/memberidlogin");
+                  
                 }),
                 child: const Text(
                   "Goto login",
                   style: TextStyle(
-                      color: Colors.black54,
+                      color: Appcolors.Appbuttoncolor,
                       letterSpacing: 1.5,
                       fontFamily: "Lobster-Regular",
                       decoration: TextDecoration.underline,

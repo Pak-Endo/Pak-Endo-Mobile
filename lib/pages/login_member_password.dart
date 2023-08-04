@@ -39,84 +39,94 @@ class _memberpasswordloginpageState extends State<memberpasswordloginpage> {
         children: [
           Container(
             child: Image.asset(
-            "assets/login_background.png",
-            fit: BoxFit.fill,
-            height: double.infinity,
-            width: double.infinity,
-            alignment: Alignment.center,
-            color: Colors.black.withOpacity(0.4),
-            colorBlendMode: BlendMode.colorDodge
+              "assets/login_background.png",
+              fit: BoxFit.fill,
+              height: double.infinity,
+              width: double.infinity,
+              alignment: Alignment.center,
+              // color: Colors.black.withOpacity(0.4),
+              // colorBlendMode: BlendMode.colorDodge
+            ),
           ),
+          Container(
+            color: Colors.black.withOpacity(0.6),
           ),
-
-          Container(color: Colors.black38,),
-          
+          Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                  Appcolors.appbluecolor.withOpacity(0.5),
+                  Appcolors.appgreencolor.withOpacity(0.5),
+                ])),
+          ),
           Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SingleChildScrollView(
-                child: Card(
-                  color: Colors.white70,
-                  child: Center(
-                    child: Column(
-                      children: [
-                        const Icon(
-                          Icons.person,
-                          size: 170,
-                          color: Appcolors.appmaincolor,
-                        ),
-                        // SizedBox(
-                        //   height: 10,
-                        // ),
-                        const Text(
-                          "Login",
-                          style: TextStyle(
-                              letterSpacing: 2.5,
-                              fontSize: 40,
-                              color: Color.fromARGB(255, 242, 245, 248),
-                              fontFamily: "Lobster-Regular"),
-                        ),
+              child:Container(
+                child: Center(
+                  child: Column(
+                    children: [
+                      Container(
+                    margin: EdgeInsets.only(top: 100),
+                    child: const ImageIcon(AssetImage(
+                      "assets/Logo_Icon.png",
+                      ),
+                      size: 140,
+                      ),
+                  ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      const Text(
+                        "Login",
+                        style: TextStyle(
+                            letterSpacing: 2.5,
+                            fontSize: 40,
+                            color: Color.fromARGB(255, 242, 245, 248),
+                            fontFamily: "BebasNeue"),
+                      ),
 
-                        const SizedBox(
-                          height: 10,
-                        ),
+                      const SizedBox(
+                        height: 10,
+                      ),
 
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            child: Form(
-                              key: _formkey,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  fieldtitle("   Password"),
-                                  customfield(
-                                      'Enter your password', _emailcontroller),
-                                  const SizedBox(height: 10),
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 35),
-                                    alignment: Alignment.bottomRight,
-                                    child: TextButton(
-                                      onPressed: () {
-                                        Navigator.pushReplacementNamed(
-                                            context, "/forgetpassword");
-                                      },
-                                      child: const Text(
-                                        "forget password?",
-                                        style:
-                                            TextStyle(color: Colors.redAccent),
-                                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Form(
+                            key: _formkey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                fieldtitle("   Password"),
+                                customfield(
+                                    'Enter your password', _emailcontroller),
+                                const SizedBox(height: 10),
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 35),
+                                  alignment: Alignment.bottomRight,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.pushReplacementNamed(
+                                          context, "/forgetpassword");
+                                    },
+                                    child: const Text(
+                                      "forget password?",
+                                      style:
+                                          TextStyle(color:Appcolors.Appbuttoncolor),
                                     ),
                                   ),
-                                  custombutton("Submit"),
-                                ],
-                              ),
+                                ),
+                                custombutton("Submit"),
+                              ],
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -157,7 +167,7 @@ class _memberpasswordloginpageState extends State<memberpasswordloginpage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              child: Icon(Icons.email,color: Appcolors.appmaincolor,),
+              child: Icon(Icons.email,color: Appcolors.Appbuttoncolor,),
             ),
           ),
           Expanded(
@@ -193,17 +203,16 @@ class _memberpasswordloginpageState extends State<memberpasswordloginpage> {
             _password = _passwordcontroller.text;
           }
         });
-        Navigator.pushReplacementNamed(
-                                            context, "/home");
+        Navigator.pushReplacementNamed( context, "/home");
 
         // login_method();
       },
       child: Container(
         // GestureDetector(),
-        margin: EdgeInsets.only(bottom: 25),
+        margin: const EdgeInsets.only(bottom: 25),
         height: 50,
         decoration: const BoxDecoration(
-            color: Appcolors.appmaincolor,
+            color: Appcolors.Appbuttoncolor,
             borderRadius: BorderRadius.all(Radius.circular(42))),
         child: Center(
           child: Text(

@@ -7,23 +7,22 @@ class MyDropdownWidget extends StatefulWidget {
 }
 
 class _MyDropdownWidgetState extends State<MyDropdownWidget> {
-  List<String> dropdownItems = ["prof doc", "doc"];
-  String selectedItem = "prof doc"; // Set an initial value if needed
+  List<String> dropdownItems = ["Prof Dr.", "Dr"];
+  String selectedItem = "Prof Dr."; // Set an initial value if needed
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 55,
-      width: 105,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(
           Radius.circular(8.0),
           ),
-        border: Border.all(color: Appcolors.appmaincolor)
+        border: Border.all(color: Appcolors.Appbuttoncolor)
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(left: 12,right: 15),
         child: DropdownButton<String>(
+          
           value: selectedItem,
           items: dropdownItems.map((String item) {
             return DropdownMenuItem<String>(
