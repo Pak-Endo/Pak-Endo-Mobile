@@ -3,11 +3,13 @@ import 'package:pak_endo/Constants/app_colors.dart';
 
 class AppLargeText extends StatelessWidget {
   double size;
+  double? lettersspacing;
   String text;
   Color color;
   AppLargeText(
       {super.key,
       this.size = 30,
+      this.lettersspacing,
       this.color = Appcolors.appbluecolor,
       required this.text});
 
@@ -16,7 +18,7 @@ class AppLargeText extends StatelessWidget {
     return Text(
       text,
       style:
-          TextStyle(color: color, fontSize: size, fontWeight: FontWeight.bold,letterSpacing: 3),
+          TextStyle(color: color, fontSize: size, fontWeight: FontWeight.bold,letterSpacing: lettersspacing),
     );
   }
 }

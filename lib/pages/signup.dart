@@ -114,7 +114,7 @@ class _registerState extends State<register> {
                               children: [
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.start,
                                   children: [
                                     Column(
                                       mainAxisAlignment:
@@ -128,6 +128,7 @@ class _registerState extends State<register> {
                                         MyDropdownWidget(),
                                       ],
                                     ),
+                                    SizedBox(width: MediaQuery.of(context).size.width*0.1,),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -186,7 +187,15 @@ class _registerState extends State<register> {
                                 passwordfield('Enter confirm Password',
                                     _passwordcontroller),
                                 const SizedBox(height: 10),
-                                custombutton("Register"),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    custombutton("Register"),
+                                    Icon(Icons.arrow_right_rounded),
+                                  ],
+                                ),
+                                
                                 // register(),
                               ],
                             ),
