@@ -28,6 +28,8 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+      leading: GestureDetector(onTap: () => Navigator.pushReplacementNamed(context, "/home"),
+      child: Icon(Icons.arrow_back)),
       title: const Text("UpComing Events"),
       titleSpacing: 0.0,
       centerTitle: true,
@@ -70,11 +72,18 @@ class _DetailsPageState extends State<DetailsPage> {
                 margin: EdgeInsets.only(top: 13),
                 child: CarouselSlider(
                   options: CarouselOptions(
-                    height: 250.0,
-                    enlargeCenterPage: true,
-                    autoPlay: true,
-                    initialPage: 0,
-                    enableInfiniteScroll: false,
+                    height: 270,
+              aspectRatio: 16 / 9,
+              viewportFraction: 0.8,
+              initialPage: 0,
+              enableInfiniteScroll: true,
+              reverse: false,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 5),
+              autoPlayAnimationDuration: const Duration(seconds: 2),
+              autoPlayCurve: Curves.fastOutSlowIn,
+              enlargeCenterPage: true,
+              scrollDirection: Axis.horizontal,
                     onPageChanged: (index, _) {
                       setState(() {
                         _currentIndex = index;
@@ -84,13 +93,16 @@ class _DetailsPageState extends State<DetailsPage> {
                   items: imageUrls.map((imageName) {
                     return Builder(
                       builder: (BuildContext context) {
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(),
-                          margin: EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Image.asset(
-                            imageName,
-                            fit: BoxFit.cover,
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(),
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Image.asset(
+                              imageName,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         );
                       },

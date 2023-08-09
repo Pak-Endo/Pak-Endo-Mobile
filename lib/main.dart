@@ -6,7 +6,7 @@ import 'package:pak_endo/pages/forget_password.dart';
 import 'package:pak_endo/pages/homepage.dart';
 import 'package:pak_endo/pages/login_member_password.dart';
 import 'package:pak_endo/pages/signup.dart';
-import 'package:pak_endo/pages/upcoming_all_events.dart';
+import 'package:pak_endo/pages/listevents.dart';
 import 'package:pak_endo/widgets/previous_event_card.dart';
 
 void main(){
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Event management App",
       home:homepage(),
-      initialRoute: '/listevents',
+      initialRoute: '/signin',
       routes: {
         '/passwordlogin':(context) =>  memberpasswordloginpage(),
         '/forgetpassword':(context) =>  ForgetPassword(),

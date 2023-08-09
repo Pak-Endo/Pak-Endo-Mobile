@@ -29,7 +29,15 @@ class CustomButton extends StatelessWidget {
         height: height,
         width: width,
         decoration: const BoxDecoration(
-            color: Appcolors.Appbuttoncolor,
+            // color: Appcolors.Appbuttoncolor,
+             gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.blue,
+              Colors.green,
+            ],
+          ),
             borderRadius: BorderRadius.all(Radius.circular(37))),
         child: Center(
           child: Text(

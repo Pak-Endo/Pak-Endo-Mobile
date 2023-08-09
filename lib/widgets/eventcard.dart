@@ -66,7 +66,7 @@ class _EventCardState extends State<EventCard> {
             AppLargeText(
               text: "Mental Health Facilities Study",
               size: 18,
-              color: Appcolors.appbluecolor,
+              color: Colors.black,
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.015,
