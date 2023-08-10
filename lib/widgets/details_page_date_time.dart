@@ -77,7 +77,6 @@ class _VenueDetailsState extends State<VenueDetails> {
                     children: [
                     Text("Islammabad", style: TextStyle(
                       fontSize: 18,
-                       fontWeight: FontWeight.bold
                       ),),
 
                     SizedBox(height:MediaQuery.of(context).size.width*0.01),
@@ -110,7 +109,6 @@ class _VenueDetailsState extends State<VenueDetails> {
                     children: [
                     Text("Pakistan Doctors Association", style: TextStyle(
                       fontSize: 18,
-                       fontWeight: FontWeight.bold
                       ),),
 
                     SizedBox(height:MediaQuery.of(context).size.width*0.01),

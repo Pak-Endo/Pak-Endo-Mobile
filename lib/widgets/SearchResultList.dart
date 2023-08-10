@@ -1,59 +1,25 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:pak_endo/Constants/app_colors.dart';
-import 'package:pak_endo/widgets/app_large_text.dart';
 
-
-class UpComingEvents extends StatefulWidget {
-  const UpComingEvents({super.key});
+import '../Constants/app_colors.dart';
+import 'app_large_text.dart';
+class SearchResult extends StatefulWidget {
+  const SearchResult({super.key});
 
   @override
-  State<UpComingEvents> createState() => _UpComingEventsState();
+  State<SearchResult> createState() => _SearchResultState();
 }
 
+class _SearchResultState extends State<SearchResult> {
 
-
-class _UpComingEventsState extends State<UpComingEvents> {
-  final List<int> numbers = [1, 2, 3, 4, 5];
+  final List<int> numbers = [1, 2, 3];
+  final List<String> events = ['Ongoing','Upcoming','Previous'];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-      title: const Text("UpComing Events"),
-      titleSpacing: 0.0,
-      centerTitle: true,
-      toolbarHeight: 73.2,
-      toolbarOpacity: 0.8,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(25),
-          bottomLeft: Radius.circular(25),
-        ),
-      ),
-      elevation: 0.00,
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(25),
-            bottomLeft: Radius.circular(25),
-          ),
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: const [
-              Colors.blue,
-              Colors.green,
-            ],
-          ),
-        ),
-      ),
-    ),
-      body: Container(
+    return Container(
         child: Padding(
           padding:const EdgeInsets.only(left: 5,right: 5),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+           mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
@@ -113,7 +79,7 @@ class _UpComingEventsState extends State<UpComingEvents> {
                                   child: AppLargeText(text: "Heart Health - PIMS Lahore",size: 16,color: Colors.black,)
                                 ),
                                  Padding(
-                                  padding: EdgeInsets.only(top: 9.0,left: 5),
+                                  padding: EdgeInsets.only(top: 9.0,),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -124,15 +90,17 @@ class _UpComingEventsState extends State<UpComingEvents> {
                                   ],),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.4),
-                                  child: TextButton(onPressed: (){
-                                    Navigator.pushReplacementNamed(context, "/detailspage");
-                                  },
-                                      child: GestureDetector(
-                                        onTap: ()=>Navigator.pushReplacementNamed(context, "/detailspage"),
-                                        child: Text("View",
-                                          style: TextStyle(color: Appcolors.Appbuttoncolor),),
-                                      ),),
+                                  margin: EdgeInsets.only(top: 6,left: 10),
+                                  child: Text("${events[index]} ",style: TextStyle(color:Colors.black54, fontSize: 12,fontWeight: FontWeight.bold)),
+                                ),
+
+                                Container(
+                                  margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.47),
+                                  child: GestureDetector(
+                                    onTap: ()=>Navigator.pushReplacementNamed(context, "/detailspage"),
+                                    child: const Text("View",
+                                      style: TextStyle(color: Appcolors.Appbuttoncolor),),
+                                  ),
                                          
                                 ),
                               ],
@@ -147,7 +115,7 @@ class _UpComingEventsState extends State<UpComingEvents> {
             ],
           ),
         ),
-      ),
-    );
+      );
+    
   }
 }

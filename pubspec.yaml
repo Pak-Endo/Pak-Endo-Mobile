@@ -83,6 +83,28 @@ flutter:
     - family: BebasNeue
       fonts:
         - asset: assets/fonts/BebasNeue-Regular.ttf
+    - family: Poppins-Black
+      fonts:
+        - asset: assets/fonts/Poppins-Black.ttf
+    - family: Poppins-BlackItalic
+      fonts:
+        - asset: assets/fonts/Poppins-BlackItalic.ttf
+    - family: Poppins-BoldItalic
+      fonts:
+        - asset: assets/fonts/Poppins-BoldItalic.ttf
+    - family: Poppins-SemiBold
+      fonts:
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+    - family: Poppins-SemiBoldItalic
+      fonts:
+        - asset: assets/fonts/Poppins-SemiBoldItalic.ttf
+    - family: Poppins-Medium
+      fonts:
+        - asset: assets/fonts/Poppins-Medium.ttf
+        
+
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

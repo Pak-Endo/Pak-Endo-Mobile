@@ -6,9 +6,11 @@ class AppLargeText extends StatelessWidget {
   double? lettersspacing;
   String text;
   Color color;
+  String fontFamily;
   AppLargeText(
       {super.key,
       this.size = 30,
+      this.fontFamily='Poppins-Medium',
       this.lettersspacing,
       this.color = Appcolors.appbluecolor,
       required this.text});
@@ -18,7 +20,11 @@ class AppLargeText extends StatelessWidget {
     return Text(
       text,
       style:
-          TextStyle(color: color, fontSize: size, fontWeight: FontWeight.bold,letterSpacing: lettersspacing),
+          TextStyle(color: color,
+          fontSize: size,
+          fontFamily: fontFamily, 
+          // fontWeight: FontWeight.bold,
+          letterSpacing: lettersspacing),
     );
   }
 }

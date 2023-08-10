@@ -5,6 +5,9 @@ import 'package:pak_endo/Constants/app_colors.dart';
 import 'package:pak_endo/widgets/app_large_text.dart';
 import 'package:pak_endo/widgets/custom_button.dart';
 
+import 'FeedbackForm.dart';
+import 'blinktext.dart';
+
 class EventCard extends StatefulWidget {
   const EventCard({super.key});
 
@@ -22,7 +25,7 @@ class _EventCardState extends State<EventCard> {
       decoration: BoxDecoration(
         // border: Border.all(color: Colors.black),
         borderRadius: BorderRadius.all(Radius.circular(19.0)),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black87,
             // spreadRadius: 5,
@@ -54,7 +57,7 @@ class _EventCardState extends State<EventCard> {
               margin: EdgeInsets.only(top: 12, bottom: 12, left: 12, right: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: const [
                   Text("Sun, Oct 29th"),
                   Text("11am"),
                 ],
@@ -86,33 +89,56 @@ class _EventCardState extends State<EventCard> {
                 children: [
                   Column(
                     children: [
-                      Text("Guests"),
+                      Text("Location"),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.006,
                       ),
                       Text(
-                        "45",
+                        "LHR",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("Remaining"),
+                      Text("Ratings"),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.006,
+                        height: MediaQuery.of(context).size.height * 0.0073,
                       ),
-                      Text("12", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: const [
+                          Text("4.7 ",
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          Icon(
+                            Icons.star,
+                            color: Appcolors.Appbuttoncolor,
+                            size: 15,
+                          )
+                        ],
+                      ),
                     ],
                   ),
                   Column(
                     children: [
-                      Text("Type"),
+                      Text("Rate"),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.006,
                       ),
-                      Text("Private",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) {
+                              return FeedbackForm();
+                            },
+                          );
+                        },
+                        child: Text("Your feedback",
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
                     ],
                   ),
                 ],

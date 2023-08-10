@@ -7,6 +7,7 @@ import 'package:pak_endo/pages/homepage.dart';
 import 'package:pak_endo/pages/login_member_password.dart';
 import 'package:pak_endo/pages/signup.dart';
 import 'package:pak_endo/pages/listevents.dart';
+import 'package:pak_endo/widgets/FeedbackForm.dart';
 import 'package:pak_endo/widgets/previous_event_card.dart';
 
 void main(){
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         '/listevents':(context)=> UpComingEvents(),
         '/detailspage':(context) => DetailsPage(),
         '/eventcard2':(context) => PreviousEventCard(),
-
+        '/feedbackform':(context) => FeedbackForm(),
       },
     );
   }

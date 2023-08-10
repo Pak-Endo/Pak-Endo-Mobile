@@ -13,8 +13,8 @@ class _CarouselSliderWithIndicatorState
   int _currentIndex = 0;
   final List<String> _imageList = [
     'image_url_1',
-    'image_url_2',
-    'image_url_3',
+    // 'image_url_2',
+    // 'image_url_3',
     // Add more image URLs as needed
   ];
 

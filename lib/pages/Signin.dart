@@ -220,6 +220,13 @@ class _memberIdloginpageState extends State<memberIdSigninpage> {
           }
         });
         Navigator.pushReplacementNamed(context, "/passwordlogin");
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+            'login Successful',
+            style: TextStyle(color:Appcolors.appgreencolor,),
+          ),
+          duration: Duration(seconds: 3),
+        ));
 
         // login_method();
       },

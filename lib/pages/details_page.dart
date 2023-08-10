@@ -8,6 +8,8 @@ import 'package:pak_endo/widgets/custom_button.dart';
 import 'package:pak_endo/widgets/details_page_date_time.dart';
 
 import '../Constants/app_colors.dart';
+import '../widgets/FeedbackForm.dart';
+import '../widgets/FeeddbackButton.dart';
 
 class DetailsPage extends StatefulWidget {
   @override
@@ -19,8 +21,32 @@ class _DetailsPageState extends State<DetailsPage> {
     // Add your image URLs here
     "assets/event1.jpg",
     "assets/login_background.png",
-    "assets/login_background.png",
+    "assets/event1.jpg"
   ];
+
+  bool _isFeedbackOpen = false;
+
+  void _openFeedback() {
+    setState(() {
+      _isFeedbackOpen = true;
+    });
+  }
+
+  void _closeFeedback() {
+    setState(() {
+      _isFeedbackOpen = false;
+    });
+  }
+
+  void _showFeedbackBottomSheet(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return FeedbackForm();
+      },
+    );
+  }
 
   int _currentIndex = 0;
 
@@ -28,38 +54,39 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      leading: GestureDetector(onTap: () => Navigator.pushReplacementNamed(context, "/home"),
-      child: Icon(Icons.arrow_back)),
-      title: const Text("UpComing Events"),
-      titleSpacing: 0.0,
-      centerTitle: true,
-      toolbarHeight: 73.2,
-      toolbarOpacity: 0.8,
-      shadowColor:Appcolors.appbluecolor.withOpacity(0.8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(25),
-          bottomLeft: Radius.circular(25),
-        ),
-      ),
-      elevation: 0.00,
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
+        leading: GestureDetector(
+            onTap: () => Navigator.pushReplacementNamed(context, "/home"),
+            child: Icon(Icons.arrow_back)),
+        title: const Text("UpComing Events"),
+        titleSpacing: 0.0,
+        centerTitle: true,
+        toolbarHeight: 73.2,
+        toolbarOpacity: 0.8,
+        shadowColor: Appcolors.appbluecolor.withOpacity(0.8),
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomRight: Radius.circular(25),
             bottomLeft: Radius.circular(25),
           ),
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Colors.blue,
-              Colors.green,
-            ],
+        ),
+        elevation: 0.00,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(25),
+              bottomLeft: Radius.circular(25),
+            ),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.blue,
+                Colors.green,
+              ],
+            ),
           ),
         ),
       ),
-    ),
       body: Container(
         margin: EdgeInsets.only(top: 5),
         height: double.maxFinite,
@@ -72,18 +99,18 @@ class _DetailsPageState extends State<DetailsPage> {
                 margin: EdgeInsets.only(top: 13),
                 child: CarouselSlider(
                   options: CarouselOptions(
+                    autoPlay:true,
                     height: 270,
-              aspectRatio: 16 / 9,
-              viewportFraction: 0.8,
-              initialPage: 0,
-              enableInfiniteScroll: true,
-              reverse: false,
-              autoPlay: true,
-              autoPlayInterval: const Duration(seconds: 5),
-              autoPlayAnimationDuration: const Duration(seconds: 2),
-              autoPlayCurve: Curves.fastOutSlowIn,
-              enlargeCenterPage: true,
-              scrollDirection: Axis.horizontal,
+                    aspectRatio: 16 / 9,
+                    viewportFraction: 0.8,
+                    initialPage: 0,
+                    enableInfiniteScroll: true,
+                    reverse: true,
+                    autoPlayInterval: const Duration(seconds: 5),
+                    autoPlayAnimationDuration: const Duration(seconds: 2),
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                    enlargeCenterPage: true,
+                    scrollDirection: Axis.horizontal,
                     onPageChanged: (index, _) {
                       setState(() {
                         _currentIndex = index;
@@ -129,7 +156,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   padding: EdgeInsets.only(left: 15),
                   child: AppLargeText(
                     text: "Kidney Cure 2022 | Doctors Associaton | 2023",
-                    size: 28,
+                    size: 25,
                     color: Colors.black,
                   )),
               SizedBox(height: 20),
@@ -139,30 +166,31 @@ class _DetailsPageState extends State<DetailsPage> {
                   padding: EdgeInsets.only(left: 15),
                   child: AppLargeText(
                     text: "About Event",
-                    size: 34,
+                    size: 25,
                     color: Colors.black,
                   )),
               Padding(
-                padding: const EdgeInsets.only(top: 5,left: 25,right: 9,bottom: 15),
+                padding: const EdgeInsets.only(
+                    top: 5, left: 25, right: 9, bottom: 15),
                 child: Text(
                   "Welcome to our healthcare event, where we prioritize your well-being and aim to enhance your understanding of the latest advancements in the healthcare industry.",
                   style: TextStyle(
                     fontSize: 17,
                     color: Colors.black87,
                     wordSpacing: 0.7,
-                    ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 90),
+                child: CustomFeedbackButton(
+                  navigator: "feedbackform",
+                  text: "Give Feedback",
+                  width: 200,
+                  textfont: 16,
                   
                 ),
               ),
-              // Container(
-              //   margin: EdgeInsets.only(left: 90),
-              //   child: CustomButton(
-              //     navigator: "navigator",
-              //     text: "Reserve your seat",
-              //     width: 200,
-              //     textfont: 16,
-              //   ),
-              // ),
             ],
           ),
         ),

@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:pak_endo/Constants/app_colors.dart';
-import 'package:pak_endo/widgets/eventcard.dart';
+import 'package:pak_endo/widgets/Upcomingeventcard.dart';
 import 'package:pak_endo/widgets/previous_event_card.dart';
 
 import '../widgets/app_large_text.dart';
+import 'SearchPage.dart';
 
 class homepage extends StatefulWidget {
   const homepage({super.key});
@@ -17,6 +18,17 @@ class homepage extends StatefulWidget {
 class _homepageState extends State<homepage> {
   final List<int> numbers = [1, 2, 3, 4, 5];
   TextEditingController _tabcontroller = TextEditingController();
+
+  void _openSearchPage(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return SearchPage();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,20 +57,28 @@ class _homepageState extends State<homepage> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 3,right: 40),
-                      child: AppLargeText(text: "Pakistan EndoCrine Society",size: 16,color: Colors.black,),
+                      margin: EdgeInsets.only(left: 5,),
+                      child: AppLargeText(
+                        text: "Endo-Pak",
+                        size: 20,
+                        color: Color.fromARGB(255, 65, 163, 110),
+                        fontFamily: "Poppins-SemiBold",
+                      ),
                     ),
-                    Container(
-                      
-                      padding: EdgeInsets.only(right: 5,),
-                      child: Row(
-                        children: [
-                          Text("Search ",style: TextStyle(color: Colors.grey),),
-                          Icon(
-                            Icons.search,
-                            size: 28,),
-                        ],
-                      ))
+                    SizedBox(width: MediaQuery.of(context).size.width*0.33,),
+                    Text(
+                      "Search ",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.search,
+                        size: 28,
+                      ),
+                      onPressed: () {
+                        _openSearchPage(context);
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -81,7 +101,8 @@ class _homepageState extends State<homepage> {
                   Container(
                     margin: EdgeInsets.only(right: 5),
                     child: GestureDetector(
-                      onTap: () => Navigator.pushReplacementNamed(context, "/listevents"),
+                      onTap: () => Navigator.pushReplacementNamed(
+                          context, "/listevents"),
                       child: AppLargeText(
                         text: "See all >>",
                         color: Appcolors.Appbuttoncolor,
@@ -95,14 +116,17 @@ class _homepageState extends State<homepage> {
               //Container for Ongoing Events Display ListView
               Container(
                 // color: Colors.black,
-                padding: EdgeInsets.only(left: 10,),
+                padding: EdgeInsets.only(
+                  left: 10,
+                ),
                 height: MediaQuery.of(context).size.height * 0.4,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: numbers.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: ()=>Navigator.pushReplacementNamed(context, "/detailspage"),
+                      onTap: () => Navigator.pushReplacementNamed(
+                          context, "/detailspage"),
                       child: Container(
                         padding: EdgeInsets.only(right: 7),
                         child: Stack(
@@ -140,22 +164,22 @@ class _homepageState extends State<homepage> {
                               child: Align(
                                 alignment: Alignment.bottomCenter,
                                 child: Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 5),
+                                  padding: EdgeInsets.symmetric(horizontal: 5),
                                   width: MediaQuery.of(context).size.width *
                                       0.5, // Adjust the width of the sponsor container (less than image width)
-                                  decoration: BoxDecoration( borderRadius:
+                                  decoration: BoxDecoration(
+                                    borderRadius:
                                         BorderRadius.all(Radius.circular(18.0)),
                                     color: Colors.white,
-                                   boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black87.withOpacity(0.4),
-                                      spreadRadius: 5,
-                                      blurRadius: 5,
-                                      offset: Offset(
-                                          0, 3), // changes position of shadow
-                                    ),
-                                  ], 
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black87.withOpacity(0.2),
+                                        spreadRadius: 5,
+                                        blurRadius: 5,
+                                        offset: Offset(
+                                            0, 1), // changes position of shadow
+                                      ),
+                                    ],
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(4.0),
@@ -234,7 +258,8 @@ class _homepageState extends State<homepage> {
                   Container(
                     margin: EdgeInsets.only(right: 5),
                     child: GestureDetector(
-                      onTap: () => Navigator.pushReplacementNamed(context, "/listevents"),
+                      onTap: () => Navigator.pushReplacementNamed(
+                          context, "/listevents"),
                       child: AppLargeText(
                         text: "See all >>",
                         color: Appcolors.Appbuttoncolor,
@@ -247,7 +272,7 @@ class _homepageState extends State<homepage> {
 
               //Container for UpComing Events Display ListView
               Container(
-                padding: EdgeInsets.only(left: 5,top:8),
+                padding: EdgeInsets.only(left: 5, top: 8),
                 height: MediaQuery.of(context).size.height * 0.5,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
@@ -271,7 +296,7 @@ class _homepageState extends State<homepage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    padding: EdgeInsets.only(top: 5,left: 20),
+                    padding: EdgeInsets.only(top: 5, left: 20),
                     child: AppLargeText(
                       text: "Previous Events",
                       color: Colors.black,
@@ -281,7 +306,8 @@ class _homepageState extends State<homepage> {
                   Container(
                     margin: EdgeInsets.only(right: 5),
                     child: GestureDetector(
-                      onTap: ()=>Navigator.pushReplacementNamed(context, "/listevents"),
+                      onTap: () => Navigator.pushReplacementNamed(
+                          context, "/listevents"),
                       child: AppLargeText(
                         text: "See all >>",
                         color: Appcolors.Appbuttoncolor,
@@ -291,20 +317,20 @@ class _homepageState extends State<homepage> {
                   ),
                 ],
               ),
-              
 
               //Container for Previous Events Display ListView
               Container(
-                margin: EdgeInsets.only(bottom: 10,top: 5,left: 5),
+                margin: EdgeInsets.only(bottom: 10, top: 5, left: 5),
                 padding: EdgeInsets.only(left: 5),
-                height: MediaQuery.of(context).size.height*0.45,
+                height: MediaQuery.of(context).size.height * 0.45,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: numbers.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: ()=>Navigator.pushReplacementNamed(context, "/detailspage"),
-                      child: PreviousEventCard());
+                        onTap: () => Navigator.pushReplacementNamed(
+                            context, "/detailspage"),
+                        child: PreviousEventCard());
                   },
                 ),
               ),
