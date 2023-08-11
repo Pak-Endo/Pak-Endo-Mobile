@@ -5,6 +5,7 @@ import 'package:pak_endo/pages/details_page.dart';
 import 'package:pak_endo/pages/forget_password.dart';
 import 'package:pak_endo/pages/homepage.dart';
 import 'package:pak_endo/pages/login_member_password.dart';
+import 'package:pak_endo/pages/register.dart';
 import 'package:pak_endo/pages/signup.dart';
 import 'package:pak_endo/pages/listevents.dart';
 import 'package:pak_endo/widgets/FeedbackForm.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         '/detailspage':(context) => DetailsPage(),
         '/eventcard2':(context) => PreviousEventCard(),
         '/feedbackform':(context) => FeedbackForm(),
+        '/register':(context) => Register()
       },
     );
   }

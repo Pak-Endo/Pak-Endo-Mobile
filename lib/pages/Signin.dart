@@ -115,7 +115,7 @@ class _memberIdloginpageState extends State<memberIdSigninpage> {
                             // Expanded(child: Container())
                             // const SizedBox.Expanded,
                             Container(
-                              margin: EdgeInsets.only(top: 60, left: 70),
+                              margin: EdgeInsets.only(top: 80, left: 70),
                               child: Row(
                                 children: [
                                   const Text(

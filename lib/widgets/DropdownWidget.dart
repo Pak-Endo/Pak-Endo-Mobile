@@ -30,6 +30,7 @@ class _MyDropdownWidgetState extends State<MyDropdownWidget> {
               child: Text(item),
             );
           }).toList(),
+          underline: Container(),
           onChanged: (String? newValue) {
             setState(() {
               selectedItem = newValue ?? dropdownItems[0]; // Set the default value if newValue is null

@@ -104,7 +104,7 @@ class _memberpasswordloginpageState extends State<memberpasswordloginpage> {
                                 fieldtitle("   Password"),
                                 customfield(
                                     'Enter your password', _emailcontroller),
-                                const SizedBox(height: 10),
+                                const SizedBox(height: 5),
                                 Container(
                                   margin: EdgeInsets.only(bottom: 35),
                                   alignment: Alignment.bottomRight,

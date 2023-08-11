@@ -1,18 +1,16 @@
-
-import 'dart:ffi';
 import 'package:flutter/material.dart';
-import 'package:pak_endo/widgets/DropdownWidget.dart';
 
 import '../Constants/app_colors.dart';
+import '../widgets/DropdownWidget.dart';
 
-class register extends StatefulWidget {
-  const register({Key? key}) : super(key: key);
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  State<register> createState() => _registerState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _registerState extends State<register> {
+class _RegisterState extends State<Register> {
   bool value = false;
   final _formkey = GlobalKey<FormState>();
 
