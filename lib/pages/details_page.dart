@@ -3,13 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:pak_endo/widgets/VideoStreamingWidget.dart';
 import 'package:pak_endo/widgets/app_large_text.dart';
 import 'package:pak_endo/widgets/custom_button.dart';
 import 'package:pak_endo/widgets/details_page_date_time.dart';
 
 import '../Constants/app_colors.dart';
 import '../widgets/FeedbackForm.dart';
-import '../widgets/FeeddbackButton.dart';
+import '../widgets/FeedbackButton.dart';
 
 class DetailsPage extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+  final String youtubeVideoId = 'https://www.youtube.com/watch?v=ceMsPBbcEGg';
   List<String> imageUrls = [
     // Add your image URLs here
     "assets/event1.jpg",
@@ -87,6 +89,34 @@ class _DetailsPageState extends State<DetailsPage> {
           ),
         ),
       ),
+
+      floatingActionButton: GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => VideoStreamingPage(
+                ),
+              ),
+            );
+        },
+        child: Container(
+          height: MediaQuery.of(context).size.height*0.085,
+          width: MediaQuery.of(context).size.width*0.15,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(9.0)),
+            gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                    Appcolors.appbluecolor.withOpacity(0.5),
+                    Appcolors.appgreencolor.withOpacity(0.5),
+                  ])
+          ),
+          child: Icon(Icons.live_tv,size: 30,)
+          ),
+      ),
+
       body: Container(
         margin: EdgeInsets.only(top: 5),
         height: double.maxFinite,
@@ -182,11 +212,11 @@ class _DetailsPageState extends State<DetailsPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 90),
+                margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.2),
                 child: CustomFeedbackButton(
                   navigator: "feedbackform",
                   text: "Give Feedback",
-                  width: 200,
+                  width: MediaQuery.of(context).size.width*0.6,
                   textfont: 16,
                   
                 ),

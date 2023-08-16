@@ -9,7 +9,6 @@ import 'package:pak_endo/pages/register.dart';
 import 'package:pak_endo/pages/signup.dart';
 import 'package:pak_endo/pages/listevents.dart';
 import 'package:pak_endo/widgets/FeedbackForm.dart';
-import 'package:pak_endo/widgets/previous_event_card.dart';
 
 void main(){
   runApp(MyApp());
@@ -23,7 +22,6 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Event management App",
-      home:homepage(),
       initialRoute: '/signin',
       routes: {
         '/passwordlogin':(context) =>  memberpasswordloginpage(),
@@ -33,7 +31,6 @@ class MyApp extends StatelessWidget {
         '/signin':(context)=> memberIdSigninpage(),
         '/listevents':(context)=> UpComingEvents(),
         '/detailspage':(context) => DetailsPage(),
-        '/eventcard2':(context) => PreviousEventCard(),
         '/feedbackform':(context) => FeedbackForm(),
         '/register':(context) => Register()
       },

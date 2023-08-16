@@ -32,7 +32,7 @@ class _SearchPageState extends State<SearchPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 20,),
+          SizedBox(height: MediaQuery.of(context).size.height*0.018,),
           Padding(
             padding: EdgeInsets.all(16.0),
             child: Row(

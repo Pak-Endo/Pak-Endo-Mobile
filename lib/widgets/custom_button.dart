@@ -22,7 +22,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushReplacementNamed(context, "/$navigator");
+        Navigator.pushNamed(context, "/$navigator");
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 25, top: 5, left: 5),

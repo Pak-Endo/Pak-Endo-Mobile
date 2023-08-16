@@ -134,9 +134,9 @@ class _registerState extends State<register> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        fieldtitle(" Enter Last Name"),
+                                        fieldtitle(" First Name"),
                                         customfield(
-                                            'Last name', _namecontroller),
+                                            'Enter First name', _namecontroller),
                                       ],
                                     ),
                                   ],
@@ -147,7 +147,7 @@ class _registerState extends State<register> {
                                 ),
                                 fieldtitle(" Last Name"),
                                 member_idcustomfield(
-                                    "Last Name", _membercontroller),
+                                    "Enter Last Name", _membercontroller),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -198,7 +198,7 @@ class _registerState extends State<register> {
                                   ),
                                 ),
                                 const SizedBox(height: 10),
-                                fieldtitle(" Phone Number"),
+                                fieldtitle(" Phone Number (Optional)"),
                                 member_idcustomfield(
                                     "+9230000000000", _membercontroller),
                                 const SizedBox(height: 10),

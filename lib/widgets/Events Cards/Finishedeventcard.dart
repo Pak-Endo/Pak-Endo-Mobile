@@ -5,16 +5,17 @@ import 'package:pak_endo/Constants/app_colors.dart';
 import 'package:pak_endo/widgets/app_large_text.dart';
 import 'package:pak_endo/widgets/custom_button.dart';
 
-import 'FeedbackForm.dart';
+import '../FeedbackForm.dart';
+import '../blinktext.dart';
 
-class EventCard extends StatefulWidget {
-  const EventCard({super.key});
+class FinishedEventCard extends StatefulWidget {
+  const FinishedEventCard({super.key});
 
   @override
-  State<EventCard> createState() => _EventCardState();
+  State<FinishedEventCard> createState() => _FinishedEventCardState();
 }
 
-class _EventCardState extends State<EventCard> {
+class _FinishedEventCardState extends State<FinishedEventCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,7 +68,7 @@ class _EventCardState extends State<EventCard> {
             ),
             AppLargeText(
               text: "Mental Health Facilities Study",
-              size: 18,
+              size: 16,
               color: Colors.black,
             ),
             SizedBox(
@@ -101,17 +102,17 @@ class _EventCardState extends State<EventCard> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("Ratings"),
+                      Text("Guests"),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.0073,
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: const [
-                          Text("4.7 ",
+                          Text("132 ",
                               style: TextStyle(fontWeight: FontWeight.bold)),
                           Icon(
-                            Icons.star,
+                            Icons.person,
                             color: Appcolors.Appbuttoncolor,
                             size: 15,
                           )

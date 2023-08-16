@@ -33,7 +33,7 @@ class _SearchResultState extends State<SearchResult> {
                   itemCount: numbers.length,
                   itemBuilder: (_, index) {
                     return Container(
-                      height: MediaQuery.of(context).size.height * 0.191,
+                      height: MediaQuery.of(context).size.height * 0.195,
                       margin: const EdgeInsets.only(
                           top: 17, right: 8, left: 8, bottom: 6),
                       decoration: const BoxDecoration(
@@ -69,14 +69,14 @@ class _SearchResultState extends State<SearchResult> {
                               Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                      top: 15, left: 10, bottom: 5, right: 5),
+                                      top: MediaQuery.of(context).size.height*0.017, left: MediaQuery.of(context).size.width*0.025, bottom: 5, right: 5),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 5),
+                                        padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width*0.010),
                                         child: Text(
                                           "01st OCT - WED 10:30 Pm",
                                           style: TextStyle(
@@ -85,7 +85,7 @@ class _SearchResultState extends State<SearchResult> {
                                       ),
                                       Padding(
                                         padding:
-                                            EdgeInsets.only(top: 15.0, ),
+                                            EdgeInsets.only(top: 1.0,  left: MediaQuery.of(context).size.width*0.005),
                                         child: AppLargeText(
                                             text: "Heart Health - PIMS Lahore",
                                             size: 16,
@@ -93,7 +93,7 @@ class _SearchResultState extends State<SearchResult> {
                                       ),
                                       Padding(
                                         padding: EdgeInsets.only(
-                                          top: 9.0,
+                                          top: 7.0,
                                         ),
                                         child: Row(
                                           mainAxisAlignment:
@@ -106,23 +106,12 @@ class _SearchResultState extends State<SearchResult> {
                                               color: Appcolors.Appbuttoncolor,
                                             ),
                                             Text(
-                                              "PIMS doctor's association",
+                                              "Gulberg, Lahore",
                                               style: TextStyle(
                                                   color: Colors.blueGrey,
                                                   fontSize: 12),
                                             ),
                                           ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin:
-                                            EdgeInsets.only(top: 6, left: 15),
-                                        child: Text(
-                                          "${events[index]}",
-                                          style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 11.5,
-                                              fontWeight: FontWeight.bold),
                                         ),
                                       ),
                                       Container(
@@ -133,9 +122,9 @@ class _SearchResultState extends State<SearchResult> {
                                                 0.47),
                                         child: GestureDetector(
                                           onTap: () =>
-                                              Navigator.pushReplacementNamed(
+                                              Navigator.pushNamed(
                                                   context, "/detailspage"),
-                                          child: Text(
+                                          child: const Text(
                                             "View",
                                             style: TextStyle(
                                                 color:
@@ -150,8 +139,8 @@ class _SearchResultState extends State<SearchResult> {
                             ],
                           ),
                           Positioned(
-                            top: 15,
-                            right: -15,
+                            top: 20,
+                            right: -10,
                             child: Transform.rotate(
                               angle: 0.785398, // 45 degrees in radians
                               child: Container(

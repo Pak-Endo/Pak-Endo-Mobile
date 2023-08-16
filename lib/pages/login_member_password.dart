@@ -114,7 +114,7 @@ class _memberpasswordloginpageState extends State<memberpasswordloginpage> {
                                           context, "/forgetpassword");
                                     },
                                     child: const Text(
-                                      "forget password?",
+                                      "Forget password?",
                                       style:
                                           TextStyle(color:Appcolors.Appbuttoncolor),
                                     ),

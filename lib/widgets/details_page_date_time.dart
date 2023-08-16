@@ -75,13 +75,13 @@ class _VenueDetailsState extends State<VenueDetails> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Text("Islammabad", style: TextStyle(
+                    Text("Islamabad", style: TextStyle(
                       fontSize: 18,
                       ),),
 
                     SizedBox(height:MediaQuery.of(context).size.width*0.01),
                     
-                    Text("Serena Hotel, Main Hall", 
+                    Text("Sereena Hotel, Main Hall", 
                     style: TextStyle(color: Colors.black38,
                     fontSize:14,
                     ),
@@ -107,13 +107,13 @@ class _VenueDetailsState extends State<VenueDetails> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Text("Pakistan Doctors Association", style: TextStyle(
+                    Text("Dr Ahmed Kamal", style: TextStyle(
                       fontSize: 18,
                       ),),
 
                     SizedBox(height:MediaQuery.of(context).size.width*0.01),
                     
-                    Text("Organizer", 
+                    Text("Speaker", 
                     style: TextStyle(color: Colors.black38,
                     fontSize:14,
                     ),

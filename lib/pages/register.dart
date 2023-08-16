@@ -211,14 +211,7 @@ class _RegisterState extends State<Register> {
                                 passwordfield('Enter confirm Password',
                                     _passwordcontroller),
                                 const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    custombutton("Register"),
-                                    Icon(Icons.arrow_right_rounded),
-                                  ],
-                                ),
+                                custombutton("Register"),
 
                                 // register(),
                               ],

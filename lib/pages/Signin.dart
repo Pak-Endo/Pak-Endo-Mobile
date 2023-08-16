@@ -62,15 +62,15 @@ class _memberIdloginpageState extends State<memberIdSigninpage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 100),
+                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.08),
                     child: ImageIcon(AssetImage(
                       "assets/Logo_Icon.png",
                       ),
-                      size: 140,
+                      size: MediaQuery.of(context).size.height*0.209,
                       ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: MediaQuery.of(context).size.height*0.01,
                   ),
                   Container(
                     child: const Text(
@@ -97,25 +97,27 @@ class _memberIdloginpageState extends State<memberIdSigninpage> {
                           children: [
                             fieldtitle("   Member ID"),
                             customfield(
-                                'Enter your member_id', _emailcontroller),
-                            const SizedBox(height: 50),
+                                'Enter your member id', _emailcontroller),
+                            SizedBox(height: MediaQuery.of(context).size.height*0.05),
                             custombutton("Next"),
                             const SizedBox(
                               height: 35,
                             ),
                             Container(
                               padding: EdgeInsets.only(left: 10),
-                              child: const Text(
+                              child:  Text(
                                 textAlign: TextAlign.center,
                                 "Exclusive access for Endo-Pak members only. Sign in to continue.",
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 20),
+                                    color: Colors.white, fontSize: 16,
+                                    fontFamily: "Poppins-Medium",
+                                    ),
                               ),
                             ),
                             // Expanded(child: Container())
                             // const SizedBox.Expanded,
                             Container(
-                              margin: EdgeInsets.only(top: 80, left: 70),
+                              margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.095, left: MediaQuery.of(context).size.width*0.18),
                               child: Row(
                                 children: [
                                   const Text(
