@@ -5,9 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:pak_endo/widgets/VideoStreamingWidget.dart';
 import 'package:pak_endo/widgets/app_large_text.dart';
-import 'package:pak_endo/widgets/custom_button.dart';
 import 'package:pak_endo/widgets/details_page_date_time.dart';
-
 import '../Constants/app_colors.dart';
 import '../widgets/FeedbackForm.dart';
 import '../widgets/FeedbackButton.dart';
@@ -18,7 +16,23 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  final String youtubeVideoId = 'https://www.youtube.com/watch?v=ceMsPBbcEGg';
+  List<Step> stepList() => [
+        const Step(
+            title: Text('Agenda 1'),
+            content: Center(
+              child: Text('Account'),
+            )),
+        const Step(
+            title: Text('Agenda 2'),
+            content: Center(
+              child: Text('Address'),
+            )),
+        const Step(
+            title: Text('Agenda 1'),
+            content: Center(
+              child: Text('Confirm'),
+            ))
+      ];
   List<String> imageUrls = [
     // Add your image URLs here
     "assets/event1.jpg",
@@ -57,7 +71,7 @@ class _DetailsPageState extends State<DetailsPage> {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-            onTap: () => Navigator.pushReplacementNamed(context, "/home"),
+            onTap: () => Navigator.pushReplacementNamed(context, "/usermain"),
             child: Icon(Icons.arrow_back)),
         title: const Text("UpComing Events"),
         titleSpacing: 0.0,
@@ -86,37 +100,38 @@ class _DetailsPageState extends State<DetailsPage> {
                 Colors.green,
               ],
             ),
-          ),
+          ), 
         ),
+        actions: [
+          Container(padding:EdgeInsets.only(right:7.5) ,child:Icon(Icons.favorite))
+        ],
       ),
-
       floatingActionButton: GestureDetector(
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => VideoStreamingPage(
-                ),
-              ),
-            );
+          // Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) => YouTubePlayerPage(videoUrl: 'https://www.youtube.com/watch?v=EOy77foLSEU')
+          //     ),
+          //   );
         },
         child: Container(
-          height: MediaQuery.of(context).size.height*0.085,
-          width: MediaQuery.of(context).size.width*0.15,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(9.0)),
-            gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                    Appcolors.appbluecolor.withOpacity(0.5),
-                    Appcolors.appgreencolor.withOpacity(0.5),
-                  ])
-          ),
-          child: Icon(Icons.live_tv,size: 30,)
-          ),
+            height: MediaQuery.of(context).size.height * 0.085,
+            width: MediaQuery.of(context).size.width * 0.15,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(9.0)),
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Appcolors.appbluecolor.withOpacity(0.5),
+                      Appcolors.appgreencolor.withOpacity(0.5),
+                    ])),
+            child: Icon(
+              Icons.live_tv,
+              size: 30,
+            )),
       ),
-
       body: Container(
         margin: EdgeInsets.only(top: 5),
         height: double.maxFinite,
@@ -129,7 +144,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 margin: EdgeInsets.only(top: 13),
                 child: CarouselSlider(
                   options: CarouselOptions(
-                    autoPlay:true,
+                    autoPlay: true,
                     height: 270,
                     aspectRatio: 16 / 9,
                     viewportFraction: 0.8,
@@ -211,15 +226,24 @@ class _DetailsPageState extends State<DetailsPage> {
                   ),
                 ),
               ),
+              Stepper(
+                steps: stepList(),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.06,
+              ),
               Container(
-                margin: EdgeInsets.only(left: MediaQuery.of(context).size.width*0.2),
+                margin: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.2),
                 child: CustomFeedbackButton(
                   navigator: "feedbackform",
                   text: "Give Feedback",
-                  width: MediaQuery.of(context).size.width*0.6,
+                  width: MediaQuery.of(context).size.width * 0.6,
                   textfont: 16,
-                  
                 ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.06,
               ),
             ],
           ),

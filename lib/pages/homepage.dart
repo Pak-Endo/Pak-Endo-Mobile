@@ -17,8 +17,9 @@ class homepage extends StatefulWidget {
 }
 
 class _homepageState extends State<homepage> {
+ 
   final List<int> numbers = [1, 2, 3, 4, 5];
-  
+
   TextEditingController _tabcontroller = TextEditingController();
 
   void _openSearchPage(BuildContext context) {
@@ -39,16 +40,17 @@ class _homepageState extends State<homepage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               //Top profile bar code
               Container(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.1, left: MediaQuery.of(context).size.height*0.023),
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.1,
+                    left: MediaQuery.of(context).size.height * 0.023),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height*0.0895,
-                      width: MediaQuery.of(context).size.width*0.130,
+                      height: MediaQuery.of(context).size.height * 0.0895,
+                      width: MediaQuery.of(context).size.width * 0.130,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage("assets/Logo_Icon.png"),
@@ -60,7 +62,9 @@ class _homepageState extends State<homepage> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 5,),
+                      margin: EdgeInsets.only(
+                        left: 5,
+                      ),
                       child: AppLargeText(
                         text: "Endo-Pak",
                         size: 20.5,
@@ -90,7 +94,6 @@ class _homepageState extends State<homepage> {
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
 
-
               //Row of Ongoing events title and See All
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,8 +109,7 @@ class _homepageState extends State<homepage> {
                   Container(
                     margin: EdgeInsets.only(right: 5),
                     child: GestureDetector(
-                      onTap: () => Navigator.pushNamed(
-                          context, "/listevents"),
+                      onTap: () => Navigator.pushNamed(context, "/listevents"),
                       child: AppLargeText(
                         text: "See all >>",
                         color: Appcolors.Appbuttoncolor,
@@ -118,10 +120,8 @@ class _homepageState extends State<homepage> {
                 ],
               ),
 
-
-            //Container for Ongoing Events Display ListView
-             OngoingEventsCard(),
-
+              //Container for Ongoing Events Display ListView
+              OngoingEventsCard(),
 
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.06,
@@ -153,7 +153,6 @@ class _homepageState extends State<homepage> {
                 ],
               ),
 
-
               UpComingEventsCard(),
 
               SizedBox(
@@ -175,8 +174,7 @@ class _homepageState extends State<homepage> {
                   Container(
                     margin: EdgeInsets.only(right: 5),
                     child: GestureDetector(
-                      onTap: () => Navigator.pushNamed(
-                          context, "/listevents"),
+                      onTap: () => Navigator.pushNamed(context, "/listevents"),
                       child: AppLargeText(
                         text: "See all >>",
                         color: Appcolors.Appbuttoncolor,
@@ -203,9 +201,8 @@ class _homepageState extends State<homepage> {
                   },
                 ),
               ),
-
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.05,
+                height: MediaQuery.of(context).size.height * 0.15,
               ),
             ],
           ),
@@ -214,5 +211,3 @@ class _homepageState extends State<homepage> {
     );
   }
 }
-
-

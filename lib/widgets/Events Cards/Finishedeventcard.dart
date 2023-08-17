@@ -16,6 +16,7 @@ class FinishedEventCard extends StatefulWidget {
 }
 
 class _FinishedEventCardState extends State<FinishedEventCard> {
+  bool _isfilled = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,20 +40,45 @@ class _FinishedEventCardState extends State<FinishedEventCard> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              // padding: EdgeInsets.all(300.0),
-              height: MediaQuery.of(context).size.height * 0.2,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)),
-                image: DecorationImage(
-                    image: AssetImage(
-                      "assets/event1.jpg",
-                    ),
-                    fit: BoxFit.cover),
+            Stack(children: [
+              Container(
+                // padding: EdgeInsets.all(300.0),
+                height: MediaQuery.of(context).size.height * 0.2,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                  image: DecorationImage(
+                      image: AssetImage(
+                        "assets/event1.jpg",
+                      ),
+                      fit: BoxFit.cover),
+                ),
               ),
-            ),
+              Positioned(
+                  top: MediaQuery.of(context).size.height * 0.03,
+                  right: MediaQuery.of(context).size.width * 0.04,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.055,
+                    width: MediaQuery.of(context).size.width * 0.115,
+                    decoration: BoxDecoration(
+                        color: Colors.white60,
+                        borderRadius: BorderRadius.all(Radius.circular(3.0))),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _isfilled = !_isfilled;
+                        });
+                      },
+                      child: Icon(
+                        Icons.favorite,
+                        size: 25,
+                        color:
+                            _isfilled ? Appcolors.Appbuttoncolor : Colors.white,
+                      ),
+                    ),
+                  )),
+            ]),
             Container(
               margin: EdgeInsets.only(top: 12, bottom: 12, left: 12, right: 12),
               child: Row(

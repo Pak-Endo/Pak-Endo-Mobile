@@ -110,7 +110,7 @@ class _memberpasswordloginpageState extends State<memberpasswordloginpage> {
                                   alignment: Alignment.bottomRight,
                                   child: TextButton(
                                     onPressed: () {
-                                      Navigator.pushReplacementNamed(
+                                      Navigator.pushNamed(
                                           context, "/forgetpassword");
                                     },
                                     child: const Text(
@@ -203,7 +203,7 @@ class _memberpasswordloginpageState extends State<memberpasswordloginpage> {
             _password = _passwordcontroller.text;
           }
         });
-        Navigator.pushReplacementNamed( context, "/home");
+        Navigator.pushNamed( context, "/usermain");
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text(
             'login Successful',
