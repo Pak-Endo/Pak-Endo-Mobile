@@ -31,7 +31,7 @@ class _FavioratePageState extends State<FavioratePage> {
           Expanded(
             child: Container(
               color: Colors.grey[200],
-              child: Center(
+              child: const Center(
                 child:ListFaviorates(),
               ),
             ),

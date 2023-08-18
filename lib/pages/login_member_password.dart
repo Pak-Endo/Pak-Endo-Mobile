@@ -76,7 +76,7 @@ class _memberpasswordloginpageState extends State<memberpasswordloginpage> {
                       size: 140,
                       ),
                   ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       const Text(

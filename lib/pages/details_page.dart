@@ -71,7 +71,7 @@ class _DetailsPageState extends State<DetailsPage> {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-            onTap: () => Navigator.pushReplacementNamed(context, "/usermain"),
+            onTap: () => Navigator.pushNamed(context, "/usermain"),
             child: Icon(Icons.arrow_back)),
         title: const Text("UpComing Events"),
         titleSpacing: 0.0,
@@ -108,12 +108,12 @@ class _DetailsPageState extends State<DetailsPage> {
       ),
       floatingActionButton: GestureDetector(
         onTap: () {
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) => YouTubePlayerPage(videoUrl: 'https://www.youtube.com/watch?v=EOy77foLSEU')
-          //     ),
-          //   );
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => YouTubePlayerPage(videoUrl: 'https://www.youtube.com/watch?v=ceMsPBbcEGg')
+              ),
+            );
         },
         child: Container(
             height: MediaQuery.of(context).size.height * 0.085,
@@ -234,7 +234,7 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
               Container(
                 margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.2),
+                    left: MediaQuery.of(context).size.width * 0.18),
                 child: CustomFeedbackButton(
                   navigator: "feedbackform",
                   text: "Give Feedback",
