@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Constants/app_colors.dart';
+import '../../Constants/app_colors.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});
@@ -174,7 +174,6 @@ Widget customfield(String hint, TextEditingController controller) {
                   letterSpacing: 2.2),
             ),
           ),
-        
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pak_endo/Constants/app_colors.dart';
 import 'package:pak_endo/pages/details_page.dart';
-import 'package:pak_endo/widgets/custom_button.dart';
+import 'package:pak_endo/widgets/AppButtons/custom_button.dart';
 
 class FeedbackForm extends StatefulWidget {
   @override
@@ -33,7 +33,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
           ),
         ),
         DraggableScrollableSheet(
-          initialChildSize: 4 / 4, // Cover 3/4 of the screen initially
+          initialChildSize: 9 / 11, // Cover 3/4 of the screen initially
           minChildSize: 1 / 3,
           maxChildSize: 1.0,
           builder: (BuildContext context, ScrollController scrollController) {

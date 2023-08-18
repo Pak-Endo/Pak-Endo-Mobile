@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Constants/app_colors.dart';
-import 'app_large_text.dart';
+import 'TextWidget/app_large_text.dart';
 
 class SearchResult extends StatefulWidget {
   const SearchResult({super.key});

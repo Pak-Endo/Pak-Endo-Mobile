@@ -19,8 +19,6 @@ class _SearchPageState extends State<SearchPage> {
   void _submitSearch() {
     // Handle  search logic here
     String searchQuery = _searchController.text;
-    
-    print('Search query: $searchQuery');
   }
 
   @override

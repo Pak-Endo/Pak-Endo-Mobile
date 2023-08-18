@@ -1,9 +1,9 @@
 
 import 'dart:ffi';
 import 'package:flutter/material.dart';
-import 'package:pak_endo/widgets/DropdownWidget.dart';
+import 'package:pak_endo/widgets/CustomWidgets/DropdownWidget.dart';
 
-import '../Constants/app_colors.dart';
+import '../../Constants/app_colors.dart';
 
 class register extends StatefulWidget {
   const register({Key? key}) : super(key: key);
@@ -43,6 +43,9 @@ class _registerState extends State<register> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight=MediaQuery.of(context).size.height;
+    final double screenWidth=MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -95,7 +98,7 @@ class _registerState extends State<register> {
                         "Register Yourself",
                         style: TextStyle(
                             letterSpacing: 2.8,
-                            fontSize: 20,
+                            fontSize: 25,
                             color: Color.fromARGB(255, 242, 245, 248),
                             fontFamily: "BebasNeue"),
                       ),
@@ -110,6 +113,7 @@ class _registerState extends State<register> {
                             key: _formkey,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              
                               children: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -121,22 +125,23 @@ class _registerState extends State<register> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         fieldtitle(" Choose one"),
-                                        // customfield(
-                                        //     'First name', _namecontroller),
                                         MyDropdownWidget(),
                                       ],
                                     ),
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width *
-                                          0.1,
+                                          0.035,
                                     ),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         fieldtitle(" First Name"),
-                                        customfield(
-                                            'Enter First name', _namecontroller),
+                                        Padding(
+                                          padding: const EdgeInsets.only(right:15.0),
+                                          child: customfield(
+                                              'First name', _namecontroller),
+                                        ),
                                       ],
                                     ),
                                   ],
@@ -157,7 +162,7 @@ class _registerState extends State<register> {
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Gender",
                                         style: TextStyle(
                                             color: Colors.white,
@@ -172,7 +177,7 @@ class _registerState extends State<register> {
                                               this.value = value!;
                                             }),
                                       ),
-                                      Text(
+                                      const Text(
                                         "Male",
                                         style: TextStyle(
                                             color: Colors.white,
@@ -187,7 +192,7 @@ class _registerState extends State<register> {
                                               this.value = value!;
                                             }),
                                       ),
-                                      Text(
+                                      const Text(
                                         "Female",
                                         style: TextStyle(
                                             color: Colors.white,
@@ -200,7 +205,7 @@ class _registerState extends State<register> {
                                 const SizedBox(height: 10),
                                 fieldtitle(" Phone Number (Optional)"),
                                 member_idcustomfield(
-                                    "+9230000000000", _membercontroller),
+                                    "+92 300 0000000", _membercontroller),
                                 const SizedBox(height: 10),
                                 fieldtitle(" Enter your email"),
                                 member_idcustomfield(
@@ -213,16 +218,10 @@ class _registerState extends State<register> {
                                 passwordfield('Enter confirm Password',
                                     _passwordcontroller),
                                 const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    custombutton("Register"),
-                                    Icon(Icons.arrow_right_rounded),
-                                  ],
+                                Padding(
+                                  padding:  EdgeInsets.only(left:screenWidth*0.05),
+                                  child: custombutton("Register"),
                                 ),
-
-                                // register(),
                               ],
                             ),
                           ),
@@ -250,8 +249,8 @@ class _registerState extends State<register> {
 
   Widget customfield(String hint, TextEditingController controller) {
     return Container(
-      height: 50,
-      width: 160,
+      height: MediaQuery.of(context).size.height*0.07,
+       width: 160,
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(12)),

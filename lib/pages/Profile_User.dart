@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pak_endo/Constants/app_colors.dart';
 import 'package:pak_endo/widgets/Events%20Cards/OnGoingEvents.dart';
-import 'package:pak_endo/widgets/app_large_text.dart';
-import 'package:pak_endo/widgets/custom_button.dart';
+import 'package:pak_endo/widgets/TextWidget/app_large_text.dart';
+import 'package:pak_endo/widgets/AppButtons/custom_button.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

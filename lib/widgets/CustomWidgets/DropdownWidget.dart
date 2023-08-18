@@ -17,7 +17,7 @@ class _MyDropdownWidgetState extends State<MyDropdownWidget> {
         borderRadius: const BorderRadius.all(
           Radius.circular(8.0),
           ),
-        border: Border.all(color: Appcolors.Appbuttoncolor)
+        border: Border.all(color: Colors.white)
       ),
       child: Padding(
         padding: const EdgeInsets.only(left: 12,right: 15),
@@ -27,7 +27,7 @@ class _MyDropdownWidgetState extends State<MyDropdownWidget> {
           items: dropdownItems.map((String item) {
             return DropdownMenuItem<String>(
               value: item,
-              child: Text(item),
+              child: Text(item,style: TextStyle(color: Colors.grey),),
             );
           }).toList(),
           underline: Container(),

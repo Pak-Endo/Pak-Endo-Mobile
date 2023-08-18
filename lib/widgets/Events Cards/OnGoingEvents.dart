@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pak_endo/widgets/app_large_text.dart';
+import 'package:pak_endo/widgets/TextWidget/app_large_text.dart';
 
 import '../../Constants/app_colors.dart';
 

@@ -3,12 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:pak_endo/widgets/VideoStreamingWidget.dart';
-import 'package:pak_endo/widgets/app_large_text.dart';
-import 'package:pak_endo/widgets/details_page_date_time.dart';
+import 'package:pak_endo/widgets/CustomWidgets/VideoStreamingWidget.dart';
+import 'package:pak_endo/widgets/TextWidget/app_large_text.dart';
+import 'package:pak_endo/widgets/CustomWidgets/details_page_date_time.dart';
+import 'package:pak_endo/widgets/CustomWidgets/timelinewidget.dart';
 import '../Constants/app_colors.dart';
 import '../widgets/FeedbackForm.dart';
-import '../widgets/FeedbackButton.dart';
+import '../widgets/AppButtons/FeedbackButton.dart';
 
 class DetailsPage extends StatefulWidget {
   @override
@@ -16,29 +17,16 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  List<Step> stepList() => [
-        const Step(
-            title: Text('Agenda 1'),
-            content: Center(
-              child: Text('Account'),
-            )),
-        const Step(
-            title: Text('Agenda 2'),
-            content: Center(
-              child: Text('Address'),
-            )),
-        const Step(
-            title: Text('Agenda 1'),
-            content: Center(
-              child: Text('Confirm'),
-            ))
-      ];
+  
+  
   List<String> imageUrls = [
     // Add your image URLs here
     "assets/event1.jpg",
     "assets/login_background.png",
     "assets/event1.jpg"
   ];
+
+  bool isclicked=false;
 
   bool _isFeedbackOpen = false;
 
@@ -68,6 +56,8 @@ class _DetailsPageState extends State<DetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -116,8 +106,8 @@ class _DetailsPageState extends State<DetailsPage> {
             );
         },
         child: Container(
-            height: MediaQuery.of(context).size.height * 0.085,
-            width: MediaQuery.of(context).size.width * 0.15,
+            height: screenHeight* 0.085,
+            width: screenWidth * 0.15,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(9.0)),
                 gradient: LinearGradient(
@@ -226,24 +216,49 @@ class _DetailsPageState extends State<DetailsPage> {
                   ),
                 ),
               ),
-              Stepper(
-                steps: stepList(),
+
+               SizedBox(
+                height: screenHeight * 0.02,
               ),
+              Container(
+                  padding: EdgeInsets.only(left: 15),
+                  child: AppLargeText(
+                    text: "Timeline",
+                    size: 25,
+                    color: Colors.black,
+                  )),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.06,
+                height: screenHeight * 0.015,
+              ),
+              CustomTimelineWidget(
+                items: [
+                  TimelineItem(title: "\t", content: "\x1BIntroduction\x1B\n9:30 to 11:30"),
+                  TimelineItem(
+                title: '\t',
+                content: 'Speaker\nDr John Doe\n9:30 to 11:30',
+              ),
+              TimelineItem(
+                title: '\t',
+                content: 'Lunch\nVenue: Hall no 2 \n1:30 to 11:30',
+              ),
+                ]),
+
+              // Container(child: EventDetailsSection()),
+              SizedBox(
+                height: screenHeight * 0.06,
               ),
               Container(
                 margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.18),
+                    left: screenWidth * 0.18),
                 child: CustomFeedbackButton(
                   navigator: "feedbackform",
                   text: "Give Feedback",
-                  width: MediaQuery.of(context).size.width * 0.6,
+                  width: screenWidth * 0.6,
                   textfont: 16,
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.06,
+                height: screenHeight * 0.06,
               ),
             ],
           ),

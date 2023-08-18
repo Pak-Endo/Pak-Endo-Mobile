@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:pak_endo/Constants/app_colors.dart';
-import 'package:pak_endo/widgets/app_large_text.dart';
-import 'package:pak_endo/widgets/custom_button.dart';
+import 'package:pak_endo/widgets/TextWidget/app_large_text.dart';
+import 'package:pak_endo/widgets/AppButtons/custom_button.dart';
 
 import '../FeedbackForm.dart';
-import '../blinktext.dart';
+import '../TextWidget/blinktext.dart';
 
 class FinishedEventCard extends StatefulWidget {
   const FinishedEventCard({super.key});
@@ -62,7 +62,7 @@ class _FinishedEventCardState extends State<FinishedEventCard> {
                     height: MediaQuery.of(context).size.height * 0.055,
                     width: MediaQuery.of(context).size.width * 0.115,
                     decoration: BoxDecoration(
-                        color: Colors.white60,
+                        color: Colors.black38,
                         borderRadius: BorderRadius.all(Radius.circular(3.0))),
                     child: GestureDetector(
                       onTap: () {

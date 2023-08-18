@@ -6,7 +6,7 @@ import 'package:pak_endo/widgets/Events%20Cards/OnGoingEvents.dart';
 import 'package:pak_endo/widgets/Events%20Cards/UpcomingEvents.dart';
 import 'package:pak_endo/widgets/Events%20Cards/Finishedeventcard.dart';
 
-import '../widgets/app_large_text.dart';
+import '../widgets/TextWidget/app_large_text.dart';
 import 'SearchPage.dart';
 
 class homepage extends StatefulWidget {

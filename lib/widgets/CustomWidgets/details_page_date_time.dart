@@ -112,7 +112,6 @@ class _VenueDetailsState extends State<VenueDetails> {
                       ),),
 
                     SizedBox(height:MediaQuery.of(context).size.width*0.01),
-                    
                     Text("Speaker", 
                     style: TextStyle(color: Colors.black38,
                     fontSize:14,

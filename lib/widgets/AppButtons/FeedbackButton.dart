@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../Constants/app_colors.dart';
-import 'FeedbackForm.dart';
+import '../../Constants/app_colors.dart';
+import '../FeedbackForm.dart';
 
 
 class CustomFeedbackButton extends StatelessWidget {

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:pak_endo/Constants/app_colors.dart';
-import 'package:pak_endo/widgets/app_large_text.dart';
+import 'package:pak_endo/widgets/TextWidget/app_large_text.dart';
 
 class UpComingEvents extends StatefulWidget {
   const UpComingEvents({super.key});
