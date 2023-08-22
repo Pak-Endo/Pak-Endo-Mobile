@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Endo Pak App",
-      initialRoute: '/signin',
+      initialRoute: '/splashscreen',
       routes: AppRoutes.routes,
     );
   }
