@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
 import '../../../../Constants/app_colors.dart';
+import '../../../../Model/event.dart';
 
 class UpComingEventsCard extends StatefulWidget {
-  const UpComingEventsCard({super.key});
+  late final List<EventModel> upcomingEvents;
+   UpComingEventsCard({super.key,required this.upcomingEvents});
 
   @override
   State<UpComingEventsCard> createState() => _UpComingEventsCardState();
 }
 
 class _UpComingEventsCardState extends State<UpComingEventsCard> {
+  late final List<EventModel> upcomingEvents;
+
   bool _isfilled = true;
   final List<int> numbers = [1, 2, 3, 4, 5];
   @override
@@ -22,7 +26,7 @@ class _UpComingEventsCardState extends State<UpComingEventsCard> {
       height: MediaQuery.of(context).size.height * 0.4,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: numbers.length,
+        itemCount: upcomingEvents.length,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () =>
@@ -83,7 +87,7 @@ class _UpComingEventsCardState extends State<UpComingEventsCard> {
                           padding: const EdgeInsets.all(4.0),
                           child: Column(
                             children: [
-                              Row(
+                              const Row(
                                 children: [
                                   Icon(
                                     Icons.location_pin,

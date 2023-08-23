@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Constants/SharedPreferences.dart';
 import '../../../Constants/app_colors.dart';
-import '../../../Controllers/MemberController.dart';
+import '../../../Controllers/memberSigninControllers.dart';
 
 class memberIdSigninpage extends StatefulWidget {
   const memberIdSigninpage({Key? key}) : super(key: key);
@@ -15,10 +15,14 @@ class memberIdSigninpage extends StatefulWidget {
 class _memberIdloginpageState extends State<memberIdSigninpage> {
   final _formkey = GlobalKey<FormState>();
   final _memberidcontroller = TextEditingController();
-  final _controller = Get.put(MemberIdController());
+  final _passwordcontroller = TextEditingController();
+  final _authenticationController = Get.put(AuthenticationController());
+  String _memberid="";
+  String _password="";
+
+
   // final MemberController _memberController = MemberController();
 
-  String _memberid = "";
 
   @override
   void dispose() {
@@ -26,39 +30,43 @@ class _memberIdloginpageState extends State<memberIdSigninpage> {
     super.dispose();
   }
 
-  void signin() async {
+  Future<void> signinPass() async {
     try {
-      final isVerified = await _controller.verifyMemberId(_memberid);
-      if (isVerified) {
-        Navigator.pushNamed(context, "/passwordlogin");
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          backgroundColor: Colors.white,
-          content: Text(
-            'Member ID verification successful',
-            style: TextStyle(color: Colors.black),
-          ),
-          duration: Duration(seconds: 4),
-        ));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          backgroundColor: Colors.red,
-          content: Text(
-            'Member ID verification failed',
-            style: TextStyle(color: Colors.white),
-          ),
-          duration: Duration(seconds: 4),
-        ));
-      }
-    } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        backgroundColor: Colors.red,
-        content: Text(
-          'An error occurred while verifying the Member ID',
-          style: TextStyle(color: Colors.white),
-        ),
-        duration: Duration(seconds: 4),
-      ));
-    }
+             final isVerified = await _authenticationController.verifyCredentials(
+              _memberidcontroller.text,
+              _passwordcontroller.text,
+            );
+
+            if (isVerified) {
+              Navigator.pushNamed(context, "/usermain");
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Colors.white,
+                content: Text(
+                  'Login Successful',
+                  style: TextStyle(color: Colors.black),
+                ),
+                duration: Duration(seconds: 3),
+              ));
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                backgroundColor: Colors.red,
+                content: Text(
+                  'Incorrect credentials',
+                  style: TextStyle(color: Colors.white),
+                ),
+                duration: Duration(seconds: 4),
+              ));
+            }
+          } catch (error) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              backgroundColor: Colors.red,
+              content: Text(
+                'An error occurred while verifying the credentials',
+                style: TextStyle(color: Colors.white),
+              ),
+              duration: Duration(seconds: 4),
+            ));
+          }
   }
 
   @override
@@ -100,7 +108,7 @@ class _memberIdloginpageState extends State<memberIdSigninpage> {
                 children: [
                   Container(
                     margin: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.08),
+                        top: MediaQuery.of(context).size.height * 0.06),
                     child: ImageIcon(
                       AssetImage(
                         "assets/Logo_Icon.png",
@@ -122,8 +130,23 @@ class _memberIdloginpageState extends State<memberIdSigninpage> {
                           fontFamily: "BebasNeue"),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
+                   SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                    Container(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text(
+                                textAlign: TextAlign.center,
+                                "Exclusive access for Endo-Pak members only. Sign in to continue.",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontFamily: "Poppins-Medium",
+                                ),
+                              ),
+                            ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height*0.002,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -139,29 +162,24 @@ class _memberIdloginpageState extends State<memberIdSigninpage> {
                                 'Enter your member id', _memberidcontroller),
                             SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.05),
+                                    MediaQuery.of(context).size.height * 0.025),
+                            fieldtitle("   Password"),
+                            passwordfield(
+                                'Enter Password', _passwordcontroller),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.038),
                             custombutton("Next"),
-                            const SizedBox(
-                              height: 35,
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height*0.02,
                             ),
-                            Container(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Text(
-                                textAlign: TextAlign.center,
-                                "Exclusive access for Endo-Pak members only. Sign in to continue.",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontFamily: "Poppins-Medium",
-                                ),
-                              ),
-                            ),
+                          
                             // Expanded(child: Container())
                             // const SizedBox.Expanded,
                             Container(
                               margin: EdgeInsets.only(
                                   top: MediaQuery.of(context).size.height *
-                                      0.095,
+                                      0.01,
                                   left:
                                       MediaQuery.of(context).size.width * 0.18),
                               child: Row(
@@ -186,7 +204,36 @@ class _memberIdloginpageState extends State<memberIdSigninpage> {
                                       ))
                                 ],
                               ),
-                            )
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.18),
+                              child: Row(
+                                children: [
+                                  const Text(
+                                    "Continue without login?",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                  TextButton(
+                                      onPressed: () {
+                                       Navigator.pushReplacementNamed(
+                                            context, "/homepage");
+                                      },
+                                      child:  Text(
+                                        "Click here",
+                                        style: TextStyle(
+                                          
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                            color: Appcolors.Appbuttoncolor),
+                                      ))
+                                ],
+                              ),
+                            ),
+                            
                           ],
                         ),
                       ),
@@ -261,14 +308,15 @@ class _memberIdloginpageState extends State<memberIdSigninpage> {
 
   Widget custombutton(String text) {
     return GestureDetector(
-      onTap: ()  {
+      onTap: () {
         Constants.prefs?.setBool("Loggedin", true);
         setState(() {
           if (_formkey.currentState?.validate() ?? false) {
             _memberid = _memberidcontroller.text;
+            _password=_passwordcontroller.text;
           }
         });
-        signin();
+        signinPass();
       },
       child: Container(
         // GestureDetector(),
@@ -287,6 +335,57 @@ class _memberIdloginpageState extends State<memberIdSigninpage> {
                 letterSpacing: 2.2),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget passwordfield(String hint, TextEditingController controller) {
+    return Container(
+      height: 50,
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 20,
+            offset: Offset(2, 2),
+          )
+        ],
+      ),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Icon(
+                Icons.password,
+                color: Appcolors.Appbuttoncolor,
+              ),
+            ),
+          ),
+          Expanded(
+              child: Padding(
+            padding: const EdgeInsets.only(bottom: 3, left: 5),
+            child: TextFormField(
+              controller: _passwordcontroller,
+              obscureText: true,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintStyle: const TextStyle(color: Colors.blueGrey),
+                contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                hintText: hint,
+              ),
+              validator: (value) {
+                if (value == null) {
+                  return "Please Enter Password";
+                } 
+                return null;
+              },
+            ),
+          )),
+        ],
       ),
     );
   }

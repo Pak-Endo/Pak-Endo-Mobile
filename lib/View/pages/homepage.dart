@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pak_endo/Constants/app_colors.dart';
 import 'package:pak_endo/View/pages/widgets/Events%20Cards/OnGoingEvents.dart';
 import 'package:pak_endo/View/pages/widgets/Events%20Cards/UpcomingEvents.dart';
 import 'package:pak_endo/View/pages/widgets/Events%20Cards/Finishedeventcard.dart';
 
+import '../../Controllers/memberSigninControllers.dart';
+import '../../Model/event.dart';
 import 'widgets/TextWidget/app_large_text.dart';
 import 'SearchPage.dart';
 
@@ -21,6 +24,27 @@ class _homepageState extends State<homepage> {
   final List<int> numbers = [1, 2, 3, 4, 5];
 
   TextEditingController _tabcontroller = TextEditingController();
+  final Controllers _authenticationController =
+      Get.find<Controllers>();
+  List<EventModel> upcomingEvents = [];
+
+  @override
+  void initstate(){
+    super.initState();
+    fetchUpcomingEvents();
+  }
+
+  Future<void> fetchUpcomingEvents() async {
+    try {
+      final events = await _authenticationController.fetchUpcomingEvents();
+      setState(() {
+        upcomingEvents = events;
+      });
+    } catch (error) {
+      print('Error fetching upcoming events: $error');
+    }
+  }
+
 
 
   // Methods
@@ -183,7 +207,7 @@ class _homepageState extends State<homepage> {
                 ],
               ),
 
-              UpComingEventsCard(),
+              UpComingEventsCard(upcomingEvents: upcomingEvents,),
 
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.06,

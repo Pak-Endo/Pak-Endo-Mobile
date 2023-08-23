@@ -1,10 +1,18 @@
 class MemberModel {
   final String memberID;
+  final String password;
 
-  MemberModel({required this.memberID});
+  MemberModel({
+    required this.memberID,
+    required this.password,
+  });
 
-  factory MemberModel.fromJson(Map<String, dynamic> json) {
-    return MemberModel(memberID: json['memberID']);
+  Map<String, dynamic> toJson() {
+    return {
+      'memberID': memberID,
+      'password': password,
+    };
   }
 }
+
 

@@ -1,9 +1,10 @@
-
 import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pak_endo/View/pages/widgets/CustomWidgets/DropdownWidget.dart';
 
 import '../../../Constants/app_colors.dart';
+import '../../../Controllers/MemberRegistrationController.dart';
 
 class register extends StatefulWidget {
   const register({Key? key}) : super(key: key);
@@ -14,37 +15,113 @@ class register extends StatefulWidget {
 
 class _registerState extends State<register> {
   bool value = false;
+  final _registrationController = Get.put(RegistrationController());
   final _formkey = GlobalKey<FormState>();
 
   TextEditingController _emailcontroller = TextEditingController();
+  TextEditingController _firstnamecontroller = TextEditingController();
+  TextEditingController _phonenumbercontroller = TextEditingController();
+  TextEditingController _lastnamecontroller = TextEditingController();
   TextEditingController _passwordcontroller = TextEditingController();
-  TextEditingController _namecontroller = TextEditingController();
-  TextEditingController _membercontroller = TextEditingController();
+  TextEditingController _confirmpasswordcontroller = TextEditingController();
+  TextEditingController _citycontroller = TextEditingController();
 
   String _email = "";
   String _password = "";
-  String _name = "";
+  String _confirmpassword = "";
+  String _firstname = "";
+  String _lastname = "";
+  String _phonenumber = "";
+  String prefix = "";
   bool myvalue = false;
+  bool malecheckbox = false;
+  bool femalecheckbox = false;
 
   @override
   void dispose() {
     // TODO: implement dispose
+    _firstnamecontroller.dispose();
+    _lastnamecontroller.dispose();
     _emailcontroller.dispose();
     _passwordcontroller.dispose();
-    _namecontroller.dispose();
+    _confirmpasswordcontroller.dispose();
+    _citycontroller.dispose();
     super.dispose();
   }
 
   void cleartext() {
-    _namecontroller.clear();
+    _firstnamecontroller.clear();
+    _lastnamecontroller.clear();
     _emailcontroller.clear();
     _passwordcontroller.clear();
+    _confirmpasswordcontroller.clear();
+    _citycontroller.clear();
+  }
+
+  String checkboxselection() {
+    if (malecheckbox) {
+      return "Mr";
+    } else if (femalecheckbox) {
+      return "Mrs";
+    } else {
+      return "Not Selected";
+    }
+  }
+
+  String selectedValue = "Prof Dr.";
+  void onDropdownValueChanged(String newValue) {
+    // Update the selected value whenever the dropdown value changes
+    selectedValue = newValue;
+    print("Selected Value: $selectedValue");
+  }
+
+  Future<void> registermember() async {
+    try {
+      final isRegistered = await _registrationController.registerUser(
+        firstName: _firstnamecontroller.text,
+        lastName: _lastnamecontroller.text,
+        email: _emailcontroller.text,
+        password: _passwordcontroller.text,
+        phoneNumber: _phonenumbercontroller.text,
+        gender: checkboxselection(),
+        city: _citycontroller.text,
+        selectedValue: selectedValue,
+      );
+
+      if (isRegistered) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+            'User registered successfully',
+            style: TextStyle(color: Colors.green),
+          ),
+          duration: Duration(seconds: 3),
+        ));
+        cleartext();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+            'User registration failed',
+            style: TextStyle(color: Colors.red),
+          ),
+          duration: Duration(seconds: 4),
+        ));
+      }
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        backgroundColor: Colors.red,
+        content: Text(
+          'An error occurred while registering the user',
+          style: TextStyle(color: Colors.white),
+        ),
+        duration: Duration(seconds: 4),
+      ));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight=MediaQuery.of(context).size.height;
-    final double screenWidth=MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: Stack(
@@ -113,7 +190,6 @@ class _registerState extends State<register> {
                             key: _formkey,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              
                               children: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -125,7 +201,10 @@ class _registerState extends State<register> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         fieldtitle(" Choose one"),
-                                        MyDropdownWidget(),
+                                        MyDropdownWidget(
+                                          onValueChanged:
+                                              onDropdownValueChanged,
+                                        ),
                                       ],
                                     ),
                                     SizedBox(
@@ -138,21 +217,21 @@ class _registerState extends State<register> {
                                       children: [
                                         fieldtitle(" First Name"),
                                         Padding(
-                                          padding: const EdgeInsets.only(right:15.0),
-                                          child: customfield(
-                                              'First name', _namecontroller),
+                                          padding: const EdgeInsets.only(
+                                              right: 15.0),
+                                          child: customfield('First name',
+                                              _firstnamecontroller),
                                         ),
                                       ],
                                     ),
                                   ],
                                 ),
-
                                 const SizedBox(
                                   height: 15,
                                 ),
                                 fieldtitle(" Last Name"),
                                 member_idcustomfield(
-                                    "Enter Last Name", _membercontroller),
+                                    "Enter Last Name", _lastnamecontroller),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -165,39 +244,50 @@ class _registerState extends State<register> {
                                       const Text(
                                         "Gender",
                                         style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(left: 15),
                                         child: Checkbox(
-                                            value: value,
-                                            onChanged: (bool? value) {
-                                              this.value = value!;
-                                            }),
+                                          value: malecheckbox,
+                                          onChanged: (bool? value) {
+                                            setState(() {
+                                              malecheckbox = value ?? false;
+                                              femalecheckbox = !malecheckbox;
+                                            });
+                                          },
+                                        ),
                                       ),
                                       const Text(
                                         "Male",
                                         style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold),
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(left: 10),
                                         child: Checkbox(
-                                            value: value,
-                                            onChanged: (bool? value) {
-                                              this.value = value!;
-                                            }),
+                                          value: femalecheckbox,
+                                          onChanged: (bool? value) {
+                                            setState(() {
+                                              femalecheckbox = value ?? false;
+                                              malecheckbox = !femalecheckbox;
+                                            });
+                                          },
+                                        ),
                                       ),
                                       const Text(
                                         "Female",
                                         style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold),
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -205,21 +295,27 @@ class _registerState extends State<register> {
                                 const SizedBox(height: 10),
                                 fieldtitle(" Phone Number (Optional)"),
                                 member_idcustomfield(
-                                    "+92 300 0000000", _membercontroller),
+                                    "+92 300 0000000", _phonenumbercontroller),
                                 const SizedBox(height: 10),
                                 fieldtitle(" Enter your email"),
                                 member_idcustomfield(
-                                    "abc@123.com", _membercontroller),
+                                    "abc@123.com", _emailcontroller),
                                 const SizedBox(height: 10),
                                 fieldtitle("   Password"),
                                 passwordfield(
                                     'Enter Password', _passwordcontroller),
+                                    const SizedBox(height: 10),
                                 fieldtitle("   Confirm Password"),
                                 passwordfield('Enter confirm Password',
-                                    _passwordcontroller),
+                                    _confirmpasswordcontroller),
                                 const SizedBox(height: 10),
+                                fieldtitle("  City"),
+                                member_idcustomfield(
+                                    "Enter City name", _citycontroller),
+                                const SizedBox(height: 20),
                                 Padding(
-                                  padding:  EdgeInsets.only(left:screenWidth*0.05),
+                                  padding:
+                                      EdgeInsets.only(left: screenWidth * 0.065),
                                   child: custombutton("Register"),
                                 ),
                               ],
@@ -249,8 +345,8 @@ class _registerState extends State<register> {
 
   Widget customfield(String hint, TextEditingController controller) {
     return Container(
-      height: MediaQuery.of(context).size.height*0.07,
-       width: 160,
+      height: MediaQuery.of(context).size.height * 0.07,
+      width: 160,
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -412,7 +508,10 @@ class _registerState extends State<register> {
         setState(() {
           _email = _emailcontroller.text;
           _password = _passwordcontroller.text;
-          _name = _namecontroller.text;
+          _firstname = _firstnamecontroller.text;
+          _lastname = _lastnamecontroller.text;
+          _confirmpassword = _confirmpasswordcontroller.text;
+          _phonenumber = _phonenumbercontroller.text;
         });
         // }
 
@@ -436,32 +535,6 @@ class _registerState extends State<register> {
                 letterSpacing: 2.2),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget register() {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 22),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            child: TextButton(
-                onPressed: (() {}),
-                child: const Text(
-                  "Goto login",
-                  style: TextStyle(
-                      color: Appcolors.Appbuttoncolor,
-                      letterSpacing: 1.5,
-                      fontFamily: "Lobster-Regular",
-                      decoration: TextDecoration.underline,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17),
-                )),
-          )
-        ],
       ),
     );
   }

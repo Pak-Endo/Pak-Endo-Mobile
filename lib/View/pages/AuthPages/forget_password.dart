@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../../Constants/app_colors.dart';
+import '../../../Controllers/PasswordResetController.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});
@@ -10,7 +13,43 @@ class ForgetPassword extends StatefulWidget {
 }
 
 class _ForgetPasswordState extends State<ForgetPassword> {
+  final _passwordResetController = Get.put(PasswordResetController());
   final _emailcontroller = TextEditingController();
+
+  Future<void> resetpassword() async {
+    final email = _emailcontroller.text;
+    try {
+          final isLinkSent =
+              await _passwordResetController.sendResetLink(email);
+
+          if (isLinkSent) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text(
+                'Password reset link sent successfully',
+                style: TextStyle(color: Colors.green),
+              ),
+              duration: Duration(seconds: 4),
+            ));
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text(
+                'Sending password reset link failed',
+                style: TextStyle(color: Colors.red),
+              ),
+              duration: Duration(seconds: 3),
+            ));
+          }
+        } catch (error) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              'An error occurred while sending the password reset link',
+              style: TextStyle(color: Colors.white),
+            ),
+            duration: Duration(seconds: 3),
+          ));
+        }
+  }
 
   @override
   Widget build(BuildContext context) {
