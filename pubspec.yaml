@@ -35,6 +35,17 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  carousel_slider: ^4.2.1
+  dots_indicator: ^3.0.0
+  video_player: ^2.7.0
+  animated_notch_bottom_bar: ^1.0.0
+  youtube_player_flutter: ^8.1.2
+  timelines: ^0.1.0
+  timeline_tile: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
+  shared_preferences: ^2.2.0
+  http: ^1.1.0
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:
@@ -59,14 +70,17 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/login_background.png
+    - assets/Logo_Icon.png
+    - assets/event1.jpg
+    - assets/profile.jpg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
-  # For details regarding adding assets from package dependencies, see
+  # For details regarding adding assets from package dependencies, sees
   # https://flutter.dev/assets-and-images/#from-packages
 
   # To add custom fonts to your application, add a fonts section here,
@@ -74,10 +88,32 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
+  fonts:
+    - family: BebasNeue
+      fonts:
+        - asset: assets/fonts/BebasNeue-Regular.ttf
+    - family: Poppins-Black
+      fonts:
+        - asset: assets/fonts/Poppins-Black.ttf
+    - family: Poppins-BlackItalic
+      fonts:
+        - asset: assets/fonts/Poppins-BlackItalic.ttf
+    - family: Poppins-BoldItalic
+      fonts:
+        - asset: assets/fonts/Poppins-BoldItalic.ttf
+    - family: Poppins-SemiBold
+      fonts:
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+    - family: Poppins-SemiBoldItalic
+      fonts:
+        - asset: assets/fonts/Poppins-SemiBoldItalic.ttf
+    - family: Poppins-Medium
+      fonts:
+        - asset: assets/fonts/Poppins-Medium.ttf
+        
+
   #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
