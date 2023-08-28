@@ -141,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     height: MediaQuery.of(context).size.width * 0.03,
                   ),
-                  OngoingEventsCard(),
+                  // OngoingEventsCard(),
                    SizedBox(
                     height: MediaQuery.of(context).size.width * 0.035,
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pak_endo/Model/event.dart';
 import 'package:pak_endo/View/pages/AuthPages/Signin.dart';
 import 'package:pak_endo/View/pages/AuthPages/SplashScreen.dart';
 import 'package:pak_endo/View/pages/UserMain.dart';
@@ -18,7 +19,7 @@ class AppRoutes{
         '/home':(context) =>  homepage(),
         '/signin':(context)=> memberIdSigninpage(),
         '/listevents':(context)=> UpComingEvents(),
-        '/detailspage':(context) => DetailsPage(),
+        '/detailspage': (context, {Event? event}) => DetailsPage(event: event),
         '/feedbackform':(context) => FeedbackForm(),
         '/usermain':(context) => UserMain(),
         '/splashscreen':(context) => SplashScreen(),

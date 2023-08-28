@@ -8,16 +8,18 @@ import 'package:pak_endo/View/pages/widgets/TabBar.dart';
 import 'package:pak_endo/View/pages/widgets/TextWidget/app_large_text.dart';
 import 'package:pak_endo/View/pages/widgets/CustomWidgets/details_page_date_time.dart';
 import '../../Constants/app_colors.dart';
+import '../../Model/event.dart';
 import 'widgets/FeedbackForm.dart';
 import 'widgets/AppButtons/FeedbackButton.dart';
 
 class DetailsPage extends StatefulWidget {
+  final Event? event;
+  const DetailsPage({super.key,  this.event, });
   @override
   _DetailsPageState createState() => _DetailsPageState();
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  
   
   List<String> imageUrls = [
     "assets/event1.jpg",
@@ -28,6 +30,8 @@ class _DetailsPageState extends State<DetailsPage> {
   bool isclicked=false;
 
   bool _isFeedbackOpen = false;
+
+  
 
   void _openFeedback() {
     setState(() {
@@ -51,6 +55,11 @@ class _DetailsPageState extends State<DetailsPage> {
     );
   }
 
+  @override
+  void initState(){
+    super.initState();
+  }
+
   int _currentIndex = 0;
 
   @override
@@ -62,7 +71,7 @@ class _DetailsPageState extends State<DetailsPage> {
         leading: GestureDetector(
             onTap: () => Navigator.pushNamed(context, "/usermain"),
             child: Icon(Icons.arrow_back)),
-        title: const Text("UpComing Events"),
+        title:  Text(widget.event!.eventStatus),
         titleSpacing: 0.0,
         centerTitle: true,
         toolbarHeight: 73.2,
@@ -151,7 +160,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       });
                     },
                   ),
-                  items: imageUrls.map((imageName) {
+                  items:  widget.event?.gallery.map((galleryItem) {
                     return Builder(
                       builder: (BuildContext context) {
                         return ClipRRect(
@@ -160,10 +169,10 @@ class _DetailsPageState extends State<DetailsPage> {
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(),
                             margin: EdgeInsets.symmetric(horizontal: 5.0),
-                            child: Image.asset(
-                              imageName,
-                              fit: BoxFit.cover,
-                            ),
+                            child: Image.network(
+                          widget.event!.gallery[0].mediaUrl[0], 
+                          fit: BoxFit.cover,
+                        ),
                           ),
                         );
                       },
@@ -175,7 +184,7 @@ class _DetailsPageState extends State<DetailsPage> {
               Container(
                 margin: EdgeInsets.only(left: 150),
                 child: DotsIndicator(
-                  dotsCount: imageUrls.length,
+                  dotsCount: widget.event!.gallery.length,
                   position: _currentIndex,
                   decorator: DotsDecorator(
                     size: const Size.square(9.0),
@@ -189,7 +198,7 @@ class _DetailsPageState extends State<DetailsPage> {
               Container(
                   padding: EdgeInsets.only(left: 15),
                   child: AppLargeText(
-                    text: "Kidney Cure 2022 | Doctors Associaton | 2023",
+                    text: widget.event!.title,
                     size: 25,
                     color: Colors.black,
                   )),
@@ -207,7 +216,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 padding: const EdgeInsets.only(
                     top: 5, left: 25, right: 9, bottom: 15),
                 child: Text(
-                  "Welcome to our healthcare event, where we prioritize your well-being and aim to enhance your understanding of the latest advancements in the healthcare industry.",
+                  widget.event!.description,
                   style: TextStyle(
                     fontSize: 17,
                     color: Colors.black87,

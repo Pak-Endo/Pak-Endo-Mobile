@@ -2,61 +2,67 @@ import 'package:flutter/material.dart';
 import 'package:pak_endo/View/pages/widgets/TextWidget/app_large_text.dart';
 
 import '../../../../Constants/app_colors.dart';
+import '../../../../Model/event.dart';
+import '../../details_page.dart';
 
 class OngoingEventsCard extends StatefulWidget {
-  const OngoingEventsCard({super.key});
+  final List<Event> ongoingEvents;
+
+  OngoingEventsCard({Key? key, required this.ongoingEvents}) : super(key: key);
 
   @override
   State<OngoingEventsCard> createState() => _OngoingEventsCardState();
 }
 
 class _OngoingEventsCardState extends State<OngoingEventsCard> {
-  final List<int> numbers = [1, 2, 3, 4, 5];
   bool _isfilled = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.black,
-      padding: EdgeInsets.only(
-        left: 10,
-      ),
+      padding: EdgeInsets.only(left: 10),
       height: MediaQuery.of(context).size.height * 0.4,
-      child: ListView.builder(
+      child:widget.ongoingEvents.isEmpty
+          ? const Center(
+              child: Text(
+                "No ongoing events available.",
+                style: TextStyle(fontSize: 16),
+              ),
+            )
+          : ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: numbers.length,
+        itemCount: widget.ongoingEvents.length,
         itemBuilder: (context, index) {
+          final event = widget.ongoingEvents[index];
           return GestureDetector(
-            onTap: () => Navigator.pushNamed(context, "/detailspage"),
+            onTap: () { Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>  DetailsPage(event: event,),
+      ),
+    );},
             child: Container(
               padding: EdgeInsets.only(right: 7),
               child: Stack(
                 children: [
-                  // Background Image Container
                   Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
-                      boxShadow: [
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black87,
-                          // spreadRadius: 5,
                           blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
+                          offset: Offset(0, 3),
                         ),
                       ],
                       image: DecorationImage(
-                        image: AssetImage(
-                            'assets/login_background.png'), // Replace 'background_image.png' with your image asset path
+                        image: NetworkImage(event.featuredImage),
                         fit: BoxFit.cover,
                       ),
                     ),
-                    margin:
-                        EdgeInsets.symmetric(horizontal: 10.0, vertical: 24.0),
+                    margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 24.0),
                     width: MediaQuery.of(context).size.width * 0.6,
-                    // Add child widgets here if needed
                   ),
-                  // Sponsor Container at the bottom
                   Positioned(
                     bottom: 5,
                     left: MediaQuery.of(context).size.width * 0.07,
@@ -64,8 +70,7 @@ class _OngoingEventsCardState extends State<OngoingEventsCard> {
                       alignment: Alignment.bottomCenter,
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 5),
-                        width: MediaQuery.of(context).size.width *
-                            0.50, // Adjust the width of the sponsor container (less than image width)
+                        width: MediaQuery.of(context).size.width * 0.50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(18.0)),
                           color: Colors.white,
@@ -74,25 +79,22 @@ class _OngoingEventsCardState extends State<OngoingEventsCard> {
                               color: Colors.black87.withOpacity(0.2),
                               spreadRadius: 5,
                               blurRadius: 5,
-                              offset:
-                                  Offset(0, 1), // changes position of shadow
+                              offset: Offset(0, 1),
                             ),
                           ],
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 6.0, left: 6.0, right: 2.0),
+                          padding: const EdgeInsets.all(4.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               AppLargeText(
-                                text: " Doctors Event",
+                                text: event.title, // Use event title here
                                 size: 17,
                                 color: Colors.black,
                               ),
                               SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.006,
+                                height: MediaQuery.of(context).size.height * 0.006,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -104,24 +106,23 @@ class _OngoingEventsCardState extends State<OngoingEventsCard> {
                                     size: 18,
                                   ),
                                   AppLargeText(
-                                    text: "Karachi, Pakistan",
+                                    text: event.location, // Use event location here
                                     size: 12,
                                     color: Colors.black38,
                                   ),
                                 ],
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
                                       Image.asset(
-                                        'assets/Logo_Icon.png', // Replace 'sponsor_icon.png' with your sponsor icon asset path
+                                        'assets/Logo_Icon.png', // Replace with sponsor icon asset path
                                         height: 24,
                                         width: 25,
                                       ),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       const Text(
                                         "Sponsor",
                                         style: TextStyle(color: Colors.black),
@@ -146,30 +147,31 @@ class _OngoingEventsCardState extends State<OngoingEventsCard> {
                     ),
                   ),
                   Positioned(
-                      top: MediaQuery.of(context).size.height * 0.045,
-                      right: MediaQuery.of(context).size.width * 0.05,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.055,
-                        width: MediaQuery.of(context).size.width * 0.115,
-                        decoration: const BoxDecoration(
-                            color: Colors.black26,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(3.0))),
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isfilled = !_isfilled;
-                            });
-                          },
-                          child: Icon(
-                            Icons.favorite,
-                            size: 25,
-                            color: _isfilled
-                                ? Appcolors.Appbuttoncolor
-                                : Colors.white,
-                          ),
+                    top: MediaQuery.of(context).size.height * 0.045,
+                    right: MediaQuery.of(context).size.width * 0.05,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.055,
+                      width: MediaQuery.of(context).size.width * 0.115,
+                      decoration: BoxDecoration(
+                        color: Colors.black26,
+                        borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                      ),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isfilled = !_isfilled;
+                          });
+                        },
+                        child: Icon(
+                          Icons.favorite,
+                          size: 25,
+                          color: _isfilled
+                              ? Appcolors.Appbuttoncolor
+                              : Colors.white,
                         ),
-                      )),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -179,3 +181,4 @@ class _OngoingEventsCardState extends State<OngoingEventsCard> {
     );
   }
 }
+

@@ -3,11 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pak_endo/Constants/app_colors.dart';
+import 'package:pak_endo/View/pages/widgets/Events%20Cards/Finishedeventcard.dart';
 import 'package:pak_endo/View/pages/widgets/Events%20Cards/OnGoingEvents.dart';
 import 'package:pak_endo/View/pages/widgets/Events%20Cards/UpcomingEvents.dart';
-import 'package:pak_endo/View/pages/widgets/Events%20Cards/Finishedeventcard.dart';
 
-import '../../Controllers/memberSigninControllers.dart';
+import '../../Controllers/Controllers.dart';
 import '../../Model/event.dart';
 import 'widgets/TextWidget/app_large_text.dart';
 import 'SearchPage.dart';
@@ -20,31 +20,51 @@ class homepage extends StatefulWidget {
 }
 
 class _homepageState extends State<homepage> {
- 
-  final List<int> numbers = [1, 2, 3, 4, 5];
+    final Controllers _controllers = Get.find<Controllers>();
 
   TextEditingController _tabcontroller = TextEditingController();
-  final Controllers _authenticationController =
-      Get.find<Controllers>();
-  List<EventModel> upcomingEvents = [];
+  List<Event> upcomingEvents = [];
+  List<Event> ongoingEvents=[];
+  List<Event> finishedEvents=[];
 
   @override
-  void initstate(){
+  void initstate() {
     super.initState();
-    fetchUpcomingEvents();
+    fetchUpcomingEvents(limit: 5, offset: 0);
+    fetchOngoingEvents(limit: 5, offset: 0);
+    fetchUFinishedEvents(limit: 5, offset: 0);
   }
 
-  Future<void> fetchUpcomingEvents() async {
+  Future<List<Event>> fetchUpcomingEvents({required int limit, required int offset}) async {
     try {
-      final events = await _authenticationController.fetchUpcomingEvents();
-      setState(() {
-        upcomingEvents = events;
-      });
+      final events = await _controllers.fetchUpcomingEvents(limit, offset);
+      print("RESULT UPcoming :: $events");
+      return events;
     } catch (error) {
-      print('Error fetching upcoming events: $error');
+      throw error;
     }
   }
+  Future<List<Event>> fetchOngoingEvents({required int limit, required int offset}) async {
+    try {
+      final events = await _controllers.fetchOngoingEvents(limit, offset);
+            print("RESULT Ongoing:: $events");
 
+      return events;
+    } catch (error) {
+      throw error;
+    }
+  }
+  Future<List<Event>> fetchUFinishedEvents({required int limit, required int offset}) async {
+    try {
+      final events = await _controllers.fetchFinishedEvents(limit, offset);
+            print("RESULT FINISHED:: $events");
+
+      return events;
+    } catch (error) {
+      throw error;
+    }
+  }
+  
 
 
   // Methods
@@ -59,7 +79,7 @@ class _homepageState extends State<homepage> {
     );
   }
 
-   void _showSignInDialog() {
+  void _showSignInDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -163,7 +183,9 @@ class _homepageState extends State<homepage> {
                   Container(
                     margin: EdgeInsets.only(right: 5),
                     child: GestureDetector(
-                      onTap: () => Navigator.pushNamed(context, "/listevents"),
+                      onTap: () => {
+
+                        Navigator.pushNamed(context, "/listevents")},
                       child: AppLargeText(
                         text: "See all >>",
                         color: Appcolors.Appbuttoncolor,
@@ -175,7 +197,27 @@ class _homepageState extends State<homepage> {
               ),
 
               //Container for Ongoing Events Display ListView
-              OngoingEventsCard(),
+               FutureBuilder<List<Event>>(
+                future:  fetchOngoingEvents(limit: 5, offset: 0),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child:
+                          CircularProgressIndicator(), // Show circular progress indicator
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error loading data: ${snapshot.error}'),
+                    );
+                  } else if (snapshot.hasData) {
+                    return OngoingEventsCard(ongoingEvents: snapshot.data!);
+                  } else {
+                    return Center(
+                      child: Text('No data available'),
+                    );
+                  }
+                },
+              ),
 
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.06,
@@ -207,7 +249,30 @@ class _homepageState extends State<homepage> {
                 ],
               ),
 
-              UpComingEventsCard(upcomingEvents: upcomingEvents,),
+              
+
+              FutureBuilder<List<Event>>(
+                future: fetchUpcomingEvents(limit: 5, offset: 0),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child:
+                          CircularProgressIndicator(), // Show circular progress indicator
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error loading data: ${snapshot.error}'),
+                    );
+                  } else if (snapshot.hasData) {
+                    print("\n\nEvent data inside if : $upcomingEvents");
+                    return UpComingEventsCard(upcomingEvents: snapshot.data!);
+                  } else {
+                    return Center(
+                      child: Text('No data available'),
+                    );
+                  }
+                },
+              ),
 
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.06,
@@ -240,21 +305,28 @@ class _homepageState extends State<homepage> {
               ),
 
               //Container for Fiished Events Display ListView
-              Container(
-                padding: EdgeInsets.only(left: 5, top: 10),
-                height: MediaQuery.of(context).size.height * 0.53,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: numbers.length,
-                  itemBuilder: (context, index) {
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                          19.0), // Set the border radius here
-                      child: FinishedEventCard(),
+              FutureBuilder<List<Event>>(
+                future: fetchUFinishedEvents(limit: 5, offset: 0),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child:
+                          CircularProgressIndicator(), // Show circular progress indicator
                     );
-                  },
-                ),
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error loading data: ${snapshot.error}'),
+                    );
+                  } else if (snapshot.hasData) {
+                    return FinishedEventCard( finishedEvents: snapshot.data!,);
+                  } else {
+                    return Center(
+                      child: Text('No data available'),
+                    );
+                  }
+                },
               ),
+                  
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.15,
               ),

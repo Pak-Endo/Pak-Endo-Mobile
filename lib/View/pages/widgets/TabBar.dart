@@ -21,7 +21,6 @@ class _tabbarState extends State<tabbar> {
         child: Column(
           children: [
             TabBar(
-              
               labelColor: Colors.black,
               isScrollable: true,
               tabs: days.map((day) => Tab(text: day)).toList(),

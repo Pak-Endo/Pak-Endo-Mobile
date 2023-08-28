@@ -1,6 +1,6 @@
+
 import 'package:flutter/material.dart';
 import 'package:pak_endo/Constants/app_colors.dart';
-import 'package:pak_endo/View/pages/details_page.dart';
 import 'package:pak_endo/View/pages/widgets/AppButtons/custom_button.dart';
 
 class FeedbackForm extends StatefulWidget {
@@ -13,7 +13,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
   double _rating2 = 0.0;
   double _rating3 = 0.0;
   double _rating4 = 0.0;
-  TextEditingController _feedbackController = TextEditingController();
+  final TextEditingController _feedbackController = TextEditingController();
 
   void _submitFeedback() {
     // Process feedback here
@@ -22,17 +22,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Scaffold(
-          body: Container(
-            color: Colors.white, // Background color of the previous screen
-            child: Center(
-              child: DetailsPage(),
-            ),
-          ),
-        ),
-        DraggableScrollableSheet(
+    return DraggableScrollableSheet(
           initialChildSize: 9 / 11, // Cover 3/4 of the screen initially
           minChildSize: 1 / 3,
           maxChildSize: 1.0,
@@ -118,9 +108,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
               ),
             );
           },
-        ),
-      ],
-    );
+        );
   }
 
   Widget _buildRatingSection(

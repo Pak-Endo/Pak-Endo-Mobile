@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Constants/SharedPreferences.dart';
 import '../../../Constants/app_colors.dart';
-import '../../../Controllers/memberSigninControllers.dart';
+import '../../../Controllers/Controllers.dart';
 
 class memberIdSigninpage extends StatefulWidget {
   const memberIdSigninpage({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class _memberIdloginpageState extends State<memberIdSigninpage> {
   final _formkey = GlobalKey<FormState>();
   final _memberidcontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
-  final _authenticationController = Get.put(AuthenticationController());
+  final _authenticationController = Get.put(Controllers());
   String _memberid="";
   String _password="";
 
@@ -220,7 +220,7 @@ class _memberIdloginpageState extends State<memberIdSigninpage> {
                                   TextButton(
                                       onPressed: () {
                                        Navigator.pushReplacementNamed(
-                                            context, "/homepage");
+                                            context, "/home");
                                       },
                                       child:  Text(
                                         "Click here",
