@@ -1,10 +1,18 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:pak_endo/Approutes.dart';
+import 'package:pak_endo/routes/navigations.dart';
 
-void main(){
-  runApp( const GetMaterialApp(home: MyApp()));
+import 'config/app_config.dart';
+
+void main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await AppConfig().init();
+  runApp(const GetMaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,11 +20,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Endo Pak App",
-      initialRoute: '/splashscreen',
-      routes: AppRoutes.routes,
+      title: AppConfig.appName,
+      builder: EasyLoading.init(),
+      home: const PageNavigator(),
     );
   }
 }
