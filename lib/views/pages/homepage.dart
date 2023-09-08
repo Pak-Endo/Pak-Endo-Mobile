@@ -7,7 +7,6 @@ import 'package:pak_endo/views/widgets/event_cards/Finishedeventcard.dart';
 import 'package:pak_endo/views/widgets/event_cards/OnGoingEvents.dart';
 import 'package:pak_endo/views/widgets/event_cards/UpcomingEvents.dart';
 
-
 import '../widgets/TextWidget/app_large_text.dart';
 import 'SearchPage.dart';
 
@@ -64,7 +63,7 @@ class _HomePageState extends State<HomePage> {
             child: GestureDetector(
                 onTap: () =>
                     navigatorKey.currentState!.pushNamed(PageRoutes.listEvents),
-                child: AppLargeText(
+                child: const AppLargeText(
                     text: "See all >>",
                     color: Appcolors.Appbuttoncolor,
                     size: 14)))
@@ -89,10 +88,10 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.all(Radius.circular(8.0)))),
           Container(
               margin: const EdgeInsets.only(left: 5),
-              child: AppLargeText(
+              child: const AppLargeText(
                   text: "Endo-Pak",
                   size: 20.5,
-                  color: const Color.fromARGB(255, 65, 163, 110),
+                  color: Color.fromARGB(255, 65, 163, 110),
                   fontFamily: "Poppins-SemiBold")),
           const Expanded(child: SizedBox()),
           const Text("Search", style: TextStyle(color: Colors.grey)),

@@ -38,7 +38,6 @@ class _registerState extends State<register> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _firstnamecontroller.dispose();
     _lastnamecontroller.dispose();
     _emailcontroller.dispose();

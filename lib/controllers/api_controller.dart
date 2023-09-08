@@ -24,7 +24,6 @@ class ApiController {
 
   getProfile(String id) async {
     try {
-      //TODO: CONTINUE FROM HERE
       var json =  await Api().get_('${MyConsts.baseUrl}user/getUserById/$id');
       return ;
     } catch (e) {

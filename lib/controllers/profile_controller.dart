@@ -1,20 +1,27 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:pak_endo/Controllers/api_controller.dart';
+import 'package:pak_endo/constants/preferences.dart';
+import 'package:pak_endo/model/profile_model.dart';
 import 'package:pak_endo/views/widgets/loaders.dart';
 
-class ProfileController extends GetxController{
+class ProfileController extends GetxController {
+  late final ProfileModel user;
 
-  getProfile(String id) async {
+  @override
+  void onInit() {
+    super.onInit();
+    getProfile();
+  }
+
+  getProfile() async {
     try {
-      getLoader();
-      // var res = ApiController().getProfile(id);
-
+      final profileMap = jsonDecode(Pref.getString(Pref.USER_KEY)!);
+      user = ProfileModel.fromJson(profileMap);
     } catch (e) {
       debugPrint(e.toString());
       getError(e.toString());
     }
   }
-
-
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,7 @@ class AuthController extends GetxController {
         throw res['message'];
       }
       await Pref.setString(Pref.TOKEN_KEY, res['token']);
-      await Pref.setString(Pref.USERID_KEY, res['user']['id']);
+      await Pref.setString(Pref.USER_KEY, jsonEncode(res['user']));
 
       getSuccess();
       return true;
@@ -33,7 +34,7 @@ class AuthController extends GetxController {
       final completer = Completer<bool>();
       Future.delayed(const Duration(seconds: 3), () async {
         await Pref.removeString(Pref.TOKEN_KEY);
-        await Pref.removeString(Pref.USERID_KEY);
+        await Pref.removeString(Pref.USER_KEY);
         getSuccess();
         completer.complete(true);
       });

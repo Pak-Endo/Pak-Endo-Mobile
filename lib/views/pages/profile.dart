@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pak_endo/Constants/app_colors.dart';
 import 'package:pak_endo/Controllers/auth_controller.dart';
 import 'package:pak_endo/Controllers/home_controller.dart';
+import 'package:pak_endo/controllers/profile_controller.dart';
 import 'package:pak_endo/routes/navigations.dart';
 import 'package:pak_endo/views/widgets/event_cards/Finishedeventcard.dart';
 
@@ -13,7 +14,8 @@ class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
 
   final AuthController authController = Get.put(AuthController());
-  final HomeController controller = Get.find<HomeController>();
+  final HomeController homeController = Get.put(HomeController());
+  final ProfileController profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +52,13 @@ class ProfilePage extends StatelessWidget {
       SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.02),
       const AppLargeText(text: "Profile", color: Colors.black),
       SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.02),
-      displayInfo('Name: ', 'John Doe'),
+      displayInfo('Name: ', profileController.user.fullName!),
       SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.02),
-      displayInfo('Email: ', 'abc@123.com'),
+      displayInfo('Email: ', profileController.user.email!),
       SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.02),
-      displayInfo('Ph No: ', '+92 332 0000000'),
+      displayInfo('Ph No: ', profileController.user.phoneNumber!),
       SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.02),
-      displayInfo('Member ID: ', 'PES/E/01'),
+      displayInfo('Member ID: ', profileController.user.memberID!),
       SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.06)
     ]);
   }
@@ -82,7 +84,7 @@ class ProfilePage extends StatelessWidget {
                 color: Appcolors.Appbuttoncolor)
           ]),
       SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.03),
-      FinishedEventCard(finishedEvents: controller.finishedEvents),
+      FinishedEventCard(finishedEvents: homeController.finishedEvents),
       SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.075)
     ]);
   }

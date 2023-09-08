@@ -3,7 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Pref {
   static SharedPreferences? _prefsInstance;
   static const String TOKEN_KEY = "TOKEN_KEY";
-  static const String USERID_KEY = "USERID_KEY";
+  static const String USER_KEY = "USERID_KEY";
+
 
   static Future<SharedPreferences> get _instance async =>
       _prefsInstance ??= await SharedPreferences.getInstance();
