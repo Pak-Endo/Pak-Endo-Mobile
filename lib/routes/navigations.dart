@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:pak_endo/Model/event_model.dart';
 import 'package:pak_endo/config/app_config.dart';
+import 'package:pak_endo/constants/consts.dart';
 import 'package:pak_endo/views/pages/HomePage.dart';
 import 'package:pak_endo/views/pages/details_page.dart';
-import 'package:pak_endo/views/pages/listevents.dart';
+import 'package:pak_endo/views/pages/event_list.dart';
 import 'package:pak_endo/views/pages/video_player.dart';
 import 'package:pak_endo/views/widgets/feedback_form.dart';
 
@@ -68,7 +69,8 @@ class PageNavigator extends StatelessWidget {
               builder = (context) => const HomePage();
               break;
             case PageRoutes.listEvents:
-              builder = (context) => const UpComingEvents();
+              builder = (context) =>
+                  ListEvents(status: settings.arguments as EventStatus);
               break;
             case PageRoutes.detailPage:
               builder = (context) =>

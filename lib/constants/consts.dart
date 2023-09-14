@@ -1,3 +1,9 @@
 class MyConsts {
-  static const String baseUrl = 'http://quaidtech.ddns.net:8200/api/';
+  static const String baseUrl = 'https://pakendo.animetography-blog.com/api/';
+}
+
+enum EventStatus {
+  Finished,
+  Ongoing,
+  Upcoming,
 }

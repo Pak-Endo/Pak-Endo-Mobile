@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pak_endo/Constants/app_colors.dart';
 import 'package:pak_endo/Controllers/home_controller.dart';
+import 'package:pak_endo/constants/consts.dart';
 import 'package:pak_endo/routes/navigations.dart';
 import 'package:pak_endo/views/widgets/event_cards/Finishedeventcard.dart';
 import 'package:pak_endo/views/widgets/event_cards/OnGoingEvents.dart';
 import 'package:pak_endo/views/widgets/event_cards/UpcomingEvents.dart';
 
-import '../widgets/TextWidget/app_large_text.dart';
+import '../widgets/custom_text/app_large_text.dart';
 import 'SearchPage.dart';
 
 class HomePage extends StatefulWidget {
@@ -32,26 +33,26 @@ class _HomePageState extends State<HomePage> {
 
           /// ONGOING EVENTS
           SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-          eventHeading('Ongoing Events'),
+          eventHeading('Ongoing Events', EventStatus.Ongoing),
           OngoingEventsCard(ongoingEvents: homeController.ongoingEvents),
 
           /// UPCOMING EVENTS
           SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-          eventHeading('Upcoming Events'),
+          eventHeading('Upcoming Events', EventStatus.Upcoming),
           UpComingEventsCard(upcomingEvents: homeController.upcomingEvents),
 
           /// FINISHED EVENTS
           SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-          eventHeading('Finished Events'),
+          eventHeading('Finished Events', EventStatus.Finished),
           FinishedEventCard(finishedEvents: homeController.finishedEvents),
 
-          SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.15)
         ],
       );
     })));
   }
 
-  eventHeading(title) {
+  eventHeading(title, args) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -61,8 +62,8 @@ class _HomePageState extends State<HomePage> {
         Container(
             margin: const EdgeInsets.only(right: 5),
             child: GestureDetector(
-                onTap: () =>
-                    navigatorKey.currentState!.pushNamed(PageRoutes.listEvents),
+                onTap: () => navigatorKey.currentState!
+                    .pushNamed(PageRoutes.listEvents, arguments: args),
                 child: const AppLargeText(
                     text: "See all >>",
                     color: Appcolors.Appbuttoncolor,
@@ -105,9 +106,7 @@ class _HomePageState extends State<HomePage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (BuildContext context) {
-        return SearchPage();
-      },
+      builder: (BuildContext context) => SearchPage(),
     );
   }
 }

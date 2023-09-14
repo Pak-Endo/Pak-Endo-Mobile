@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../Constants/app_colors.dart';
-import 'TextWidget/app_large_text.dart';
+import 'custom_text/app_large_text.dart';
 
 class ListFaviorates extends StatefulWidget {
   const ListFaviorates({super.key});

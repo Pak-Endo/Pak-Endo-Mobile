@@ -6,7 +6,7 @@ import 'package:pak_endo/routes/navigations.dart';
 import 'package:pak_endo/views/widgets/feedback_form.dart';
 
 import '../AppButtons/custom_button.dart';
-import '../TextWidget/app_large_text.dart';
+import '../custom_text/app_large_text.dart';
 
 class FinishedEventCard extends StatefulWidget {
   final List<EventModel> finishedEvents;

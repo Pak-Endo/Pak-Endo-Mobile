@@ -22,10 +22,37 @@ class ApiController {
     }
   }
 
+  getUpcomingEvents(limit, offset) async {
+    try {
+      return await Api().get_(
+          '${MyConsts.baseUrl}events/getUpcomingEvents?limit=$limit&offset=$offset');
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  getOngoingEvents(limit, offset) async {
+    try {
+      return await Api().get_(
+          '${MyConsts.baseUrl}events/getOngoingEvents?limit=$limit&offset=$offset');
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  getFinishedEvents(limit, offset) async {
+    try {
+      return await Api().get_(
+          '${MyConsts.baseUrl}events/getFinishedEvents?limit=$limit&offset=$offset');
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   getProfile(String id) async {
     try {
-      var json =  await Api().get_('${MyConsts.baseUrl}user/getUserById/$id');
-      return ;
+      var json = await Api().get_('${MyConsts.baseUrl}user/getUserById/$id');
+      return;
     } catch (e) {
       rethrow;
     }

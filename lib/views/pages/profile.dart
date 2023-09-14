@@ -8,7 +8,7 @@ import 'package:pak_endo/routes/navigations.dart';
 import 'package:pak_endo/views/widgets/event_cards/Finishedeventcard.dart';
 
 import '../widgets/AppButtons/custom_button.dart';
-import '../widgets/TextWidget/app_large_text.dart';
+import '../widgets/custom_text/app_large_text.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});

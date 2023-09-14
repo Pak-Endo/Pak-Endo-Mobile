@@ -12,7 +12,7 @@ import 'package:pak_endo/views/widgets/feedback_form.dart';
 
 import '../../Constants/app_colors.dart';
 import '../widgets/CustomWidgets/details_page_date_time.dart';
-import '../widgets/TextWidget/app_large_text.dart';
+import '../widgets/custom_text/app_large_text.dart';
 
 class DetailPage extends StatefulWidget {
   final EventModel event;
