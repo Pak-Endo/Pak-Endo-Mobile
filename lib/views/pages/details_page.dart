@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pak_endo/Model/event_model.dart';
 import 'package:pak_endo/routes/navigations.dart';
 import 'package:pak_endo/views/widgets/AppButtons/custom_button.dart';
 import 'package:pak_endo/views/widgets/TabBar.dart';
@@ -11,6 +10,7 @@ import 'package:pak_endo/views/widgets/blinking_icon.dart';
 import 'package:pak_endo/views/widgets/feedback_form.dart';
 
 import '../../Constants/app_colors.dart';
+import '../../Model/event_model.dart';
 import '../widgets/CustomWidgets/details_page_date_time.dart';
 import '../widgets/custom_text/app_large_text.dart';
 

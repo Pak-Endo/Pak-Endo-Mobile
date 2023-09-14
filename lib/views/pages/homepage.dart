@@ -9,7 +9,7 @@ import 'package:pak_endo/views/widgets/event_cards/OnGoingEvents.dart';
 import 'package:pak_endo/views/widgets/event_cards/UpcomingEvents.dart';
 
 import '../widgets/custom_text/app_large_text.dart';
-import 'SearchPage.dart';
+import 'search.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (BuildContext context) => SearchPage(),
+      builder: (BuildContext context) => const SearchPage(),
     );
   }
 }

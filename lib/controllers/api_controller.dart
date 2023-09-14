@@ -49,6 +49,20 @@ class ApiController {
     }
   }
 
+  getSearchedEvents(limit, offset, title,
+      [location, type, startDate, endDate, speaker]) async {
+    try {
+      final url =
+          '${MyConsts.baseUrl}events/getAllEvents?limit=$limit&offset=$offset'
+          '&title=${title ?? ''}&location=${location ?? ''}&type=${type ?? ''}'
+          '&startDate=${startDate ?? ''}&endDate=${endDate ?? ''}&speaker=${speaker ?? ''}';
+
+      return await Api().get_(url);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   getProfile(String id) async {
     try {
       var json = await Api().get_('${MyConsts.baseUrl}user/getUserById/$id');
