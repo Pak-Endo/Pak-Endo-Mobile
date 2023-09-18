@@ -3,6 +3,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pak_endo/controllers/fav_controller.dart';
+import 'package:pak_endo/controllers/home_controller.dart';
 import 'package:pak_endo/routes/navigations.dart';
 import 'package:pak_endo/views/widgets/AppButtons/custom_button.dart';
 import 'package:pak_endo/views/widgets/TabBar.dart';
@@ -25,6 +27,8 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   int _currentIndex = 0;
+  final HomeController homeController = Get.find<HomeController>();
+  final FavController favController = Get.find<FavController>();
 
   @override
   Widget build(BuildContext context) {
@@ -101,12 +105,23 @@ class _DetailPageState extends State<DetailPage> {
                 end: Alignment.bottomRight,
                 colors: [Colors.blue, Colors.green],
               ))),
-      actions: [
-        Container(
-            padding: const EdgeInsets.only(right: 7.5),
-            child: const Icon(Icons.favorite))
-      ],
+      actions: [bookmark(widget.event)],
     );
+  }
+
+  bookmark(EventModel event) {
+    //Only show favourites to logged in user
+    return homeController.isLoggedIn == null
+        ? const SizedBox.shrink()
+        : GestureDetector(
+            onTap: () => favController.addAndRemoveFavEvent(event.id!),
+            child: Obx(() => Padding(
+                padding: const EdgeInsets.only(right: 7.5),
+                child: Icon(Icons.favorite,
+                    size: 25,
+                    color: favController.isFavourite.contains(event.id)
+                        ? Appcolors.Appbuttoncolor
+                        : Colors.white))));
   }
 
   getFAB() {
