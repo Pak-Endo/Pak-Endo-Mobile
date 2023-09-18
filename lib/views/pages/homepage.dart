@@ -4,7 +4,7 @@ import 'package:pak_endo/constants/app_colors.dart';
 import 'package:pak_endo/constants/consts.dart';
 import 'package:pak_endo/controllers/home_controller.dart';
 import 'package:pak_endo/routes/navigations.dart';
-import 'package:pak_endo/views/widgets/event_cards/Finishedeventcard.dart';
+import 'package:pak_endo/views/widgets/event_cards/FinishedEvents.dart';
 import 'package:pak_endo/views/widgets/event_cards/OnGoingEvents.dart';
 import 'package:pak_endo/views/widgets/event_cards/UpcomingEvents.dart';
 

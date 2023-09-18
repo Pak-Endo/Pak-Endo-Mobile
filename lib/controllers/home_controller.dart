@@ -13,6 +13,9 @@ class HomeController extends GetxController {
   var finishedEvents = <EventModel>[];
   var listEventsPage = <EventModel>[].obs;
 
+  List<String> doNotShowTheInterestedBox = [];
+  List<String> shouldShowTheInterestedBox = [];
+
   final String? isLoggedIn = Pref.getString(Pref.TOKEN_KEY);
 
   @override
@@ -71,5 +74,20 @@ class HomeController extends GetxController {
     }
   }
 
-
+  addToAttendedEvents(String id, bool doNotShowTheInterestedBoxCheck) async {
+    try {
+      if (!doNotShowTheInterestedBoxCheck) {
+        doNotShowTheInterestedBox.add(id);
+      } else {
+        getLoader();
+        await ApiController().addToAttendedEvents(id);
+        shouldShowTheInterestedBox.add(id);
+        getDismiss();
+      }
+      update();
+    } catch (e) {
+      debugPrint(e.toString());
+      getError(e.toString());
+    }
+  }
 }

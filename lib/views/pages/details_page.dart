@@ -7,6 +7,7 @@ import 'package:pak_endo/controllers/fav_controller.dart';
 import 'package:pak_endo/controllers/home_controller.dart';
 import 'package:pak_endo/routes/navigations.dart';
 import 'package:pak_endo/views/widgets/AppButtons/custom_button.dart';
+import 'package:pak_endo/views/widgets/CustomWidgets/custom_view.dart';
 import 'package:pak_endo/views/widgets/TabBar.dart';
 import 'package:pak_endo/views/widgets/blinking_icon.dart';
 import 'package:pak_endo/views/widgets/feedback_form.dart';
@@ -51,6 +52,8 @@ class _DetailPageState extends State<DetailPage> {
 
                   /// ATTENDED
                   interested(),
+
+                  const Divider(),
 
                   /// INFORMATION
                   eventInfo(),
@@ -263,33 +266,53 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   interested() {
-    return Container(
-        width: Get.width,
-        height: 50,
-        margin: const EdgeInsets.fromLTRB(22, 0, 22, 10),
-        padding: const EdgeInsets.symmetric(horizontal: 22),
-        decoration: BoxDecoration(
-            color: Appcolors.appbluecolor.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(12)),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Row(children: [
-            const SizedBox(
-                width: 150,
-                child: Text("Have you attended this event?",
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w500))),
-            const Spacer(),
-            TextButton(
-                onPressed: () {
-                  // Add your action when the "Yes" button is pressed.
-                },
-                child: const Text("No", style: TextStyle(fontSize: 15))),
-            TextButton(
-                onPressed: () {
-                  // Add your action when the "Yes" button is pressed.
-                },
-                child: const Text("Yes", style: TextStyle(fontSize: 15)))
-          ])
-        ]));
+    if (homeController.isLoggedIn == null) {
+      return const SizedBox.shrink();
+    }
+
+    return GetBuilder<HomeController>(
+      builder: (logic) {
+        if (widget.event.isAttended! ||
+            homeController.shouldShowTheInterestedBox
+                .contains(widget.event.id)) {
+          return const CustomView("You have attended this event", Icons.done);
+        }
+
+        return Visibility(
+          visible: !homeController.doNotShowTheInterestedBox
+              .contains(widget.event.id),
+          child: Container(
+              width: Get.width,
+              height: 50,
+              margin: const EdgeInsets.fromLTRB(22, 0, 22, 10),
+              padding: const EdgeInsets.symmetric(horizontal: 22),
+              decoration: BoxDecoration(
+                  color: Appcolors.appbluecolor.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12)),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(children: [
+                      const SizedBox(
+                          width: 150,
+                          child: Text("Have you attended this event?",
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w500))),
+                      const Spacer(),
+                      TextButton(
+                          onPressed: () => homeController.addToAttendedEvents(
+                              widget.event.id!, false),
+                          child:
+                              const Text("No", style: TextStyle(fontSize: 15))),
+                      TextButton(
+                          onPressed: () => homeController.addToAttendedEvents(
+                              widget.event.id!, true),
+                          child:
+                              const Text("Yes", style: TextStyle(fontSize: 15)))
+                    ])
+                  ])),
+        );
+      },
+    );
   }
 }

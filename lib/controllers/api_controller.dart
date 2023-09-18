@@ -65,14 +65,14 @@ class ApiController {
     }
   }
 
-  getProfile(String id) async {
-    try {
-      var json = await Api().get_('${MyConsts.baseUrl}user/getUserById/$id');
-      return;
-    } catch (e) {
-      rethrow;
-    }
-  }
+  // getProfile(String id) async {
+  //   try {
+  //     var json = await Api().get_('${MyConsts.baseUrl}user/getUserById/$id');
+  //     return;
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 
   getFavEvents(limit, offset) async {
     try {
@@ -92,6 +92,24 @@ class ApiController {
         await Api()
             .get_('${MyConsts.baseUrl}favorites/removeFromFavourites/$id');
       }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  addToAttendedEvents(String id) async {
+    try {
+      await Api().post_('${MyConsts.baseUrl}attended/addToAttendedEvents',
+          params: jsonEncode({"eventID": id}));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  getAttendedEvents(limit, offset) async {
+    try {
+      return await Api().get_(
+          '${MyConsts.baseUrl}attended/getAllAttended?limit=$limit&offset=$offset');
     } catch (e) {
       rethrow;
     }

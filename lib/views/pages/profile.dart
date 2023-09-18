@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pak_endo/constants/app_colors.dart';
 import 'package:pak_endo/controllers/auth_controller.dart';
-import 'package:pak_endo/controllers/home_controller.dart';
 import 'package:pak_endo/controllers/profile_controller.dart';
 import 'package:pak_endo/routes/navigations.dart';
-import 'package:pak_endo/views/widgets/event_cards/Finishedeventcard.dart';
+import 'package:pak_endo/views/widgets/event_cards/AttendedEvents.dart';
 
 import '../widgets/AppButtons/custom_button.dart';
 import '../widgets/custom_text/app_large_text.dart';
@@ -14,14 +13,13 @@ class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
 
   final AuthController authController = Get.put(AuthController());
-  final HomeController homeController = Get.put(HomeController());
   final ProfileController profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
         header(),
 
@@ -48,19 +46,22 @@ class ProfilePage extends StatelessWidget {
   }
 
   userInfo() {
-    return Column(children: [
-      SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.02),
-      const AppLargeText(text: "Profile", color: Colors.black),
-      SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.02),
-      displayInfo('Name: ', profileController.user.fullName!),
-      SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.02),
-      displayInfo('Email: ', profileController.user.email!),
-      SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.02),
-      displayInfo('Ph No: ', profileController.user.phoneNumber!),
-      SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.02),
-      displayInfo('Member ID: ', profileController.user.memberID!),
-      SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.06)
-    ]);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(children: [
+        SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.02),
+        const AppLargeText(text: "Profile", color: Colors.black),
+        SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.02),
+        displayInfo('Name: ', profileController.user.fullName!),
+        SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.02),
+        displayInfo('Email: ', profileController.user.email!),
+        SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.02),
+        displayInfo('Ph No: ', profileController.user.phoneNumber!),
+        SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.02),
+        displayInfo('Member ID: ', profileController.user.memberID!),
+        SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.06)
+      ]),
+    );
   }
 
   displayInfo(String a, String b) {
@@ -78,13 +79,17 @@ class ProfilePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AppLargeText(
-                text: "Attended Events ",
-                size: 17.5,
-                color: Appcolors.Appbuttoncolor)
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: AppLargeText(
+                  text: "Attended Events ",
+                  size: 17.5,
+                  color: Appcolors.Appbuttoncolor),
+            )
           ]),
       SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.03),
-      FinishedEventCard(finishedEvents: homeController.finishedEvents),
+
+      AttendedEventsCard(),
       SizedBox(height: MediaQuery.of(Get.context!).size.width * 0.075)
     ]);
   }

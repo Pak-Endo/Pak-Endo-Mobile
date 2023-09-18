@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pak_endo/controllers/fav_controller.dart';
+import 'package:pak_endo/views/widgets/CustomWidgets/custom_view.dart';
 import 'package:pak_endo/views/widgets/custom_text/app_large_text.dart';
 import 'package:pak_endo/views/widgets/event_list_card.dart';
 
@@ -39,12 +40,17 @@ class FavoriteView extends StatelessWidget {
   }
 
   displayFav() {
+    if (controller.fav.isEmpty) {
+      return const Expanded(
+          child:
+              CustomView('You have not yet added Favorites', Icons.favorite));
+    }
     return Expanded(
       child: Obx(() {
         return ListView.builder(
             scrollDirection: Axis.vertical,
             itemCount: controller.fav.length,
-            padding: const EdgeInsets.only(left: 5, right: 5,bottom: 120),
+            padding: const EdgeInsets.only(left: 5, right: 5, bottom: 120),
             shrinkWrap: true,
             itemBuilder: (_, index) {
               final event = controller.fav[index];
