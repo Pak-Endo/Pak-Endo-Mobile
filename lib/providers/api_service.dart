@@ -16,7 +16,7 @@ class Api {
     var header = headers ??
         {
           'Accept': 'application/json',
-          'Authorization': 'Bearer ${Pref.getString(Pref.TOKEN_KEY)}'
+          'Authorization': Pref.getString(Pref.TOKEN_KEY).toString()
         };
 
     final response = await http.get(Uri.parse(url), headers: header);
@@ -34,7 +34,8 @@ class Api {
     var header = headers ??
         {
           'Accept': 'application/json',
-          // 'Authorization': 'Bearer ${Pref.getString(Pref.TOKEN_KEY)}'
+          'Authorization': Pref.getString(Pref.TOKEN_KEY).toString(),
+          'Content-Type': 'application/json'
         };
 
     print('POST url: $url');

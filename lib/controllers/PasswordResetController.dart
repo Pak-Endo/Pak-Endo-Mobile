@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../Model/member.dart';
 import 'package:get/get.dart';
 
 class PasswordResetController extends GetxController {

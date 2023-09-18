@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pak_endo/Constants/app_colors.dart';
+import 'package:pak_endo/constants/app_colors.dart';
 
 class CustomChip extends StatelessWidget {
   final String label;

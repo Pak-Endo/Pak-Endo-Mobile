@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:pak_endo/Controllers/api_controller.dart';
 import 'package:pak_endo/constants/preferences.dart';
+import 'package:pak_endo/controllers/api_controller.dart';
 
 import '../views/widgets/loaders.dart';
 

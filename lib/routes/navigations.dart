@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:pak_endo/Model/event_model.dart';
+import 'package:pak_endo/model/event_model.dart';
 import 'package:pak_endo/config/app_config.dart';
 import 'package:pak_endo/constants/consts.dart';
 import 'package:pak_endo/views/pages/HomePage.dart';

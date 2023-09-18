@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pak_endo/Constants/app_colors.dart';
-import 'package:pak_endo/Controllers/auth_controller.dart';
-import 'package:pak_endo/Controllers/home_controller.dart';
+import 'package:pak_endo/constants/app_colors.dart';
+import 'package:pak_endo/controllers/auth_controller.dart';
+import 'package:pak_endo/controllers/home_controller.dart';
 import 'package:pak_endo/controllers/profile_controller.dart';
 import 'package:pak_endo/routes/navigations.dart';
 import 'package:pak_endo/views/widgets/event_cards/Finishedeventcard.dart';

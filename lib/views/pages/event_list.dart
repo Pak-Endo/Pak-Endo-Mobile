@@ -1,12 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pak_endo/Constants/app_colors.dart';
-import 'package:pak_endo/Controllers/home_controller.dart';
+import 'package:pak_endo/controllers/home_controller.dart';
 import 'package:pak_endo/constants/consts.dart';
 import 'package:pak_endo/routes/navigations.dart';
-
-import '../widgets/custom_text/app_large_text.dart';
+import 'package:pak_endo/views/widgets/event_list_card.dart';
 
 class ListEvents extends StatefulWidget {
   const ListEvents({super.key, required this.status});
@@ -60,91 +57,7 @@ class _ListEventsState extends State<ListEvents> {
                 shrinkWrap: true,
                 itemBuilder: (_, index) {
                   final event = homeController.listEventsPage[index];
-                  return GestureDetector(
-                    onTap: () => navigatorKey.currentState!
-                        .pushNamed(PageRoutes.detailPage, arguments: event),
-                    child: Container(
-                        height: MediaQuery.of(context).size.height * 0.18,
-                        margin: const EdgeInsets.only(
-                            top: 17, right: 8, left: 8, bottom: 6),
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromARGB(95, 24, 21, 21),
-                                blurRadius: 10,
-                                offset: Offset(2, 2),
-                              )
-                            ]),
-                        child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                  width:
-                                      MediaQuery.of(context).size.height * 0.16,
-                                  decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(12)),
-                                      color: Appcolors.Appbuttoncolor,
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: CachedNetworkImageProvider(
-                                              event.featuredImage!)))),
-                              Expanded(
-                                  child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 13,
-                                          left: 10,
-                                          bottom: 5,
-                                          right: 5),
-                                      child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(event.startDate.toString(),
-                                                style: const TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 12)),
-                                            AppLargeText(
-                                                text: event.title!,
-                                                size: 16,
-                                                color: Colors.black),
-                                            Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  const Icon(Icons.location_pin,
-                                                      color: Appcolors
-                                                          .Appbuttoncolor),
-                                                  Text(event.location!,
-                                                      style: const TextStyle(
-                                                          color:
-                                                              Colors.blueGrey,
-                                                          fontSize: 12))
-                                                ]),
-                                            SizedBox(
-                                                height: screenHeight * 0.02),
-                                            Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 5.0, bottom: 2),
-                                                child: Row(children: [
-                                                  Expanded(child: Container()),
-                                                  const Text("View",
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Appcolors
-                                                              .Appbuttoncolor))
-                                                ]))
-                                          ])))
-                            ])),
-                  );
+                  return  EventListCard(event);
                 });
           }),
         ));

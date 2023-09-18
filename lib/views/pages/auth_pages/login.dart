@@ -1,8 +1,7 @@
-// ignore_for_file: camel_case_types, prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pak_endo/Constants/app_colors.dart';
-import 'package:pak_endo/Controllers/auth_controller.dart';
+import 'package:pak_endo/constants/app_colors.dart';
+import 'package:pak_endo/controllers/auth_controller.dart';
 import 'package:pak_endo/routes/navigations.dart';
 
 class Login extends StatelessWidget {
@@ -90,13 +89,11 @@ class Login extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Icon(
-                Icons.email,
-                color: Appcolors.Appbuttoncolor,
-              ),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.email,
+              color: Appcolors.Appbuttoncolor,
             ),
           ),
           Expanded(
@@ -105,8 +102,8 @@ class Login extends StatelessWidget {
             child: TextFormField(
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintStyle: TextStyle(color: Colors.blueGrey),
-                  contentPadding: EdgeInsets.symmetric(vertical: 10),
+                  hintStyle: const TextStyle(color: Colors.blueGrey),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 10),
                   hintText: hint,
                 ),
                 onSaved: (e) => memberId = e!,
@@ -127,7 +124,7 @@ class Login extends StatelessWidget {
         onTap: loginBtn,
         child: Center(
             child: Container(
-                margin: EdgeInsets.only(bottom: 25),
+                margin: const EdgeInsets.only(bottom: 25),
                 height: 50,
                 width: MediaQuery.of(Get.context!).size.width / 2,
                 decoration: const BoxDecoration(
@@ -162,7 +159,7 @@ class Login extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              child: Icon(
+              child: const Icon(
                 Icons.password,
                 color: Appcolors.Appbuttoncolor,
               ),
@@ -225,7 +222,7 @@ class Login extends StatelessWidget {
       Container(
           margin: EdgeInsets.only(
               top: MediaQuery.of(Get.context!).size.height * 0.06),
-          child: ImageIcon(AssetImage("assets/Logo_Icon.png"),
+          child: ImageIcon(const AssetImage("assets/Logo_Icon.png"),
               size: MediaQuery.of(Get.context!).size.height * 0.19)),
       SizedBox(height: MediaQuery.of(Get.context!).size.height * 0.01),
       const Text("Login",
@@ -236,8 +233,8 @@ class Login extends StatelessWidget {
               color: Color.fromARGB(255, 242, 245, 248),
               fontFamily: "BebasNeue")),
       SizedBox(height: MediaQuery.of(Get.context!).size.height * 0.01),
-      Padding(
-        padding: const EdgeInsets.all(8.0),
+      const Padding(
+        padding: EdgeInsets.all(8.0),
         child: Text(
             textAlign: TextAlign.center,
             "Exclusive access for Endo-Pak members only. Sign in to continue.",
@@ -269,10 +266,10 @@ class Login extends StatelessWidget {
               onPressed: () =>
                   navigatorKey.currentState!.pushNamed(PageRoutes.signup),
               child: RichText(
-                  text: TextSpan(
+                  text: const TextSpan(
                       text: 'Don\'t have an Account?',
                       style: TextStyle(color: Colors.white, fontSize: 16),
-                      children: const <TextSpan>[
+                      children: <TextSpan>[
                     TextSpan(
                         text: ' Register',
                         style: TextStyle(
@@ -286,7 +283,7 @@ class Login extends StatelessWidget {
             child: TextButton(
                 onPressed: () => navigatorKey.currentState!
                     .pushReplacementNamed(PageRoutes.home),
-                child: Text("Click here to continue without login",
+                child: const Text("Click here to continue without login",
                     style: TextStyle(
                         decoration: TextDecoration.underline,
                         fontWeight: FontWeight.bold,

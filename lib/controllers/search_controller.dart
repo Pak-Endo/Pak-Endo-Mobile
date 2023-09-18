@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:pak_endo/Constants/app_colors.dart';
-import 'package:pak_endo/Model/event_model.dart';
+import 'package:pak_endo/constants/app_colors.dart';
+import 'package:pak_endo/model/event_model.dart';
 
 import '../views/widgets/loaders.dart';
 import 'api_controller.dart';
@@ -36,20 +36,20 @@ class SearchPageController extends GetxController {
         json = await ApiController().getSearchedEvents(
             limit,
             offset,
-            selectedLocation,
-            selectedEventType,
-            startFormattedDate,
-            endFormattedDate,
-            speakerName);
+            location: selectedLocation,
+            type: selectedEventType,
+            startDate: startFormattedDate,
+            endDate: endFormattedDate,
+            speaker: speaker);
       } else {
         json = await ApiController().getSearchedEvents(
             limit,
             offset,
-            title,
-            selectedLocation,
-            selectedEventType,
-            startFormattedDate,
-            endFormattedDate);
+            title: title,
+            location: selectedLocation,
+            type: selectedEventType,
+            startDate: startFormattedDate,
+            endDate: endFormattedDate);
       }
 
       if (isPagination) {

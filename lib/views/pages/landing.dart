@@ -1,7 +1,7 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:pak_endo/Constants/app_colors.dart';
-import 'package:pak_endo/views/pages/Faviortes_Page.dart';
+import 'package:pak_endo/constants/app_colors.dart';
+import 'package:pak_endo/views/pages/faviortes.dart';
 import 'package:pak_endo/views/pages/homepage.dart';
 import 'package:pak_endo/views/pages/profile.dart';
 
@@ -26,7 +26,7 @@ class _LandingState extends State<Landing> {
 
   final List<Widget> bottomBarPages = [
     const HomePage(),
-    FavioratePage(),
+    FavoriteView(),
     ProfilePage()
   ];
 

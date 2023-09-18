@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pak_endo/routes/navigations.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-import '../../../Constants/app_colors.dart';
+import '../../../constants/app_colors.dart';
 
 class YouTubePlayerPage extends StatefulWidget {
   final String videoUrl;

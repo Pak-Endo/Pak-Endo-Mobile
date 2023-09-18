@@ -12,31 +12,34 @@ class DropDownTest extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xFFF2F3F7),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-                child: Container(
-                    width: 200,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.grey)),
-                    child: CustomDropDown(
-                        items: MyConsts.citiesInPakistan.map((String value) {
-                          return CustomDropdownMenuItem(
-                              value: value,
-                              child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(value)));
-                        }).toList(),
-                        hintText: "Select City",
-                        borderRadius: 5,
-                        onChanged: (val) {
-                          searchController.selectedLocation = val;
-                        })))
-          ],
+        body: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  width: 200,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey)),
+                  child: CustomDropDown(
+                      items: MyConsts.citiesInPakistan.map((String value) {
+                        return CustomDropdownMenuItem(
+                            value: value,
+                            child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(value)));
+                      }).toList(),
+                      hintText: "Select City",
+                      borderRadius: 5,
+                      onChanged: (val) {
+                        searchController.selectedLocation = val;
+                      }))
+            ],
+          ),
         ));
   }
 }

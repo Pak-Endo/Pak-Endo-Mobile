@@ -9,8 +9,8 @@ import 'package:pak_endo/views/widgets/TabBar.dart';
 import 'package:pak_endo/views/widgets/blinking_icon.dart';
 import 'package:pak_endo/views/widgets/feedback_form.dart';
 
-import '../../Constants/app_colors.dart';
-import '../../Model/event_model.dart';
+import '../../constants/app_colors.dart';
+import '../../model/event_model.dart';
 import '../widgets/CustomWidgets/details_page_date_time.dart';
 import '../widgets/custom_text/app_large_text.dart';
 
@@ -44,6 +44,9 @@ class _DetailPageState extends State<DetailPage> {
                     children: [
                   /// CAROUSAL SLIDER
                   getImage(),
+
+                  /// ATTENDED
+                  interested(),
 
                   /// INFORMATION
                   eventInfo(),
@@ -139,6 +142,9 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   getImage() {
+    if (widget.event.gallery!.mediaUrl.isEmpty) {
+      return const SizedBox.shrink();
+    }
     return Column(
       children: [
         const SizedBox(height: 10),
@@ -162,7 +168,7 @@ class _DetailPageState extends State<DetailPage> {
                 });
               },
             ),
-            items: widget.event.gallery!.map((galleryItem) {
+            items: widget.event.gallery!.mediaUrl.map((mediaUrl) {
               return Builder(builder: (BuildContext context) {
                 return ClipRRect(
                     borderRadius: BorderRadius.circular(25),
@@ -172,12 +178,19 @@ class _DetailPageState extends State<DetailPage> {
                         margin: const EdgeInsets.symmetric(horizontal: 5.0),
                         child: CachedNetworkImage(
                             fit: BoxFit.cover,
-                            imageUrl: widget.event.gallery![0].mediaUrl![0])));
+                            imageUrl: mediaUrl,
+                            progressIndicatorBuilder: (context, url,
+                                    downloadProgress) =>
+                                Center(
+                                    child: CircularProgressIndicator.adaptive(
+                                  backgroundColor: Appcolors.appgreencolor,
+                                  value: downloadProgress.progress,
+                                )))));
               });
             }).toList()),
         const SizedBox(height: 10),
         DotsIndicator(
-            dotsCount: widget.event.gallery!.length,
+            dotsCount: widget.event.gallery!.mediaUrl.length,
             position: _currentIndex,
             mainAxisAlignment: MainAxisAlignment.center,
             decorator: const DotsDecorator(
@@ -232,5 +245,36 @@ class _DetailPageState extends State<DetailPage> {
               margin: EdgeInsets.only(left: Get.width * 0.1),
               child: const TimeLineBar()),
         ]);
+  }
+
+  interested() {
+    return Container(
+        width: Get.width,
+        height: 50,
+        margin: const EdgeInsets.fromLTRB(22, 0, 22, 10),
+        padding: const EdgeInsets.symmetric(horizontal: 22),
+        decoration: BoxDecoration(
+            color: Appcolors.appbluecolor.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(12)),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Row(children: [
+            const SizedBox(
+                width: 150,
+                child: Text("Have you attended this event?",
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w500))),
+            const Spacer(),
+            TextButton(
+                onPressed: () {
+                  // Add your action when the "Yes" button is pressed.
+                },
+                child: const Text("No", style: TextStyle(fontSize: 15))),
+            TextButton(
+                onPressed: () {
+                  // Add your action when the "Yes" button is pressed.
+                },
+                child: const Text("Yes", style: TextStyle(fontSize: 15)))
+          ])
+        ]));
   }
 }

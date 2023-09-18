@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pak_endo/views/widgets/CustomWidgets/dropdown_widget.dart';
 
-import '../../../Constants/app_colors.dart';
-import '../../../Controllers/MemberRegistrationController.dart';
+import '../../../constants/app_colors.dart';
+import '../../../controllers/MemberRegistrationController.dart';
 
 class register extends StatefulWidget {
   const register({Key? key}) : super(key: key);
@@ -118,7 +118,6 @@ class _registerState extends State<register> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(

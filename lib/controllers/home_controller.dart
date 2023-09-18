@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:pak_endo/Controllers/api_controller.dart';
-import 'package:pak_endo/Model/event_model.dart';
 import 'package:pak_endo/constants/consts.dart';
+import 'package:pak_endo/constants/preferences.dart';
+import 'package:pak_endo/controllers/api_controller.dart';
+import 'package:pak_endo/model/event_model.dart';
 
 import '../views/widgets/loaders.dart';
 
@@ -11,6 +12,8 @@ class HomeController extends GetxController {
   var ongoingEvents = <EventModel>[];
   var finishedEvents = <EventModel>[];
   var listEventsPage = <EventModel>[].obs;
+
+  final String? isLoggedIn = Pref.getString(Pref.TOKEN_KEY);
 
   @override
   void onInit() {
@@ -57,7 +60,7 @@ class HomeController extends GetxController {
         case EventStatus.Ongoing:
           json = await ApiController().getOngoingEvents(limit,offset);
         case EventStatus.Finished:
-          json = await ApiController().getFinishedEvents(limit,offset);
+          json = await ApiController().getFinishedEvents(limit, offset);
       }
       listEventsPage.addAll(
           (json['events'] as List).map((e) => EventModel.fromJson(e)).toList());
@@ -67,4 +70,6 @@ class HomeController extends GetxController {
       getError(e.toString());
     }
   }
+
+
 }

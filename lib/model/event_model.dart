@@ -5,7 +5,7 @@ class EventModel {
   int? startDate;
   int? endDate;
   String? location;
-  List<Gallery>? gallery;
+  Gallery? gallery;
   bool? deletedCheck;
   String? eventStatus;
   List<Agenda>? agenda;
@@ -13,6 +13,8 @@ class EventModel {
   String? organizer;
   String? organizerContact;
   String? featuredImage;
+  bool? isFavourite;
+  bool? isAttended;
 
   EventModel({
     this.id,
@@ -38,11 +40,10 @@ class EventModel {
     startDate = json['startDate'];
     endDate = json['endDate'];
     location = json['location'];
-    if (json['gallery'] != null) {
-      gallery = [];
-      json['gallery'].forEach((v) {
-        gallery?.add(Gallery.fromJson(v));
-      });
+    if (json['gallery'] is List) {
+      gallery = Gallery.fromJson((json['gallery'] as List).first);
+    } else {
+      gallery = Gallery.fromJson(json['gallery']);
     }
     deletedCheck = json['deletedCheck'];
     eventStatus = json['eventStatus'];
@@ -56,6 +57,29 @@ class EventModel {
     organizer = json['organizer'];
     organizerContact = json['organizerContact'];
     featuredImage = json['featuredImage'];
+    isFavourite = json['isFavorite'];
+    isAttended = json['isAttended'];
+  }
+}
+
+class Gallery {
+  final String id;
+  final String eventID;
+  final List<String> mediaUrl;
+
+  Gallery({
+    required this.id,
+    required this.eventID,
+    required this.mediaUrl,
+  });
+
+  factory Gallery.fromJson(Map<String, dynamic> json) {
+    List<String> mediaUrlList = List<String>.from(json['mediaUrl']);
+    return Gallery(
+      id: json['_id'],
+      eventID: json['eventID'],
+      mediaUrl: mediaUrlList,
+    );
   }
 }
 
@@ -92,20 +116,3 @@ class Agenda {
   String? id;
 }
 
-class Gallery {
-  Gallery({
-    this.id,
-    this.eventID,
-    this.mediaUrl,
-  });
-
-  Gallery.fromJson(dynamic json) {
-    id = json['_id'];
-    eventID = json['eventID'];
-    mediaUrl = json['mediaUrl'] != null ? json['mediaUrl'].cast<String>() : [];
-  }
-
-  String? id;
-  String? eventID;
-  List<String>? mediaUrl;
-}

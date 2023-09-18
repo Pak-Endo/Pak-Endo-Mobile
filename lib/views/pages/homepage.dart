@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pak_endo/Constants/app_colors.dart';
-import 'package:pak_endo/Controllers/home_controller.dart';
+import 'package:pak_endo/constants/app_colors.dart';
 import 'package:pak_endo/constants/consts.dart';
+import 'package:pak_endo/controllers/home_controller.dart';
 import 'package:pak_endo/routes/navigations.dart';
 import 'package:pak_endo/views/widgets/event_cards/Finishedeventcard.dart';
 import 'package:pak_endo/views/widgets/event_cards/OnGoingEvents.dart';
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
           /// UPCOMING EVENTS
           SizedBox(height: MediaQuery.of(context).size.height * 0.06),
           eventHeading('Upcoming Events', EventStatus.Upcoming),
-          UpComingEventsCard(upcomingEvents: homeController.upcomingEvents),
+          UpcomingEventsCard(upcomingEvents: homeController.upcomingEvents),
 
           /// FINISHED EVENTS
           SizedBox(height: MediaQuery.of(context).size.height * 0.06),

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-import '../../../Constants/app_colors.dart';
-import '../../../Controllers/PasswordResetController.dart';
+import '../../../constants/app_colors.dart';
+import '../../../controllers/PasswordResetController.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});

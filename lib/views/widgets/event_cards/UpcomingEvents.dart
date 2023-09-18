@@ -1,23 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:pak_endo/Model/event_model.dart';
+import 'package:get/get.dart';
+import 'package:pak_endo/controllers/fav_controller.dart';
+import 'package:pak_endo/controllers/home_controller.dart';
+import 'package:pak_endo/model/event_model.dart';
 import 'package:pak_endo/routes/navigations.dart';
 
-import '../../../../Constants/app_colors.dart';
+import '../../../../constants/app_colors.dart';
 import '../custom_text/app_large_text.dart';
 
-class UpComingEventsCard extends StatefulWidget {
+class UpcomingEventsCard extends StatelessWidget {
   final List<EventModel> upcomingEvents;
+  final HomeController homeController = Get.find<HomeController>();
+  final FavController favController = Get.find<FavController>();
 
-  const UpComingEventsCard({Key? key, required this.upcomingEvents})
+  UpcomingEventsCard({Key? key, required this.upcomingEvents})
       : super(key: key);
-
-  @override
-  State<UpComingEventsCard> createState() => _UpComingEventsCardState();
-}
-
-class _UpComingEventsCardState extends State<UpComingEventsCard> {
-  bool _isfilled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +24,9 @@ class _UpComingEventsCardState extends State<UpComingEventsCard> {
         child: ListView.builder(
             padding: const EdgeInsets.only(left: 10),
             scrollDirection: Axis.horizontal,
-            itemCount: widget.upcomingEvents.length,
+            itemCount: upcomingEvents.length,
             itemBuilder: (context, index) {
-              final event = widget.upcomingEvents[index];
+              final event = upcomingEvents[index];
               return GestureDetector(
                   onTap: () => navigatorKey.currentState!
                       .pushNamed(PageRoutes.detailPage, arguments: event),
@@ -60,18 +58,18 @@ class _UpComingEventsCardState extends State<UpComingEventsCard> {
                 image: CachedNetworkImageProvider(event.featuredImage!),
                 fit: BoxFit.cover)),
         margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 24.0),
-        width: MediaQuery.of(context).size.width * 0.6);
+        width: MediaQuery.of(Get.context!).size.width * 0.6);
   }
 
   getInformation(EventModel event) {
     return Positioned(
         bottom: 5,
-        left: MediaQuery.of(context).size.width * 0.07,
+        left: MediaQuery.of(Get.context!).size.width * 0.07,
         child: Align(
             alignment: Alignment.bottomCenter,
             child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
-                width: MediaQuery.of(context).size.width * 0.5,
+                width: MediaQuery.of(Get.context!).size.width * 0.5,
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(18.0)),
                     color: Colors.white,
@@ -96,8 +94,13 @@ class _UpComingEventsCardState extends State<UpComingEventsCard> {
                         const Icon(Icons.location_pin,
                             color: Appcolors.Appbuttoncolor, size: 16),
                         const SizedBox(width: 5),
-                        Text(event.location!,
-                            style: const TextStyle(fontSize: 13))
+                        SizedBox(
+                          width: 150,
+                          child: Text(event.location!,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: const TextStyle(fontSize: 13)),
+                        )
                       ]),
                       const SizedBox(height: 5),
                       const Align(
@@ -135,24 +138,27 @@ class _UpComingEventsCardState extends State<UpComingEventsCard> {
   }
 
   bookmark(EventModel event) {
-    return Positioned(
-        top: MediaQuery.of(context).size.height * 0.045,
-        right: MediaQuery.of(context).size.width * 0.05,
-        child: Container(
-            height: MediaQuery.of(context).size.height * 0.055,
-            width: MediaQuery.of(context).size.width * 0.115,
-            decoration: const BoxDecoration(
-                color: Colors.black26,
-                borderRadius: BorderRadius.all(Radius.circular(3.0))),
-            child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _isfilled = !_isfilled;
-                  });
-                },
-                child: Icon(Icons.favorite,
-                    size: 25,
-                    color:
-                        _isfilled ? Appcolors.Appbuttoncolor : Colors.white))));
+    //Only show favourites to logged in user
+    return homeController.isLoggedIn == null
+        ? const SizedBox.shrink()
+        : Positioned(
+            top: MediaQuery.of(Get.context!).size.height * 0.045,
+            right: MediaQuery.of(Get.context!).size.width * 0.04,
+            child: Container(
+                height: MediaQuery.of(Get.context!).size.height * 0.055,
+                width: MediaQuery.of(Get.context!).size.width * 0.115,
+                decoration: const BoxDecoration(
+                    color: Colors.black38,
+                    borderRadius: BorderRadius.all(Radius.circular(3.0))),
+                child: Obx(() {
+                  return GestureDetector(
+                      onTap: () => favController.addAndRemoveFavEvent(
+                          event.id!),
+                      child: Icon(Icons.favorite,
+                          size: 25,
+                          color: favController.isFavourite.contains(event.id)
+                              ? Appcolors.Appbuttoncolor
+                              : Colors.white));
+                })));
   }
 }

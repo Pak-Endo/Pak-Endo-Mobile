@@ -9,6 +9,7 @@ import 'package:pak_endo/views/widgets/loaders.dart';
 class ProfileController extends GetxController {
   late final ProfileModel user;
 
+
   @override
   void onInit() {
     super.onInit();
