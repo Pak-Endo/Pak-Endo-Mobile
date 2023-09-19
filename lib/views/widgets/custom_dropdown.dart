@@ -4,9 +4,8 @@ import 'package:pak_endo/constants/consts.dart';
 import 'package:pak_endo/controllers/search_controller.dart';
 
 class DropDownTest extends StatelessWidget {
-  DropDownTest({Key? key}) : super(key: key);
-  final SearchPageController searchController =
-      Get.find<SearchPageController>();
+  const DropDownTest(this.searchController, {Key? key}) : super(key: key);
+  final SearchPageController searchController;
 
   @override
   Widget build(BuildContext context) {
@@ -18,26 +17,33 @@ class DropDownTest extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                  width: 200,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.grey)),
-                  child: CustomDropDown(
-                      items: MyConsts.citiesInPakistan.map((String value) {
-                        return CustomDropdownMenuItem(
-                            value: value,
-                            child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(value)));
-                      }).toList(),
-                      hintText: "Select City",
-                      borderRadius: 5,
-                      onChanged: (val) {
-                        searchController.selectedLocation = val;
-                      }))
+              Obx(() {
+                return Container(
+                    width: 200,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.grey)),
+                    child: CustomDropDown(
+                        defaultSelectedIndex:
+                            searchController.selectedLocation.isEmpty
+                                ? -1
+                                : MyConsts.citiesInPakistan.indexOf(
+                                    searchController.selectedLocation.value),
+                        items: MyConsts.citiesInPakistan.map((String value) {
+                          return CustomDropdownMenuItem(
+                              value: value,
+                              child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(value)));
+                        }).toList(),
+                        hintText: "Select City",
+                        borderRadius: 5,
+                        onChanged: (val) {
+                          searchController.selectedLocation.value = val;
+                        }));
+              })
             ],
           ),
         ));

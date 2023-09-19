@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pak_endo/constants/consts.dart';
 import 'package:pak_endo/constants/preferences.dart';
 import 'package:pak_endo/controllers/api_controller.dart';
@@ -12,6 +13,8 @@ class HomeController extends GetxController {
   var ongoingEvents = <EventModel>[];
   var finishedEvents = <EventModel>[];
   var listEventsPage = <EventModel>[].obs;
+
+  var currentIndex = 0.obs;
 
   List<String> doNotShowTheInterestedBox = [];
   List<String> shouldShowTheInterestedBox = [];
@@ -89,5 +92,25 @@ class HomeController extends GetxController {
       debugPrint(e.toString());
       getError(e.toString());
     }
+  }
+
+  getStartAndEndDate(int startDate, int endDate) {
+    final dateTimeStart = DateTime.fromMillisecondsSinceEpoch(startDate);
+    final dateTimeEnd = DateTime.fromMillisecondsSinceEpoch(endDate);
+
+    final startTime = DateFormat('dd MMM, yyyy').format(dateTimeStart);
+    final endTime = DateFormat('dd MMM, yyyy').format(dateTimeEnd);
+
+    return '$startTime - $endTime';
+  }
+
+  getStartAndEndTime(int startDate, int endDate) {
+    final dateTimeStart = DateTime.fromMillisecondsSinceEpoch(startDate);
+    final dateTimeEnd = DateTime.fromMillisecondsSinceEpoch(endDate);
+
+    final startTime = DateFormat('E hh:mm a').format(dateTimeStart);
+    final endTime = DateFormat('E hh:mm a').format(dateTimeEnd);
+
+    return '$startTime - $endTime';
   }
 }

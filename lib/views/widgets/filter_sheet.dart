@@ -16,8 +16,21 @@ class FilterSheetContent extends StatefulWidget {
 
 class _FilterSheetContentState extends State<FilterSheetContent> {
   TextEditingController speakerNameController = TextEditingController();
+
   final SearchPageController searchController =
       Get.find<SearchPageController>();
+
+  @override
+  void dispose() {
+    speakerNameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    speakerNameController.text = searchController.speakerName;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +92,10 @@ class _FilterSheetContentState extends State<FilterSheetContent> {
           Obx(() => searchController.filterChips.isEmpty
               ? const SizedBox.shrink()
               : TextButton(
-                  onPressed: () => searchController.clearFilters(),
+                  onPressed: () {
+                    searchController.clearFilters();
+                    speakerNameController.clear();
+                  },
                   child: const Text('CLEAR')))
         ]);
       }),
@@ -92,7 +108,7 @@ class _FilterSheetContentState extends State<FilterSheetContent> {
       const Text('Location',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
       const SizedBox(height: 5),
-      SizedBox(height: 50, width: 200, child: DropDownTest()),
+      SizedBox(height: 50, width: 200, child: DropDownTest(searchController)),
       const SizedBox(height: 16)
     ]);
   }
@@ -182,7 +198,6 @@ class _FilterSheetContentState extends State<FilterSheetContent> {
               fillColor: Colors.white,
               hintText: 'Enter Speaker Name',
               contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-              // Padding
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.0))),
           onChanged: (val) => searchController.speakerName = val),

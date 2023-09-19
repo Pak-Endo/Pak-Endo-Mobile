@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pak_endo/constants/app_colors.dart';
+import 'package:pak_endo/model/event_model.dart';
 
-class VenueDetails extends StatefulWidget {
-  const VenueDetails({super.key});
+class VenueDetails extends StatelessWidget {
+  final EventModel event;
 
-  @override
-  State<VenueDetails> createState() => _VenueDetailsState();
-}
+  const VenueDetails({super.key, required this.event});
 
-class _VenueDetailsState extends State<VenueDetails> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,8 +55,7 @@ class _VenueDetailsState extends State<VenueDetails> {
               ],
             ),
             const SizedBox(
-              height: 20,
-            ),
+                height: 20),
             Row(
               children: [
                 Container(
@@ -85,8 +82,8 @@ class _VenueDetailsState extends State<VenueDetails> {
                           fontSize: 18,
                         ),
                       ),
-
-                    SizedBox(height:MediaQuery.of(context).size.width*0.01),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.width * 0.01),
                       const Text(
                         "Sereena Hotel, Main Hall",
                         style: TextStyle(
@@ -126,8 +123,8 @@ class _VenueDetailsState extends State<VenueDetails> {
                           fontSize: 18,
                         ),
                       ),
-
-                    SizedBox(height:MediaQuery.of(context).size.width*0.01),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.width * 0.01),
                       const Text(
                         "Speaker",
                         style: TextStyle(
@@ -135,7 +132,8 @@ class _VenueDetailsState extends State<VenueDetails> {
                           fontSize: 14,
                         ),
                       ),
-                  ],),
+                    ],
+                  ),
                 ),
               ],
             ),

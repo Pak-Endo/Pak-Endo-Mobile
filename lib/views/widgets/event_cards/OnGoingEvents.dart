@@ -90,45 +90,33 @@ class OngoingEventsCard extends StatelessWidget {
                               text: event.title!,
                               size: 16,
                               color: Colors.black)),
+                      Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                              homeController.getStartAndEndDate(
+                                  event.startDate!, event.endDate!),
+                              style: const TextStyle(
+                                  color: Colors.grey, fontSize: 12))),
+                      const SizedBox(height: 5),
                       Row(children: [
                         const Icon(Icons.location_pin,
                             color: Appcolors.Appbuttoncolor, size: 16),
                         const SizedBox(width: 5),
-                        Text(event.location!,
-                            style: const TextStyle(fontSize: 13))
+                        SizedBox(
+                          width: 150,
+                          child: Text(event.location!,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 13)),
+                        )
                       ]),
-                      const SizedBox(height: 5),
                       const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text('Sponsored',
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 12))),
-                      const SizedBox(height: 3),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(children: [
-                                Image.asset('assets/Logo_Icon.png',
-                                    height: 16, width: 12, fit: BoxFit.fill),
-                                const SizedBox(width: 5),
-                                SizedBox(
-                                  width: 100,
-                                  child: Text(
-                                      event.organizer! + event.organizer!,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      softWrap: true,
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 12)),
-                                )
-                              ]),
-                              const Text("View",
-                                  style: TextStyle(color: Colors.grey))
-                            ]),
+                        alignment: Alignment.bottomRight,
+                        child: Text("View More",
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                                decoration: TextDecoration.underline)),
                       ),
-                      const SizedBox(height: 10)
                     ])))));
   }
 

@@ -11,46 +11,32 @@ class SearchPageController extends GetxController {
   var searchResult = <EventModel>[].obs;
   var filterChips = <String>[].obs;
 
-  String selectedLocation = '';
+  var selectedLocation = ''.obs;
   var selectedEventType = ''.obs;
 
   DateTime? startDate;
-  int startEpochTime = 0;
+  String startEpochTime = '';
   String startFormattedDate = '';
 
   DateTime? endDate;
-  int endEpochTime = 0;
+  String endEpochTime = '';
   String endFormattedDate = '';
 
   String speakerName = '';
 
-  getSearchedEvents(bool isPagination, {title, speaker}) async {
+  getSearchedEvents(bool isPagination, {title}) async {
     try {
       getLoader();
       const int limit = 10;
       final int offset = searchResult.length;
 
-      var json;
-
-      if (title == null) {
-        json = await ApiController().getSearchedEvents(
-            limit,
-            offset,
-            location: selectedLocation,
-            type: selectedEventType,
-            startDate: startFormattedDate,
-            endDate: endFormattedDate,
-            speaker: speaker);
-      } else {
-        json = await ApiController().getSearchedEvents(
-            limit,
-            offset,
-            title: title,
-            location: selectedLocation,
-            type: selectedEventType,
-            startDate: startFormattedDate,
-            endDate: endFormattedDate);
-      }
+      var json = await ApiController().getSearchedEvents(limit, offset,
+          title: title,
+          location: selectedLocation,
+          type: selectedEventType,
+          startDate: startEpochTime,
+          endDate: endEpochTime,
+          speaker: speakerName);
 
       if (isPagination) {
         searchResult.addAll((json['events'] as List)
@@ -88,16 +74,16 @@ class SearchPageController extends GetxController {
 
     if (selectedDate != null) {
       final formattedDate = DateFormat('d MMM, yyyy').format(selectedDate);
-      final epochTime = selectedDate.millisecondsSinceEpoch ~/ 1000;
+      final epochTime = selectedDate.microsecondsSinceEpoch;
 
       if (isStartDate) {
         startDate = selectedDate;
         startFormattedDate = 'Start Date: $formattedDate';
-        startEpochTime = epochTime;
+        startEpochTime = epochTime.toString();
       } else {
         endDate = selectedDate;
         endFormattedDate = 'End Date: $formattedDate';
-        endEpochTime = epochTime;
+        endEpochTime = epochTime.toString();
       }
       update();
     }
@@ -109,7 +95,7 @@ class SearchPageController extends GetxController {
 
     // Check each variable and add to filterChips if not empty
     if (selectedLocation.isNotEmpty) {
-      filterChips.add(selectedLocation);
+      filterChips.add(selectedLocation.value);
     }
 
     if (selectedEventType.value.isNotEmpty) {
@@ -126,18 +112,18 @@ class SearchPageController extends GetxController {
 
     if (speakerName.isNotEmpty) {
       filterChips.add(speakerName);
-      getSearchedEvents(false, speaker: speakerName);
     }
+    getSearchedEvents(false);
   }
 
   clearFilters() {
     filterChips.clear();
     selectedEventType.value = '';
-    selectedLocation = '';
+    selectedLocation.value = '';
     startDate = null;
     endDate = null;
-    startEpochTime = 0;
-    endEpochTime = 0;
+    startEpochTime = '';
+    endEpochTime = '';
     startFormattedDate = '';
     endFormattedDate = '';
     speakerName = '';

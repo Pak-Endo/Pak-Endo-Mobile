@@ -35,64 +35,79 @@ class EventListCard extends StatelessWidget {
               ]),
           child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                    width: MediaQuery.of(context).size.height * 0.16,
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
-                        color: Appcolors.Appbuttoncolor,
-                        image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: CachedNetworkImageProvider(
-                                event.featuredImage!)))),
-                Expanded(
-                    child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 13, left: 10, bottom: 5, right: 5),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(event.startDate.toString(),
-                                      style: const TextStyle(
-                                          color: Colors.grey, fontSize: 12)),
-                                  bookmark(event)
-                                ],
-                              ),
-                              AppLargeText(
-                                  text: event.title!,
-                                  size: 16,
-                                  color: Colors.black),
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Icon(Icons.location_pin,
-                                        color: Appcolors.Appbuttoncolor),
-                                    Text(event.location!,
-                                        style: const TextStyle(
-                                            color: Colors.blueGrey,
-                                            fontSize: 12))
-                                  ]),
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 5.0, bottom: 2),
-                                  child: Row(children: [
-                                    Expanded(child: Container()),
-                                    const Text("View",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Appcolors.Appbuttoncolor))
-                                  ]))
-                            ]))),
-              ])),
-    );
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                      width: MediaQuery.of(context).size.height * 0.16,
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(12)),
+                          color: Appcolors.Appbuttoncolor,
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: CachedNetworkImageProvider(
+                                  event.featuredImage!)))),
+                  Expanded(
+                      child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 13, left: 10, bottom: 5, right: 5),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          homeController.getStartAndEndDate(
+                                              event.startDate!, event.endDate!),
+                                          style: const TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 12)),
+                                      bookmark(event)
+                                    ]),
+                                AppLargeText(
+                                    text: event.title!,
+                                    size: 16,
+                                    color: Colors.black),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.location_pin,
+                                          color: Appcolors.Appbuttoncolor,
+                                          size: 14),
+                                      SizedBox(
+                                        width: 180,
+                                        child: Text(event.location!,
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                color: Colors.blueGrey,
+                                                fontSize: 12)),
+                                      )
+                                    ]),
+                                const SizedBox(height: 4),
+                                Text(event.description!,
+                                    style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        color: Colors.blueGrey,
+                                        fontSize: 13)),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 5.0, bottom: 2),
+                                    child: Row(children: [
+                                      Expanded(child: Container()),
+                                      const Text("View More",
+                                          style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12))
+                                    ]))
+                              ])))
+                ])));
   }
 
   bookmark(EventModel event) {
@@ -106,6 +121,8 @@ class EventListCard extends StatelessWidget {
                     ? Icons.favorite
                     : Icons.favorite_border,
                 size: 25,
-                color: Appcolors.Appbuttoncolor)));
+                color: favController.isFavourite.contains(event.id)
+                    ? Appcolors.Appbuttoncolor
+                    : Colors.grey)));
   }
 }

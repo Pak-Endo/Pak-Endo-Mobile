@@ -35,7 +35,7 @@ class Api {
         {
           'Accept': 'application/json',
           'Authorization': Pref.getString(Pref.TOKEN_KEY).toString(),
-          'Content-Type': 'application/json'
+          // 'Content-Type': 'application/json'
         };
 
     print('POST url: $url');

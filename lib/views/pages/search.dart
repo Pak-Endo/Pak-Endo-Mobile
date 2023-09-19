@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pak_endo/routes/navigations.dart';
+import 'package:pak_endo/views/widgets/CustomWidgets/custom_view.dart';
 import 'package:pak_endo/views/widgets/custom_chips.dart';
 import 'package:pak_endo/views/widgets/filter_sheet.dart';
 import 'package:pak_endo/views/widgets/search_result.dart';
@@ -88,8 +89,12 @@ class _SearchPageState extends State<SearchPage> {
             /// SHOW FILTERS
             getFilters(),
 
-            Obx(() => controller.searchResult.isEmpty
-                ? const Center(child: Text('No Search Query Found'))
+            Obx(() =>
+            controller.searchResult.isEmpty
+                ? const Expanded(
+                    child: Center(
+                        child: CustomView(
+                            'No Search Query Found', Icons.search_off)))
                 : Expanded(
                     child: Container(
                         color: Colors.grey[200],

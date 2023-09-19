@@ -14,27 +14,19 @@ import 'package:pak_endo/views/widgets/feedback_form.dart';
 
 import '../../constants/app_colors.dart';
 import '../../model/event_model.dart';
-import '../widgets/CustomWidgets/details_page_date_time.dart';
 import '../widgets/custom_text/app_large_text.dart';
 
-class DetailPage extends StatefulWidget {
+class DetailPage extends StatelessWidget {
   final EventModel event;
 
-  const DetailPage({super.key, required this.event});
+  DetailPage({super.key, required this.event});
 
-  @override
-  State<DetailPage> createState() => _DetailPageState();
-}
-
-class _DetailPageState extends State<DetailPage> {
-  int _currentIndex = 0;
   final HomeController homeController = Get.find<HomeController>();
   final FavController favController = Get.find<FavController>();
 
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-    final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
         appBar: getAppBar(),
@@ -62,20 +54,15 @@ class _DetailPageState extends State<DetailPage> {
                   timelines(),
 
                   /// CUSTOM BUTTON
-                  Center(
-                      child: CustomButton(
-                          text: "Give Feedback",
-                          width: screenWidth / 2,
-                          height: 40,
-                          textfont: 16,
-                          onTap: _showFeedbackBottomSheet)),
+                  getFeedBackButton(),
+
                   SizedBox(height: screenHeight * 0.06)
                 ]))));
   }
 
   _showFeedbackBottomSheet() {
     showModalBottomSheet<void>(
-      context: context,
+      context: Get.context!,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (BuildContext context) => const FeedbackForm(),
@@ -87,7 +74,7 @@ class _DetailPageState extends State<DetailPage> {
       leading: GestureDetector(
           onTap: () => navigatorKey.currentState!.pop(),
           child: const Icon(Icons.arrow_back)),
-      title: Text(widget.event.eventStatus!.toUpperCase()),
+      title: Text(event.eventStatus!.toUpperCase()),
       titleSpacing: 0.0,
       centerTitle: true,
       toolbarHeight: 73.2,
@@ -108,7 +95,7 @@ class _DetailPageState extends State<DetailPage> {
                 end: Alignment.bottomRight,
                 colors: [Colors.blue, Colors.green],
               ))),
-      actions: [bookmark(widget.event)],
+      actions: [bookmark(event)],
     );
   }
 
@@ -128,6 +115,9 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   getFAB() {
+    if (event.eventStatus!.toUpperCase() == 'UPCOMING') {
+      return null;
+    }
     return GestureDetector(
       onTap: () => navigatorKey.currentState!.pushNamed(PageRoutes.youtubeVideo,
           arguments: 'https://www.youtube.com/watch?v=ceMsPBbcEGg'),
@@ -160,88 +150,172 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   getImage() {
-    if (widget.event.gallery!.mediaUrl.isEmpty) {
+    if (event.gallery!.mediaUrl.isEmpty) {
       return const SizedBox.shrink();
     }
-    return Column(
-      children: [
-        const SizedBox(height: 10),
-        CarouselSlider(
-            options: CarouselOptions(
-              autoPlay: true,
-              height: 270,
-              aspectRatio: 16 / 9,
-              viewportFraction: 0.8,
-              initialPage: 0,
-              enableInfiniteScroll: true,
-              reverse: true,
-              autoPlayInterval: const Duration(seconds: 5),
-              autoPlayAnimationDuration: const Duration(seconds: 2),
-              autoPlayCurve: Curves.fastOutSlowIn,
-              enlargeCenterPage: true,
-              scrollDirection: Axis.horizontal,
-              onPageChanged: (index, _) {
-                setState(() {
-                  _currentIndex = index;
+    return Obx(() {
+      return Column(
+        children: [
+          const SizedBox(height: 10),
+          CarouselSlider(
+              options: CarouselOptions(
+                autoPlay: true,
+                height: 270,
+                aspectRatio: 16 / 9,
+                viewportFraction: 0.8,
+                initialPage: 0,
+                enableInfiniteScroll: true,
+                reverse: true,
+                autoPlayInterval: const Duration(seconds: 5),
+                autoPlayAnimationDuration: const Duration(seconds: 2),
+                autoPlayCurve: Curves.fastOutSlowIn,
+                enlargeCenterPage: true,
+                scrollDirection: Axis.horizontal,
+                onPageChanged: (index, _) =>
+                    homeController.currentIndex.value = index,
+              ),
+              items: event.gallery!.mediaUrl.map((mediaUrl) {
+                return Builder(builder: (BuildContext context) {
+                  return ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: const BoxDecoration(),
+                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          child: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              imageUrl: mediaUrl,
+                              progressIndicatorBuilder: (context, url,
+                                      downloadProgress) =>
+                                  Center(
+                                      child: CircularProgressIndicator.adaptive(
+                                    backgroundColor: Appcolors.appgreencolor,
+                                    value: downloadProgress.progress,
+                                  )))));
                 });
-              },
-            ),
-            items: widget.event.gallery!.mediaUrl.map((mediaUrl) {
-              return Builder(builder: (BuildContext context) {
-                return ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: const BoxDecoration(),
-                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            imageUrl: mediaUrl,
-                            progressIndicatorBuilder: (context, url,
-                                    downloadProgress) =>
-                                Center(
-                                    child: CircularProgressIndicator.adaptive(
-                                  backgroundColor: Appcolors.appgreencolor,
-                                  value: downloadProgress.progress,
-                                )))));
-              });
-            }).toList()),
-        const SizedBox(height: 10),
-        DotsIndicator(
-            dotsCount: widget.event.gallery!.mediaUrl.length,
-            position: _currentIndex,
-            mainAxisAlignment: MainAxisAlignment.center,
-            decorator: const DotsDecorator(
-                size: Size.square(9.0),
-                activeSize: Size(18.0, 9.0),
-                color: Colors.grey,
-                activeColor: Appcolors.appgreencolor)),
-        const SizedBox(height: 20),
-      ],
-    );
+              }).toList()),
+          const SizedBox(height: 10),
+          DotsIndicator(
+              dotsCount: event.gallery!.mediaUrl.length,
+              position: homeController.currentIndex.value,
+              mainAxisAlignment: MainAxisAlignment.center,
+              decorator: const DotsDecorator(
+                  size: Size.square(9.0),
+                  activeSize: Size(18.0, 9.0),
+                  color: Colors.grey,
+                  activeColor: Appcolors.appgreencolor)),
+          const SizedBox(height: 20),
+        ],
+      );
+    });
   }
 
   eventInfo() {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Container(
-          padding: const EdgeInsets.only(left: 15),
-          child: AppLargeText(
-              text: widget.event.title!, size: 25, color: Colors.black)),
-      const SizedBox(height: 20),
-      const VenueDetails(),
-      const SizedBox(height: 20),
-      Container(
-          padding: const EdgeInsets.only(left: 15),
-          child: const AppLargeText(
-              text: "About Event", size: 25, color: Colors.black)),
-      Padding(
-          padding:
-              const EdgeInsets.only(top: 5, left: 25, right: 9, bottom: 15),
-          child: Text(widget.event.description!,
-              style: const TextStyle(
-                  fontSize: 17, color: Colors.black87, wordSpacing: 0.7))),
-      SizedBox(height: Get.height * 0.02)
-    ]);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 22),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(event.title!,
+            textAlign: TextAlign.start,
+            style: const TextStyle(
+                color: Colors.black,
+                fontSize: 25,
+                fontFamily: 'Poppins-Medium',
+                fontWeight: FontWeight.w400)),
+        const SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(children: [
+            Container(
+                height: MediaQuery.of(Get.context!).size.height * 0.06,
+                width: MediaQuery.of(Get.context!).size.height * 0.06,
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                    color: Colors.grey.withOpacity(0.5)),
+                child: const Icon(Icons.calendar_month,
+                    color: Appcolors.Appbuttoncolor, size: 30)),
+            Container(
+                margin: EdgeInsets.only(
+                    left: MediaQuery.of(Get.context!).size.width * 0.05),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          homeController.getStartAndEndDate(
+                              event.startDate!, event.endDate!),
+                          style: const TextStyle(fontSize: 18)),
+                      SizedBox(
+                          height:
+                              MediaQuery.of(Get.context!).size.width * 0.01),
+                      Text(
+                          homeController.getStartAndEndTime(
+                              event.startDate!, event.endDate!),
+                          style: const TextStyle(
+                              color: Colors.black26, fontSize: 14))
+                    ]))
+          ]),
+        ),
+        const SizedBox(height: 20),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(children: [
+              Container(
+                  height: MediaQuery.of(Get.context!).size.height * 0.06,
+                  width: MediaQuery.of(Get.context!).size.height * 0.06,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                    color: Colors.grey.withOpacity(0.5),
+                  ),
+                  child: const Icon(Icons.location_pin,
+                      color: Appcolors.Appbuttoncolor, size: 30)),
+              Container(
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(Get.context!).size.width * 0.05),
+                  child: SizedBox(
+                      width: 190,
+                      child: Text(event.location!,
+                          style: const TextStyle(fontSize: 18))))
+            ])),
+        const SizedBox(height: 20),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(children: [
+              Container(
+                height: MediaQuery.of(Get.context!).size.height * 0.06,
+                width: MediaQuery.of(Get.context!).size.height * 0.06,
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                    color: Colors.grey.withOpacity(0.5),
+                    image: const DecorationImage(
+                        image: AssetImage("assets/profile.jpg"),
+                        fit: BoxFit.cover)),
+              ),
+              Container(
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(Get.context!).size.width * 0.05),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(event.organizer!,
+                            style: const TextStyle(fontSize: 18)),
+                        SizedBox(
+                            height:
+                                MediaQuery.of(Get.context!).size.width * 0.01),
+                        const Text("Sponsors",
+                            style:
+                                TextStyle(color: Colors.black38, fontSize: 14))
+                      ]))
+            ])),
+        const SizedBox(height: 20),
+        const AppLargeText(text: "About Event", size: 25, color: Colors.black),
+        Padding(
+            padding:
+                const EdgeInsets.only(top: 5, left: 25, right: 5, bottom: 15),
+            child: Text(event.description!,
+                style: const TextStyle(
+                    fontSize: 17, color: Colors.black87, wordSpacing: 0.7))),
+        SizedBox(height: Get.height * 0.02)
+      ]),
+    );
   }
 
   timelines() {
@@ -250,18 +324,12 @@ class _DetailPageState extends State<DetailPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-              padding: const EdgeInsets.only(left: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: const AppLargeText(
                   text: "Timeline", size: 25, color: Colors.black)),
           SizedBox(height: Get.height * 0.02),
-
-          //---------------------------------------------------------------
-          //              Add Timeline to listview builder
-          //---------------------------------------------------------------
-          Container(
-              height: Get.height * 0.4,
-              margin: EdgeInsets.only(left: Get.width * 0.1),
-              child: const TimeLineBar()),
+          TimeLineBar(),
+          const SizedBox(height: 30)
         ]);
   }
 
@@ -270,17 +338,19 @@ class _DetailPageState extends State<DetailPage> {
       return const SizedBox.shrink();
     }
 
+    if (event.eventStatus!.toUpperCase() == 'UPCOMING') {
+      return const SizedBox.shrink();
+    }
+
     return GetBuilder<HomeController>(
       builder: (logic) {
-        if (widget.event.isAttended! ||
-            homeController.shouldShowTheInterestedBox
-                .contains(widget.event.id)) {
+        if (event.isAttended! ||
+            homeController.shouldShowTheInterestedBox.contains(event.id)) {
           return const CustomView("You have attended this event", Icons.done);
         }
 
         return Visibility(
-          visible: !homeController.doNotShowTheInterestedBox
-              .contains(widget.event.id),
+          visible: !homeController.doNotShowTheInterestedBox.contains(event.id),
           child: Container(
               width: Get.width,
               height: 50,
@@ -301,12 +371,12 @@ class _DetailPageState extends State<DetailPage> {
                       const Spacer(),
                       TextButton(
                           onPressed: () => homeController.addToAttendedEvents(
-                              widget.event.id!, false),
+                              event.id!, false),
                           child:
                               const Text("No", style: TextStyle(fontSize: 15))),
                       TextButton(
                           onPressed: () => homeController.addToAttendedEvents(
-                              widget.event.id!, true),
+                              event.id!, true),
                           child:
                               const Text("Yes", style: TextStyle(fontSize: 15)))
                     ])
@@ -314,5 +384,19 @@ class _DetailPageState extends State<DetailPage> {
         );
       },
     );
+  }
+
+  getFeedBackButton() {
+    if (event.eventStatus!.toUpperCase() == 'UPCOMING') {
+      return const SizedBox.shrink();
+    }
+
+    return Center(
+        child: CustomButton(
+            text: "Give Feedback",
+            width: Get.width / 2,
+            height: 40,
+            textfont: 16,
+            onTap: _showFeedbackBottomSheet));
   }
 }

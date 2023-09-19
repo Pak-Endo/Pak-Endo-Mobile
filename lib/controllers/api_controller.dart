@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:pak_endo/constants/consts.dart';
+import 'package:pak_endo/constants/preferences.dart';
 import 'package:pak_endo/providers/api_service.dart';
 
 class ApiController {
@@ -87,7 +88,12 @@ class ApiController {
     try {
       if (isAddToFav) {
         await Api().post_('${MyConsts.baseUrl}favorites/addToFavorites',
-            params: jsonEncode({"eventID": id}));
+            params: jsonEncode({"eventID": id}),
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': Pref.getString(Pref.TOKEN_KEY).toString(),
+              'Content-Type': 'application/json'
+            });
       } else {
         await Api()
             .get_('${MyConsts.baseUrl}favorites/removeFromFavourites/$id');
@@ -100,7 +106,12 @@ class ApiController {
   addToAttendedEvents(String id) async {
     try {
       await Api().post_('${MyConsts.baseUrl}attended/addToAttendedEvents',
-          params: jsonEncode({"eventID": id}));
+          params: jsonEncode({"eventID": id}),
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': Pref.getString(Pref.TOKEN_KEY).toString(),
+            'Content-Type': 'application/json'
+          });
     } catch (e) {
       rethrow;
     }

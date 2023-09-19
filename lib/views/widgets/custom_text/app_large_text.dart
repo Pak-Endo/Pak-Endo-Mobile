@@ -23,7 +23,7 @@ class AppLargeText extends StatelessWidget {
     return Text(text,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
-        textAlign: TextAlign.center,
+        textAlign: TextAlign.left,
         style: TextStyle(
             color: color,
             fontSize: size,
