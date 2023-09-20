@@ -14,7 +14,7 @@ import '../custom_text/app_large_text.dart';
 class FinishedEventCard extends StatelessWidget {
   final List<EventModel> finishedEvents;
   final HomeController homeController = Get.find<HomeController>();
-  final FavController favController = Get.find<FavController>();
+  final FavController favController = Get.put(FavController());
 
   FinishedEventCard({super.key, required this.finishedEvents});
 
@@ -51,23 +51,21 @@ class FinishedEventCard extends StatelessWidget {
                             /// FEATHERED IMAGE
                             loadImage(event),
                             Container(
+                                alignment: Alignment.topLeft,
                                 margin: const EdgeInsets.only(
                                     top: 12, bottom: 12, left: 12, right: 12),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(event.startDate.toString()),
-                                      Text(event.agenda![0].from as String)
-                                    ])),
+                                child: Text(
+                                    homeController.getStartAndEndDate(
+                                        event.startDate!, event.endDate!),
+                                    style:
+                                        const TextStyle(color: Colors.grey))),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: AppLargeText(
-                                  text: event.title!,
-                                  size: 16,
-                                  color: Colors.black),
-                            ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: AppLargeText(
+                                    text: event.title!,
+                                    size: 16,
+                                    color: Colors.black)),
 
                             SizedBox(
                                 height:
@@ -75,14 +73,13 @@ class FinishedEventCard extends StatelessWidget {
 
                             /// CUSTOM BUTTON
                             CustomButton(
-                              text: "Explore the Event",
-                              width: 230,
-                              height: 40,
-                              textfont: 16,
-                              onTap: () => navigatorKey.currentState!.pushNamed(
-                                  PageRoutes.detailPage,
-                                  arguments: event),
-                            ),
+                                text: "Explore the Event",
+                                width: 230,
+                                height: 40,
+                                textfont: 16,
+                                onTap: () => navigatorKey.currentState!
+                                    .pushNamed(PageRoutes.detailPage,
+                                        arguments: event)),
 
                             SizedBox(
                                 height:
@@ -137,42 +134,35 @@ class FinishedEventCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                const Icon(Icons.location_on, color: Colors.grey, size: 15),
-                const SizedBox(width: 6),
-                Text(event.location!,
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
-              ],
-            ),
-            SizedBox(height: MediaQuery.of(Get.context!).size.height * 0.002),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              Row(
+                children: [
+                  const Icon(Icons.location_on, color: Colors.grey, size: 15),
+                  const SizedBox(width: 6),
+                  Text(event.location!,
+                      style: const TextStyle(fontWeight: FontWeight.bold))
+                ],
+              ),
+              SizedBox(height: MediaQuery.of(Get.context!).size.height * 0.002),
+              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 const Icon(Icons.star_rate, color: Colors.grey, size: 15),
                 const SizedBox(width: 6),
                 GestureDetector(
-                  onTap: () => showModalBottomSheet(
-                    context: Get.context!,
-                    isScrollControlled: true,
-                    builder: (context) => const FeedbackForm(),
-                  ),
-                  child: const Text('Avg. Rating: 4.6',
-                      style: TextStyle(fontWeight: FontWeight.w500)),
-                ),
-              ],
-            ),
-            SizedBox(height: MediaQuery.of(Get.context!).size.height * 0.002),
-            const Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.person, color: Colors.grey, size: 15),
-                SizedBox(width: 6),
-                Text("Guests: 132 ",
-                    style: TextStyle(fontWeight: FontWeight.w500)),
-              ],
-            ),
-          ],
-        ));
+                    onTap: () => showModalBottomSheet(
+                        context: Get.context!,
+                        isScrollControlled: true,
+                        builder: (context) => const FeedbackForm()),
+                    child: const Text('Avg. Rating: 4.6',
+                        style: TextStyle(fontWeight: FontWeight.w500)))
+              ]),
+              SizedBox(height: MediaQuery.of(Get.context!).size.height * 0.002),
+              const Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(Icons.person, color: Colors.grey, size: 15),
+                    SizedBox(width: 6),
+                    Text("Guests: 132 ",
+                        style: TextStyle(fontWeight: FontWeight.w500))
+                  ])
+            ]));
   }
 }

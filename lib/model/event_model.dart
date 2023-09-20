@@ -16,6 +16,8 @@ class EventModel {
   bool? isFavourite;
   bool? isAttended;
 
+  int? fees;
+
   EventModel({
     this.id,
     this.title,
@@ -31,6 +33,7 @@ class EventModel {
     this.organizer,
     this.organizerContact,
     this.featuredImage,
+    this.fees
   });
 
   EventModel.fromJson(dynamic json) {
@@ -59,6 +62,7 @@ class EventModel {
     featuredImage = json['featuredImage'];
     isFavourite = json['isFavorite'];
     isAttended = json['isAttended'];
+    fees = json['fees'];
   }
 }
 
@@ -92,6 +96,7 @@ class Agenda {
     this.venue,
     this.streamUrl,
     this.speaker,
+    this.speakerImg,
     this.id,
   });
 
@@ -103,6 +108,7 @@ class Agenda {
     venue = json['venue'];
     streamUrl = json['streamUrl'];
     speaker = json['speaker'];
+    speakerImg = json['speakerImg'];
     id = json['_id'];
   }
 
@@ -113,6 +119,8 @@ class Agenda {
   String? venue;
   String? streamUrl;
   String? speaker;
+
+  String? speakerImg;
   String? id;
 }
 

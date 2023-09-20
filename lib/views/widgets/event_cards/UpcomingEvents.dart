@@ -12,7 +12,7 @@ import '../custom_text/app_large_text.dart';
 class UpcomingEventsCard extends StatelessWidget {
   final List<EventModel> upcomingEvents;
   final HomeController homeController = Get.find<HomeController>();
-  final FavController favController = Get.find<FavController>();
+  final FavController favController = Get.put(FavController());
 
   UpcomingEventsCard({Key? key, required this.upcomingEvents})
       : super(key: key);
@@ -90,6 +90,14 @@ class UpcomingEventsCard extends StatelessWidget {
                               text: event.title!,
                               size: 16,
                               color: Colors.black)),
+                      Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                              homeController.getStartAndEndDate(
+                                  event.startDate!, event.endDate!),
+                              style: const TextStyle(
+                                  color: Colors.grey, fontSize: 12))),
+                      const SizedBox(height: 5),
                       Row(children: [
                         const Icon(Icons.location_pin,
                             color: Appcolors.Appbuttoncolor, size: 16),
@@ -98,67 +106,42 @@ class UpcomingEventsCard extends StatelessWidget {
                           width: 150,
                           child: Text(event.location!,
                               overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
                               style: const TextStyle(fontSize: 13)),
                         )
                       ]),
-                      const SizedBox(height: 5),
                       const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text('Sponsored',
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 12))),
-                      const SizedBox(height: 3),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(children: [
-                                Image.asset('assets/Logo_Icon.png',
-                                    height: 16, width: 12, fit: BoxFit.fill),
-                                const SizedBox(width: 5),
-                                SizedBox(
-                                  width: 100,
-                                  child: Text(
-                                      event.organizer! + event.organizer!,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      softWrap: true,
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 12)),
-                                )
-                              ]),
-                              const Text("View",
-                                  style: TextStyle(color: Colors.grey))
-                            ]),
+                        alignment: Alignment.bottomRight,
+                        child: Text("View More",
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                                decoration: TextDecoration.underline)),
                       ),
-                      const SizedBox(height: 10)
                     ])))));
   }
 
   bookmark(EventModel event) {
-    //Only show favourites to logged in user
-    return homeController.isLoggedIn == null
-        ? const SizedBox.shrink()
-        : Positioned(
-            top: MediaQuery.of(Get.context!).size.height * 0.045,
-            right: MediaQuery.of(Get.context!).size.width * 0.04,
-            child: Container(
-                height: MediaQuery.of(Get.context!).size.height * 0.055,
-                width: MediaQuery.of(Get.context!).size.width * 0.115,
-                decoration: const BoxDecoration(
-                    color: Colors.black38,
-                    borderRadius: BorderRadius.all(Radius.circular(3.0))),
-                child: Obx(() {
-                  return GestureDetector(
-                      onTap: () => favController.addAndRemoveFavEvent(
-                          event.id!),
-                      child: Icon(Icons.favorite,
-                          size: 25,
-                          color: favController.isFavourite.contains(event.id)
-                              ? Appcolors.Appbuttoncolor
-                              : Colors.white));
-                })));
+    if (homeController.isLoggedIn == null) {
+      return const SizedBox.shrink();
+    }
+
+    return Positioned(
+        top: MediaQuery.of(Get.context!).size.height * 0.045,
+        right: MediaQuery.of(Get.context!).size.width * 0.04,
+        child: Container(
+            height: MediaQuery.of(Get.context!).size.height * 0.055,
+            width: MediaQuery.of(Get.context!).size.width * 0.115,
+            decoration: const BoxDecoration(
+                color: Colors.black38,
+                borderRadius: BorderRadius.all(Radius.circular(3.0))),
+            child: Obx(() {
+              return GestureDetector(
+                  onTap: () => favController.addAndRemoveFavEvent(event.id!),
+                  child: Icon(Icons.favorite,
+                      size: 25,
+                      color: favController.isFavourite.contains(event.id)
+                          ? Appcolors.Appbuttoncolor
+                          : Colors.white));
+            })));
   }
 }

@@ -15,7 +15,7 @@ class OngoingEventsCard extends StatelessWidget {
   OngoingEventsCard({Key? key, required this.ongoingEvents}) : super(key: key);
 
   final HomeController homeController = Get.find<HomeController>();
-  final FavController favController = Get.find<FavController>();
+  final FavController favController = Get.put(FavController());
 
   @override
   Widget build(BuildContext context) {

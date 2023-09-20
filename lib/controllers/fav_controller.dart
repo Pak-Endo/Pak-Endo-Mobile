@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:pak_endo/constants/preferences.dart';
 import 'package:pak_endo/controllers/api_controller.dart';
 import 'package:pak_endo/model/event_model.dart';
 import 'package:pak_endo/views/widgets/loaders.dart';
@@ -11,7 +12,9 @@ class FavController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getFav();
+    if (Pref.getString(Pref.TOKEN_KEY) != null) {
+      getFav();
+    }
   }
 
   getFav() async {

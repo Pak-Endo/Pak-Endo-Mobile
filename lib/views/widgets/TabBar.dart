@@ -1,60 +1,50 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pak_endo/Constants/app_colors.dart';
+import 'package:pak_endo/model/event_model.dart';
+import 'package:pak_endo/routes/navigations.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-class TimeLineBar extends StatelessWidget {
-  TimeLineBar({super.key});
+class TimeLineBar extends StatefulWidget {
+  const TimeLineBar(this.event, {super.key});
 
-  final List<String> days = [
-    "Day 1",
-    "Day 2",
-    "Day 3",
-    "Day 3",
-    "Day 4",
-    "Day 5",
-    "Day 6",
-    "Day 7",
-  ]; // Add more days as needed
-  final List<String> Headings1 = [
-    'Intrduction',
-    '',
-    'Workshop',
-    '',
-    'Lunch',
-    ''
-  ];
+  final EventModel event;
 
-  final List<String> Headings2 = [
-    '',
-    'Lunch',
-    '',
-    'Introduction',
-    '',
-    'Workshop'
-  ];
-  final List<String> Time1 = [
-    "9:30Am - 11:45Am",
-    "",
-    "2:30Pm - 4:00Pm",
-    "",
-    "12:30Pm - 1:30Pm",
-    ""
-  ];
+  @override
+  State<TimeLineBar> createState() => _TimeLineBarState();
+}
 
-  final List<String> Time2 = [
-    "",
-    "12:30Pm - 1:30Pm",
-    "",
-    "9:30Am - 11:45Am",
-    "",
-    "2:30Pm - 4:00Pm"
-  ];
+class _TimeLineBarState extends State<TimeLineBar> {
+  Map<String, List<Agenda>> agendaByDay = {};
+
+  @override
+  void initState() {
+    super.initState();
+    mapAgendasByDays(widget.event.agenda!);
+  }
+
+  void mapAgendasByDays(List<Agenda> agenda) {
+    for (Agenda item in agenda) {
+      DateTime date = DateTime.fromMillisecondsSinceEpoch(item.day!);
+      String month = DateFormat('MMM')
+          .format(date); // Use 'MMM' for abbreviated month name
+      int day = date.day;
+      String formattedDate = '$day $month'; // Format the date as 'day month'
+
+      if (!agendaByDay.containsKey(formattedDate)) {
+        agendaByDay[formattedDate] = [];
+      }
+
+      agendaByDay[formattedDate]!.add(item);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: days.length,
+        length: agendaByDay.keys.length,
         child: SizedBox(
           height: Get.height * 0.5,
           child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -75,74 +65,166 @@ class TimeLineBar extends StatelessWidget {
                 labelStyle:
                     const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
                 unselectedLabelStyle: const TextStyle(fontSize: 13),
-                tabs: days.map((day) => Tab(text: day)).toList()),
+                tabs: agendaByDay.keys.map((day) => Tab(text: day)).toList()),
             const Divider(),
             Expanded(
                 child: TabBarView(
-                    children: days.map((day) => buildDayTab(day)).toList())),
+                    children: agendaByDay.values
+                        .map((day) => buildDayTab(day))
+                        .toList())),
           ]),
         ));
   }
 
-  Widget buildDayTab(String day) {
+  Widget buildDayTab(List<Agenda> agenda) {
     return ListView.builder(
-      itemCount: 4,
+      itemCount: agenda.length,
       physics: const BouncingScrollPhysics(),
       shrinkWrap: true,
       padding: const EdgeInsets.symmetric(horizontal: 24),
       itemBuilder: (context, index) {
+        final _agenda = agenda[index];
         return Align(
-          alignment: Alignment.center,
-          child: TimelineTile(
-            isFirst: index == 0 ? true : false,
-            isLast: index == 3 ? true : false,
-            axis: TimelineAxis.vertical,
-            hasIndicator: true,
-            indicatorStyle: const IndicatorStyle(color: Appcolors.appbluecolor),
-            beforeLineStyle: const LineStyle(color: Appcolors.appgreencolor),
-            afterLineStyle: const LineStyle(color: Appcolors.appbluecolor),
-            alignment: TimelineAlign.center,
-            startChild: Column(
-              children: [
-                const Spacer(),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(Headings1[index],
-                        style:
-                            const TextStyle(fontSize: 20, color: Colors.black)),
-                    Text(index % 2 == 0 ? 'Speaker: Ahmed' : ''),
-                    Text(Time1[index],
-                        style:
-                            const TextStyle(fontSize: 15, color: Colors.grey)),
-                    Text(index % 2 == 0 ? "Venue: Hall no 3" : '',
-                        style: TextStyle(fontSize: 15, color: Colors.grey)),
-                  ],
+            alignment: Alignment.center,
+            child: TimelineTile(
+                isFirst: index == 0 ? true : false,
+                isLast: index == agenda.length - 1 ? true : false,
+                axis: TimelineAxis.vertical,
+                hasIndicator: true,
+                indicatorStyle:
+                    const IndicatorStyle(color: Appcolors.appbluecolor),
+                beforeLineStyle:
+                    const LineStyle(color: Appcolors.appgreencolor),
+                afterLineStyle: const LineStyle(color: Appcolors.appbluecolor),
+                alignment: TimelineAlign.center,
+                startChild: Container(
+                  margin: EdgeInsets.only(left: Get.width *0.04),
+                  child: GestureDetector(
+                    onTap: () {
+                      if (_agenda.streamUrl != null) {
+                        print('STREAM URL: ${_agenda.streamUrl!}');
+                        navigatorKey.currentState!.pushNamed(
+                            PageRoutes.youtubeVideo,
+                            arguments: _agenda.streamUrl!);
+                      }
+                    },
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          getImage(_agenda, index % 2 == 0),
+                          getTitle(_agenda, index % 2 == 0),
+                          getSpeaker(_agenda, index % 2 == 0),
+                          getTime(_agenda, index % 2 == 0),
+                          getVenue(_agenda, index % 2 == 0),
+                          getLive(_agenda, index % 2 == 0),
+                        ]),
+                  ),
                 ),
-              ],
-            ),
-            endChild: Column(
-              children: [
-                const Spacer(),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                endChild: Column(
                   children: [
-                    Text(Headings2[index],
-                        style:
-                            const TextStyle(fontSize: 20, color: Colors.black)),
-                    Text(index % 2 != 0 ? 'Speaker: Ahmed' : ''),
-                    Text(Time2[index],
-                        style:
-                            const TextStyle(fontSize: 15, color: Colors.grey)),
-                    Text(index % 2 != 0 ? "Venue: Hall no 3" : '',
-                        style: TextStyle(fontSize: 15, color: Colors.grey)),
+                    GestureDetector(
+                      onTap: () {
+                        if (_agenda.streamUrl != null) {
+                          print('STREAM URL: ${_agenda.streamUrl!}');
+                          navigatorKey.currentState!.pushNamed(
+                              PageRoutes.youtubeVideo,
+                              arguments: _agenda.streamUrl!);
+                        }
+                      },
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            getImage(_agenda, index % 2 != 0),
+                            getTitle(_agenda, index % 2 != 0),
+                            getSpeaker(_agenda, index % 2 != 0),
+                            getTime(_agenda, index % 2 != 0),
+                            getVenue(_agenda, index % 2 != 0),
+                            getLive(_agenda, index % 2 != 0),
+                          ]),
+                    ),
                   ],
-                ),
-              ],
-            ),
-          ),
-        );
+                )));
       },
     );
+  }
+
+  getImage(Agenda agenda, bool displayData) {
+    if (agenda.speakerImg == null) {
+      return const SizedBox.shrink();
+    }
+
+    if (displayData) {
+      return Center(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: CachedNetworkImage(
+              height: 50,
+              width: 50,
+              fit: BoxFit.cover,
+              imageUrl: agenda.speakerImg!,
+              errorWidget: (_, url, err) =>
+                  Image.asset("assets/profile.jpg", fit: BoxFit.cover),
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  Center(
+                      child: CircularProgressIndicator.adaptive(
+                    backgroundColor: Appcolors.appgreencolor,
+                    value: downloadProgress.progress,
+                  ))),
+        ),
+      );
+    }
+
+    return const SizedBox.shrink();
+  }
+
+  getTitle(Agenda agenda, bool displayData) {
+    if (displayData) {
+      return Text(agenda.agendaTitle!,
+          style: const TextStyle(fontSize: 20, color: Colors.black));
+    }
+    return const SizedBox.shrink();
+  }
+
+  getSpeaker(Agenda agenda, bool displayData) {
+    if (agenda.speaker == null) {
+      return const SizedBox.shrink();
+    }
+
+    if (displayData) {
+      return Text(agenda.speaker!);
+    }
+    return const SizedBox.shrink();
+  }
+
+  getTime(Agenda agenda, bool displayData) {
+    if (displayData) {
+      return Text('${agenda.from!} to ${agenda.to!}',
+          style: const TextStyle(fontSize: 15, color: Colors.grey));
+    }
+    return const SizedBox.shrink();
+  }
+
+  getVenue(Agenda agenda, bool displayData) {
+    if (displayData) {
+      return Text("Venue: ${agenda.venue}",
+          style: const TextStyle(fontSize: 15, color: Colors.grey));
+    }
+    return const SizedBox.shrink();
+  }
+
+  getLive(Agenda agenda, bool displayData) {
+    if (agenda.streamUrl == null || agenda.streamUrl!.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    if (displayData) {
+      return const Text('Watch Live',
+          style: TextStyle(
+              decoration: TextDecoration.underline,
+              fontWeight: FontWeight.w500,
+              color: Colors.red));
+    }
+
+    return const SizedBox.shrink();
   }
 }

@@ -4,7 +4,6 @@ import 'package:pak_endo/constants/app_colors.dart';
 
 class CustomView extends StatelessWidget {
   const CustomView(this.title, this.icon, {super.key});
-
   final String title;
   final IconData icon;
 

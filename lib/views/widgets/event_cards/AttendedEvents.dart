@@ -15,7 +15,7 @@ import '../custom_text/app_large_text.dart';
 
 class AttendedEventsCard extends StatelessWidget {
   final HomeController homeController = Get.find<HomeController>();
-  final FavController favController = Get.find<FavController>();
+  final FavController favController = Get.put(FavController());
   final ProfileController profileController = Get.find<ProfileController>();
 
   AttendedEventsCard({super.key});

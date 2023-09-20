@@ -45,6 +45,10 @@ class Login extends StatelessWidget {
                                 ///PASSWORD
                                 fieldtitle("Password"),
                                 passwordfield('Enter Password'),
+
+                                ///FORGET PASSWORD
+                                forgetPassword(),
+
                                 SizedBox(
                                     height: MediaQuery.of(context).size.height *
                                         0.038),
@@ -290,6 +294,20 @@ class Login extends StatelessWidget {
                         fontSize: 16,
                         color: Appcolors.Appbuttoncolor))))
       ],
+    );
+  }
+
+  forgetPassword() {
+    return GestureDetector(
+      onTap: () =>
+          navigatorKey.currentState!.pushNamed(PageRoutes.forgetPassword),
+      child: const Align(
+          alignment: Alignment.centerRight,
+          child: Text('Forget Password?',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  color: Appcolors.Appbuttoncolor))),
     );
   }
 }
