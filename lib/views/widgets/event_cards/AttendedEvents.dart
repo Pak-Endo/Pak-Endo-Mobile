@@ -161,7 +161,7 @@ class AttendedEventsCard extends StatelessWidget {
               children: [
                 const Icon(Icons.location_on, color: Colors.grey, size: 15),
                 const SizedBox(width: 6),
-                Text(event.location!,
+                Text(event.location!.name!,
                     style: const TextStyle(fontWeight: FontWeight.bold)),
               ],
             ),

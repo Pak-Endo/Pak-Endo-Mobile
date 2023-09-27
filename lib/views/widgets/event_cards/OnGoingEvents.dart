@@ -104,7 +104,7 @@ class OngoingEventsCard extends StatelessWidget {
                         const SizedBox(width: 5),
                         SizedBox(
                           width: 150,
-                          child: Text(event.location!,
+                          child: Text(event.location!.name!,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(fontSize: 13)),
                         )

@@ -8,8 +8,8 @@ import 'package:pak_endo/controllers/fav_controller.dart';
 import 'package:pak_endo/controllers/home_controller.dart';
 import 'package:pak_endo/routes/navigations.dart';
 import 'package:pak_endo/views/widgets/AppButtons/custom_button.dart';
+import 'package:pak_endo/views/widgets/AppButtons/custom_button2.dart';
 import 'package:pak_endo/views/widgets/CustomWidgets/custom_view.dart';
-import 'package:pak_endo/views/widgets/TabBar.dart';
 import 'package:pak_endo/views/widgets/feedback_form.dart';
 
 import '../../constants/app_colors.dart';
@@ -277,7 +277,7 @@ class DetailPage extends StatelessWidget {
                       left: MediaQuery.of(Get.context!).size.width * 0.05),
                   child: SizedBox(
                       width: 190,
-                      child: Text(event.location!,
+                      child: Text(event.location!.name!,
                           style: const TextStyle(fontSize: 18))))
             ])),
         const SizedBox(height: 20),
@@ -334,12 +334,12 @@ class DetailPage extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(event.organizer!,
+                        Text(event.grandSponsor!.name!,
                             style: const TextStyle(fontSize: 18)),
                         SizedBox(
                             height:
                                 MediaQuery.of(Get.context!).size.width * 0.01),
-                        const Text("Sponsors",
+                        const Text("Grand Sponsor",
                             style:
                                 TextStyle(color: Colors.black38, fontSize: 14))
                       ]))
@@ -362,27 +362,30 @@ class DetailPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: const AppLargeText(
-                  text: "Timeline", size: 25, color: Colors.black)),
-          SizedBox(height: Get.height * 0.02),
-          TimeLineBar(event),
+          Padding(
+            padding: EdgeInsets.only(right: Get.width / 2,left: 10),
+            child: CustomButton2(
+                height: 40,
+                textfont: 16,
+                text: 'Show Agenda',
+                onTap: () => navigatorKey.currentState!
+                    .pushNamed(PageRoutes.timeline, arguments: event)),
+          ),
           const SizedBox(height: 30)
         ]);
   }
 
   interested() {
-    if (homeController.isLoggedIn == null) {
-      return const SizedBox.shrink();
-    }
-
-    if (event.eventStatus!.toUpperCase() == 'UPCOMING') {
-      return const SizedBox.shrink();
-    }
-
     return GetBuilder<HomeController>(
       builder: (logic) {
+        if (homeController.isLoggedIn == null) {
+          return const SizedBox.shrink();
+        }
+
+        if (event.eventStatus!.toUpperCase() == 'UPCOMING') {
+          return const SizedBox.shrink();
+        }
+
         if (event.isAttended! ||
             homeController.shouldShowTheInterestedBox.contains(event.id)) {
           return const CustomView("You have attended this event", Icons.done);

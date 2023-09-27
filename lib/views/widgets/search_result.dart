@@ -106,7 +106,7 @@ class SearchResult extends StatelessWidget {
                                                           color: Appcolors
                                                               .Appbuttoncolor,
                                                           size: 12),
-                                                      Text(event.location!,
+                                                      Text(event.location!.name!,
                                                           style: const TextStyle(
                                                               color: Colors.blueGrey,
                                                               fontSize: 12))

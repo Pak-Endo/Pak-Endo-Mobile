@@ -27,7 +27,7 @@ class FavController extends GetxController {
       fav.addAll(
           (result['data'] as List).map((e) => EventModel.fromJson(e)).toList());
 
-      isFavourite.addAll(fav.where((e) => e.isFavourite!).map((e) => e.id!));
+      isFavourite.addAll(fav.where((e) => e.isFavorite!).map((e) => e.id!));
 
       getDismiss();
     } catch (e) {

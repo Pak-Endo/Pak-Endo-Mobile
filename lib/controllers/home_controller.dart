@@ -14,6 +14,12 @@ class HomeController extends GetxController {
   var finishedEvents = <EventModel>[];
   var listEventsPage = <EventModel>[].obs;
 
+  Set<String> speakers = {};
+  var selectedSpeakers = <String>[].obs;
+  List<Agenda> agenda = [];
+
+  Map<String, dynamic> agendaByDay = {};
+
   var currentIndex = 0.obs;
 
   List<String> doNotShowTheInterestedBox = [];
@@ -31,6 +37,7 @@ class HomeController extends GetxController {
     try {
       getLoader();
       var json = await ApiController().getAllEvents();
+
       // Assign upcoming events
       upcomingEvents.assignAll((json['upcomingEvents'] as List)
           .map((e) => EventModel.fromJson(e))
@@ -45,6 +52,7 @@ class HomeController extends GetxController {
       finishedEvents.assignAll((json['finishedEvents'] as List)
           .map((e) => EventModel.fromJson(e))
           .toList());
+
       update();
       getDismiss();
     } catch (e) {
@@ -75,6 +83,51 @@ class HomeController extends GetxController {
       debugPrint(e.toString());
       getError(e.toString());
     }
+  }
+
+  mapAgendasByDays(List<Agenda> agenda) {
+    agendaByDay.clear();
+    for (Agenda item in agenda) {
+      DateTime date = DateTime.fromMillisecondsSinceEpoch(item.day!);
+      String month = DateFormat('MMM').format(date);
+      int day = date.day;
+      String formattedDate = '$day $month';
+
+      if (!agendaByDay.containsKey(formattedDate)) {
+        agendaByDay[formattedDate] = {};
+      }
+
+      String venue = item.hall!;
+
+      // Check if the venue is already present in the sub-tabs
+      if (!agendaByDay[formattedDate]!.containsKey(venue)) {
+        agendaByDay[formattedDate]![venue] = [];
+      }
+
+      agendaByDay[formattedDate]![venue]!.add(item); // Add an empty object
+    }
+  }
+
+  getSpeakersFromAgenda(List<Agenda> agenda) {
+    speakers = agenda.map((e) => e.speaker!).toSet();
+  }
+
+  selectedSpeaker(String speaker, List<Agenda> agendaItems) {
+    if (selectedSpeakers.contains(speaker)) {
+      selectedSpeakers.remove(speaker);
+    } else {
+      selectedSpeakers.add(speaker);
+    }
+
+    if (selectedSpeakers.isEmpty) {
+      agenda = agendaItems;
+    } else {
+      agenda = agendaItems
+          .where((e) => selectedSpeakers.contains(e.speaker))
+          .toList();
+    }
+    mapAgendasByDays(agenda);
+    update();
   }
 
   addToAttendedEvents(String id, bool doNotShowTheInterestedBoxCheck) async {
@@ -113,4 +166,29 @@ class HomeController extends GetxController {
 
     return '$startTime - $endTime';
   }
+
+  getDay(int day) {
+    final dateTimeStart = DateTime.fromMillisecondsSinceEpoch(day);
+    return DateFormat('dd MMM, yyyy').format(dateTimeStart);
+  }
+
+// void mapAgendasByDays(List<Agenda> agenda) {
+//   for (Agenda item in agenda) {
+//     DateTime date = DateTime.fromMillisecondsSinceEpoch(item.day!);
+//     String month = DateFormat('MMM')
+//         .format(date);
+//     int day = date.day;
+//     String formattedDate = '$day $month';
+//
+//     if (!agendaByDay.containsKey(formattedDate)) {
+//       agendaByDay[formattedDate] = [];
+//
+//
+//     }
+//
+//     agendaByDay[formattedDate]!.add(item);
+//   }
+//
+//   print(agendaByDay);
+// }
 }

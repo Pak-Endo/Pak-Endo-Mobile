@@ -81,7 +81,7 @@ class EventListCard extends StatelessWidget {
                                           size: 14),
                                       SizedBox(
                                         width: 180,
-                                        child: Text(event.location!,
+                                        child: Text(event.location!.name!,
                                             style: const TextStyle(
                                                 overflow: TextOverflow.ellipsis,
                                                 color: Colors.blueGrey,

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:pak_endo/model/event_model.dart';
 import 'package:pak_endo/config/app_config.dart';
 import 'package:pak_endo/constants/consts.dart';
+import 'package:pak_endo/model/event_model.dart';
 import 'package:pak_endo/views/pages/HomePage.dart';
+import 'package:pak_endo/views/pages/agenda_detail.dart';
 import 'package:pak_endo/views/pages/details_page.dart';
 import 'package:pak_endo/views/pages/event_list.dart';
+import 'package:pak_endo/views/pages/timeline.dart';
 import 'package:pak_endo/views/pages/video_player.dart';
 import 'package:pak_endo/views/widgets/feedback_form.dart';
 
@@ -26,6 +28,8 @@ class PageRoutes {
   static const String feedbackForm = '/feedbackform';
   static const String landing = '/landing';
   static const String youtubeVideo = '/youtubeVideo';
+  static const String timeline = '/timeline';
+  static const String agendaDetail = '/agendaDetail';
 }
 
 class PageNavigator extends StatelessWidget {
@@ -75,6 +79,13 @@ class PageNavigator extends StatelessWidget {
             case PageRoutes.detailPage:
               builder = (context) =>
                   DetailPage(event: settings.arguments as EventModel);
+              break;
+            case PageRoutes.timeline:
+              builder =
+                  (context) => TimeLineBar(settings.arguments as EventModel);
+              break;
+            case PageRoutes.agendaDetail:
+              builder = (context) => AgendaDetail(settings.arguments as Agenda);
               break;
             case PageRoutes.feedbackForm:
               builder = (context) => FeedbackForm();
