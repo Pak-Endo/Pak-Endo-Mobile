@@ -10,12 +10,12 @@ class EventModel {
   String? eventStatus;
   List<Agenda>? agenda;
   String? type;
-  GrandSponsor? grandSponsor;
-  String? grandSponsorContact;
+  List<GrandSponsor>? grandSponsor;
   bool? openForPublic;
-  int? fees;
+  List<Fees>? fees;
   bool? isFavorite;
   bool? isAttended;
+  String? createdAt;
   String? featuredImage;
 
   EventModel({
@@ -31,11 +31,11 @@ class EventModel {
     this.agenda,
     this.type,
     this.grandSponsor,
-    this.grandSponsorContact,
     this.openForPublic,
     this.fees,
     this.isFavorite,
     this.isAttended,
+    this.createdAt,
     this.featuredImage,
   });
 
@@ -47,7 +47,9 @@ class EventModel {
     endDate = json['endDate'];
     location =
         json['location'] != null ? Location.fromJson(json['location']) : null;
-    gallery = Gallery.fromJson((json['gallery'] as List).first);
+    if (json['gallery'] != null) {
+      gallery = Gallery.fromJson((json['gallery'] as List).first);
+    }
     deletedCheck = json['deletedCheck'];
     eventStatus = json['eventStatus'];
     if (json['agenda'] != null) {
@@ -57,45 +59,63 @@ class EventModel {
       });
     }
     type = json['type'];
-    grandSponsor = json['grandSponsor'] != null
-        ? GrandSponsor.fromJson(json['grandSponsor'])
-        : null;
-    grandSponsorContact = json['grandSponsorContact'];
+    if (json['grandSponsor'] != null) {
+      grandSponsor = [];
+      json['grandSponsor'].forEach((v) {
+        grandSponsor?.add(GrandSponsor.fromJson(v));
+      });
+    }
     openForPublic = json['openForPublic'];
-    fees = json['fees'];
+    if (json['fees'] != null) {
+      fees = [];
+      json['fees'].forEach((v) {
+        fees?.add(Fees.fromJson(v));
+      });
+    }
     isFavorite = json['isFavorite'];
     isAttended = json['isAttended'];
+    createdAt = json['createdAt'];
     featuredImage = json['featuredImage'];
   }
 }
 
-class GrandSponsor {
-  String? id;
-  String? name;
+class Fees {
+  Fees({
+    this.feeType,
+    this.feeValue
+  });
 
-  GrandSponsor({this.id, this.name});
+  Fees.fromJson(dynamic json) {
+    feeType = json['feeType'];
+    feeValue = json['feeValue'];
+  }
+
+  String? feeType;
+  String? feeValue;
+}
+
+class GrandSponsor {
+  GrandSponsor({
+    this.id,
+    this.name,
+    this.logo,
+    this.contact,
+  });
 
   GrandSponsor.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
+    logo = json['logo'];
+    contact = json['contact'];
   }
+
+  String? id;
+  String? name;
+  String? logo;
+  String? contact;
 }
 
 class Agenda {
-  String? id;
-  String? theme;
-  String? sponsor;
-  String? agendaTitle;
-  int? day;
-  String? from;
-  String? to;
-  String? hall;
-  String? streamUrl;
-  String? speaker;
-  String? speakerImg;
-  List<SpeakerTeam>? speakerTeam;
-  List<String>? attachments;
-
   Agenda({
     this.id,
     this.theme,
@@ -107,6 +127,7 @@ class Agenda {
     this.hall,
     this.streamUrl,
     this.speaker,
+    this.speakerDesignation,
     this.speakerImg,
     this.speakerTeam,
     this.attachments,
@@ -115,7 +136,8 @@ class Agenda {
   Agenda.fromJson(dynamic json) {
     id = json['_id'];
     theme = json['theme'];
-    sponsor = json['sponsor'];
+    sponsor =
+        json['sponsor'] != null ? Sponsor.fromJson(json['sponsor']) : null;
     agendaTitle = json['agendaTitle'];
     day = json['day'];
     from = json['from'];
@@ -123,6 +145,7 @@ class Agenda {
     hall = json['hall'];
     streamUrl = json['streamUrl'];
     speaker = json['speaker'];
+    speakerDesignation = json['speakerDesignation'];
     speakerImg = json['speakerImg'];
     if (json['speakerTeam'] != null) {
       speakerTeam = [];
@@ -137,25 +160,75 @@ class Agenda {
       });
     }
   }
+
+  String? id;
+  String? theme;
+  Sponsor? sponsor;
+  String? agendaTitle;
+  int? day;
+  String? from;
+  String? to;
+  String? hall;
+  String? streamUrl;
+  String? speaker;
+  String? speakerDesignation;
+  String? speakerImg;
+  List<SpeakerTeam>? speakerTeam;
+  List<String>? attachments;
 }
 
 class SpeakerTeam {
-  String? name;
-  String? role;
-
-  SpeakerTeam({this.name, this.role});
+  SpeakerTeam({
+    this.name,
+    this.role,
+  });
 
   SpeakerTeam.fromJson(dynamic json) {
     name = json['name'];
     role = json['role'];
   }
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['name'] = name;
-    map['role'] = role;
-    return map;
+  String? name;
+  String? role;
+}
+
+class Sponsor {
+  Sponsor({
+    this.id,
+    this.sponsorName,
+    this.uniqueID,
+    this.sponsorLogo,
+    this.description,
+    this.deletedCheck,
+    this.contact,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
+  });
+
+  Sponsor.fromJson(dynamic json) {
+    id = json['_id'];
+    sponsorName = json['sponsorName'];
+    uniqueID = json['uniqueID'];
+    sponsorLogo = json['sponsorLogo'];
+    description = json['description'];
+    deletedCheck = json['deletedCheck'];
+    contact = json['contact'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    v = json['__v'];
   }
+
+  String? id;
+  String? sponsorName;
+  String? uniqueID;
+  String? sponsorLogo;
+  String? description;
+  bool? deletedCheck;
+  String? contact;
+  String? createdAt;
+  String? updatedAt;
+  int? v;
 }
 
 class Gallery {
@@ -176,15 +249,18 @@ class Gallery {
 }
 
 class Location {
-  String? id;
-  String? name;
-
-  Location({this.id, this.name});
+  Location({
+    this.id,
+    this.name,
+  });
 
   Location.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
   }
+
+  String? id;
+  String? name;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

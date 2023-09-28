@@ -5,7 +5,9 @@ import 'package:pak_endo/Constants/app_colors.dart';
 import 'package:pak_endo/controllers/home_controller.dart';
 import 'package:pak_endo/model/event_model.dart';
 import 'package:pak_endo/routes/navigations.dart';
+import 'package:pak_endo/views/widgets/AppButtons/custom_button2.dart';
 import 'package:pak_endo/views/widgets/CustomWidgets/custom_view.dart';
+import 'package:pak_endo/views/widgets/custom_chips.dart';
 import 'package:pak_endo/views/widgets/custom_text/app_large_text.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
@@ -26,7 +28,7 @@ class _TimeLineBarState extends State<TimeLineBar> {
     super.initState();
     homeController.agenda = widget.event.agenda!;
     homeController.mapAgendasByDays(homeController.agenda);
-    homeController.getSpeakersFromAgenda(homeController.agenda);
+    homeController.getSpeakersAndThemesFromAgenda(homeController.agenda);
   }
 
   @override
@@ -44,7 +46,31 @@ class _TimeLineBarState extends State<TimeLineBar> {
                         height: Get.height,
                         child:
                             Column(mainAxisSize: MainAxisSize.min, children: [
-                          getAllAgendaSpeakers(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              CustomButton2(
+                                  width: Get.width / 2.5,
+                                  text: 'Show Speakers',
+                                  height: 40,
+                                  onTap: () =>
+                                      _showBottomSheetSpeakers(context)),
+                              CustomButton2(
+                                  width: Get.width / 2.5,
+                                  text: 'Show Themes',
+                                  height: 40,
+                                  onTap: () => _showBottomSheetThemes(context)),
+                            ],
+                          ),
+                          getFilters(),
+                          const SizedBox(height: 10),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: const Text('Timeline:',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold)),
+                          ),
                           parentTabView(),
                           Expanded(
                             child: TabBarView(
@@ -136,15 +162,11 @@ class _TimeLineBarState extends State<TimeLineBar> {
                   margin: EdgeInsets.only(left: Get.width * 0.04),
                   child: GestureDetector(
                     onTap: () {
-                      // if (_agenda.streamUrl != null) {
-                      //   print('STREAM URL: ${_agenda.streamUrl!}');
-                      //   navigatorKey.currentState!.pushNamed(
-                      //       PageRoutes.youtubeVideo,
-                      //       arguments: _agenda.streamUrl!);
-                      // }
-                      navigatorKey.currentState!.pushNamed(
-                          PageRoutes.agendaDetail,
-                          arguments: _agenda);
+                      if (_agenda.theme != null) {
+                        navigatorKey.currentState!.pushNamed(
+                            PageRoutes.agendaDetail,
+                            arguments: _agenda);
+                      }
                     },
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +174,7 @@ class _TimeLineBarState extends State<TimeLineBar> {
                           getImage(_agenda, index % 2 == 0),
                           getTitle(_agenda, index % 2 == 0),
                           getSpeaker(_agenda, index % 2 == 0),
-                          getSponsor(_agenda, index % 2 == 0),
+                          getDesignation(_agenda, index % 2 == 0),
                           getTime(_agenda, index % 2 == 0),
                           getLive(_agenda, index % 2 == 0),
                         ]),
@@ -168,9 +190,11 @@ class _TimeLineBarState extends State<TimeLineBar> {
                       //       PageRoutes.youtubeVideo,
                       //       arguments: _agenda.streamUrl!);
                       // }
-                      navigatorKey.currentState!.pushNamed(
-                          PageRoutes.agendaDetail,
-                          arguments: _agenda);
+                      if (_agenda.theme != null) {
+                        navigatorKey.currentState!.pushNamed(
+                            PageRoutes.agendaDetail,
+                            arguments: _agenda);
+                      }
                     },
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,7 +202,7 @@ class _TimeLineBarState extends State<TimeLineBar> {
                           getImage(_agenda, index % 2 != 0),
                           getTitle(_agenda, index % 2 != 0),
                           getSpeaker(_agenda, index % 2 != 0),
-                          getSponsor(_agenda, index % 2 != 0),
+                          getDesignation(_agenda, index % 2 != 0),
                           getTime(_agenda, index % 2 != 0),
                           getLive(_agenda, index % 2 != 0),
                         ]),
@@ -248,9 +272,12 @@ class _TimeLineBarState extends State<TimeLineBar> {
     return const SizedBox.shrink();
   }
 
-  getSponsor(Agenda agenda, bool displayData) {
+  getDesignation(Agenda agenda, bool displayData) {
+    if (agenda.speakerDesignation == null) {
+      return const SizedBox.shrink();
+    }
     if (displayData) {
-      return Text("Sponsor: ${agenda.sponsor}",
+      return Text("Designation: ${agenda.speakerDesignation}",
           style: const TextStyle(fontSize: 15, color: Colors.grey));
     }
     return const SizedBox.shrink();
@@ -303,73 +330,284 @@ class _TimeLineBarState extends State<TimeLineBar> {
                 ))));
   }
 
-  // getSearchField() {
-  //   return Padding(
-  //       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-  //       child: CupertinoSearchTextField(
-  //           // onSubmitted: (val) =>
-  //           //     homeController.getEventById(widget.event.id!, val),
-  //           suffixMode: OverlayVisibilityMode.always,
-  //           autofocus: false));
-  // }
-
-  getAllAgendaSpeakers() {
-    return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
-        child: Align(
-            alignment: Alignment.topLeft,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+  getFilters() {
+    return Obx(() => homeController.selectedFilters.isEmpty
+        ? const SizedBox.shrink()
+        : Column(
+            children: [
+              const Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const AppLargeText(
-                      text: "Speakers:", size: 20, color: Colors.black),
-                  Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Wrap(
-                          spacing: 12.0,
-                          runSpacing: 4.0,
-                          children: homeController.speakers
-                              .map((speaker) => Obx(() {
-                                    return Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 8.0),
-                                        child: ChoiceChip(
-                                            label: Text(
-                                              speaker,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium!
-                                                  .copyWith(
-                                                      color: homeController
-                                                              .selectedSpeakers
-                                                              .contains(speaker)
-                                                          ? Colors.white
-                                                          : Colors.black,
-                                                      fontSize: 15),
-                                            ),
-                                            shape: const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(5))),
-                                            selected: homeController
-                                                .selectedSpeakers
-                                                .contains(speaker),
-                                            onSelected: (bool newValue) =>
-                                                homeController.selectedSpeaker(
-                                                    speaker,
-                                                    widget.event.agenda!),
-                                            selectedColor:
-                                                Appcolors.appgreencolor,
-                                            selectedShadowColor:
-                                                Appcolors.appgreencolor,
-                                            avatar: homeController.selectedSpeakers
-                                                    .contains(speaker)
-                                                ? const Icon(Icons.check,
-                                                    color: Colors.white)
-                                                : null // Add a check mark icon for the selected chip
-                                            ));
-                                  }))
-                              .toList()))
-                ])));
+                  const Padding(
+                      padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 10),
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text('Filters:',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold)))),
+                  TextButton(
+                      onPressed: () {
+                        homeController.selectedFilters.clear();
+                        homeController.mapAgendasByDays(widget.event.agenda!);
+                        homeController.update();
+                      },
+                      child: const Text('Remove All')),
+                ],
+              ),
+              Wrap(
+                  runSpacing: 1.2,
+                  spacing: 10,
+                  children: homeController.selectedFilters
+                      .map<Widget>((element) => CustomChip(label: element))
+                      .toList()),
+              const Divider()
+            ],
+          ));
   }
+
+  void _showBottomSheetSpeakers(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0))),
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+            padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
+            height: Get.height * 0.7,
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: () => navigatorKey.currentState!.pop(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(height: 3, width: 100, color: Colors.grey),
+                      const SizedBox(height: 2),
+                      Container(height: 3, width: 70, color: Colors.grey)
+                    ],
+                  ),
+                ),
+                Align(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 20),
+                          const AppLargeText(
+                              text: "Speakers:", size: 20, color: Colors.black),
+                          Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Wrap(
+                                  spacing: 12.0,
+                                  runSpacing: 4.0,
+                                  children: homeController.speakers
+                                      .map((speaker) => Obx(() {
+                                            return Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 8.0),
+                                                child: ChoiceChip(
+                                                    label: Text(
+                                                      speaker,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium!
+                                                          .copyWith(
+                                                              color: homeController
+                                                                      .selectedFilters
+                                                                      .contains(
+                                                                          speaker)
+                                                                  ? Colors.white
+                                                                  : Colors
+                                                                      .black,
+                                                              fontSize: 15),
+                                                    ),
+                                                    shape: const RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(
+                                                                5))),
+                                                    selected: homeController
+                                                        .selectedFilters
+                                                        .contains(speaker),
+                                                    onSelected: (bool newValue) => homeController.selectedSpeakerAndThemes(
+                                                        speaker,
+                                                        widget.event.agenda!),
+                                                    selectedColor:
+                                                        Appcolors.appgreencolor,
+                                                    selectedShadowColor:
+                                                        Appcolors.appgreencolor,
+                                                    avatar: homeController
+                                                            .selectedFilters
+                                                            .contains(speaker)
+                                                        ? const Icon(Icons.check, color: Colors.white)
+                                                        : null // Add a check mark icon for the selected chip
+                                                    ));
+                                          }))
+                                      .toList())),
+                          const SizedBox(height: 10),
+                          const Center(
+                              child: AppLargeText(
+                                  text: "Select to apply filters",
+                                  size: 12,
+                                  color: Colors.grey))
+                        ])),
+              ],
+            ));
+      },
+    );
+  }
+
+  void _showBottomSheetThemes(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20.0))),
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return Container(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
+              height: Get.height * 0.7,
+              child: Column(children: [
+                GestureDetector(
+                  onTap: () => navigatorKey.currentState!.pop(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(height: 3, width: 100, color: Colors.grey),
+                      const SizedBox(height: 2),
+                      Container(height: 3, width: 70, color: Colors.grey)
+                    ],
+                  ),
+                ),
+                Align(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 20),
+                          const AppLargeText(
+                              text: "Themes:", size: 20, color: Colors.black),
+                          Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Wrap(
+                                  spacing: 12.0,
+                                  runSpacing: 4.0,
+                                  children: homeController.themes
+                                      .map((theme) => Obx(() {
+                                            return Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 8.0),
+                                                child: ChoiceChip(
+                                                    label: Text(
+                                                      theme,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium!
+                                                          .copyWith(
+                                                              color: homeController
+                                                                      .selectedFilters
+                                                                      .contains(
+                                                                          theme)
+                                                                  ? Colors.white
+                                                                  : Colors
+                                                                      .black,
+                                                              fontSize: 15),
+                                                    ),
+                                                    shape: const RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.all(
+                                                            Radius.circular(
+                                                                5))),
+                                                    selected: homeController
+                                                        .selectedFilters
+                                                        .contains(theme),
+                                                    onSelected: (bool newValue) => homeController.selectedSpeakerAndThemes(
+                                                        theme,
+                                                        widget.event.agenda!),
+                                                    selectedColor:
+                                                        Appcolors.appgreencolor,
+                                                    selectedShadowColor:
+                                                        Appcolors.appgreencolor,
+                                                    avatar: homeController
+                                                            .selectedFilters
+                                                            .contains(theme)
+                                                        ? const Icon(Icons.check, color: Colors.white)
+                                                        : null // Add a check mark icon for the selected chip
+                                                    ));
+                                          }))
+                                      .toList())),
+                          const SizedBox(height: 10),
+                          const Center(
+                              child: AppLargeText(
+                                  text: "Select to apply filters",
+                                  size: 12,
+                                  color: Colors.grey))
+                        ]))
+              ]));
+        });
+  }
+
+// getAllAgendaSpeakers() {
+//   return Padding(
+//       padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
+//       child: Align(
+//           alignment: Alignment.topLeft,
+//           child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               mainAxisAlignment: MainAxisAlignment.start,
+//               children: [
+//                 const AppLargeText(
+//                     text: "Speakers:", size: 20, color: Colors.black),
+//                 Padding(
+//                     padding: const EdgeInsets.only(left: 20),
+//                     child: Wrap(
+//                         spacing: 12.0,
+//                         runSpacing: 4.0,
+//                         children: homeController.speakers
+//                             .map((speaker) => Obx(() {
+//                                   return Padding(
+//                                       padding:
+//                                           const EdgeInsets.only(right: 8.0),
+//                                       child: ChoiceChip(
+//                                           label: Text(
+//                                             speaker,
+//                                             style: Theme.of(context)
+//                                                 .textTheme
+//                                                 .bodyMedium!
+//                                                 .copyWith(
+//                                                     color: homeController
+//                                                         .selectedFilters
+//                                                             .contains(speaker)
+//                                                         ? Colors.white
+//                                                         : Colors.black,
+//                                                     fontSize: 15),
+//                                           ),
+//                                           shape: const RoundedRectangleBorder(
+//                                               borderRadius: BorderRadius.all(
+//                                                   Radius.circular(5))),
+//                                           selected: homeController
+//                                               .selectedFilters
+//                                               .contains(speaker),
+//                                           onSelected: (bool newValue) =>
+//                                               homeController.selectedSpeaker(
+//                                                   speaker,
+//                                                   widget.event.agenda!),
+//                                           selectedColor:
+//                                           Appcolors.appgreencolor,
+//                                           selectedShadowColor:
+//                                           Appcolors.appgreencolor,
+//                                           avatar: homeController
+//                                               .selectedFilters
+//                                               .contains(speaker)
+//                                               ? const Icon(Icons.check,
+//                                               color: Colors.white)
+//                                               : null // Add a check mark icon for the selected chip
+//                                       ));
+//                         }))
+//                             .toList()))
+//               ])));
+// }
 }

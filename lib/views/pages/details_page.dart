@@ -11,6 +11,7 @@ import 'package:pak_endo/views/widgets/AppButtons/custom_button.dart';
 import 'package:pak_endo/views/widgets/AppButtons/custom_button2.dart';
 import 'package:pak_endo/views/widgets/CustomWidgets/custom_view.dart';
 import 'package:pak_endo/views/widgets/feedback_form.dart';
+import 'package:readmore/readmore.dart';
 
 import '../../constants/app_colors.dart';
 import '../../model/event_model.dart';
@@ -49,6 +50,15 @@ class DetailPage extends StatelessWidget {
 
                   /// INFORMATION
                   eventInfo(),
+
+                  ///ENTRY FEE
+                  entryFee(),
+
+                  ///SPONSORED BY
+                  sponsoredBy(),
+
+                  ///ABOUT EVENT
+                  aboutEvent(),
 
                   ///TIMELINES
                   timelines(),
@@ -281,78 +291,6 @@ class DetailPage extends StatelessWidget {
                           style: const TextStyle(fontSize: 18))))
             ])),
         const SizedBox(height: 20),
-        event.fees == null
-            ? const SizedBox.shrink()
-            : Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(children: [
-              Container(
-                  height: MediaQuery.of(Get.context!).size.height * 0.06,
-                  width: MediaQuery.of(Get.context!).size.height * 0.06,
-                  decoration: BoxDecoration(
-                    borderRadius:
-                    const BorderRadius.all(Radius.circular(8.0)),
-                    color: Colors.grey.withOpacity(0.5),
-                  ),
-                  child: const Icon(Icons.local_atm,
-                      color: Appcolors.Appbuttoncolor, size: 30)),
-              Container(
-                  margin: EdgeInsets.only(
-                      left: MediaQuery.of(Get.context!).size.width * 0.05),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${event.fees} Rs.',
-                            style: const TextStyle(fontSize: 18)),
-                        SizedBox(
-                            height: MediaQuery.of(Get.context!).size.width *
-                                0.01),
-                        const Text("Entry Fee",
-                            style: TextStyle(
-                                color: Colors.black38, fontSize: 14))
-                      ]))
-            ])),
-        event.fees == null
-            ? const SizedBox.shrink()
-            :const SizedBox(height: 20),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(children: [
-              Container(
-                height: MediaQuery.of(Get.context!).size.height * 0.06,
-                width: MediaQuery.of(Get.context!).size.height * 0.06,
-                decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(8.0)),
-                      color: Colors.grey.withOpacity(0.5),
-                      image: const DecorationImage(
-                          image: AssetImage("assets/profile.jpg"),
-                          fit: BoxFit.cover))),
-              Container(
-                  margin: EdgeInsets.only(
-                      left: MediaQuery.of(Get.context!).size.width * 0.05),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(event.grandSponsor!.name!,
-                            style: const TextStyle(fontSize: 18)),
-                        SizedBox(
-                            height:
-                                MediaQuery.of(Get.context!).size.width * 0.01),
-                        const Text("Grand Sponsor",
-                            style:
-                                TextStyle(color: Colors.black38, fontSize: 14))
-                      ]))
-            ])),
-        const SizedBox(height: 20),
-        const AppLargeText(text: "About Event", size: 25, color: Colors.black),
-        Padding(
-            padding:
-                const EdgeInsets.only(top: 5, left: 25, right: 5, bottom: 15),
-            child: Text(event.description!,
-                style: const TextStyle(
-                    fontSize: 17, color: Colors.black87, wordSpacing: 0.7))),
-        SizedBox(height: Get.height * 0.02)
       ]),
     );
   }
@@ -441,5 +379,181 @@ class DetailPage extends StatelessWidget {
             height: 40,
             textfont: 16,
             onTap: _showFeedbackBottomSheet));
+  }
+
+  entryFee() {
+    if (event.fees == null) {
+      return const SizedBox.shrink();
+    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 22),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Entry Fees',
+              style: Theme.of(Get.context!)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
+          const Padding(
+              padding: EdgeInsets.only(right: 280),
+              child: Divider(color: Appcolors.appgreencolor, thickness: 2)),
+          const SizedBox(height: 5),
+          Column(
+            children: event.fees!
+                .map((e) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Column(
+                      children: [
+                        Row(children: [
+                          Container(
+                              height: MediaQuery.of(Get.context!).size.height *
+                                  0.04,
+                              width: MediaQuery.of(Get.context!).size.height *
+                                  0.04,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(8.0)),
+                                color: Colors.grey.withOpacity(0.5),
+                              ),
+                              child: const Icon(Icons.local_atm,
+                                  color: Appcolors.Appbuttoncolor, size: 22)),
+                          Container(
+                              margin: EdgeInsets.only(
+                                  left: MediaQuery.of(Get.context!).size.width *
+                                      0.05),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('${e.feeValue} Rs.',
+                                        style: const TextStyle(fontSize: 18)),
+                                    SizedBox(
+                                        height: MediaQuery.of(Get.context!)
+                                                .size
+                                                .width *
+                                            0.01),
+                                    Text(e.feeType!,
+                                        style: const TextStyle(
+                                            color: Colors.black38,
+                                            fontSize: 14))
+                                  ]))
+                        ]),
+                        const SizedBox(height: 15)
+                      ],
+                    )))
+                .toList(),
+          ),
+          const SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+
+  sponsoredBy() {
+    if (event.grandSponsor == null || event.grandSponsor!.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 22.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Sponsored by',
+              style: Theme.of(Get.context!)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
+          const Padding(
+              padding: EdgeInsets.only(right: 250),
+              child: Divider(color: Appcolors.appgreencolor, thickness: 2)),
+          const SizedBox(height: 5),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Column(
+                children: event.grandSponsor!
+                    .map(
+                      (e) => Column(
+                        children: [
+                          Row(children: [
+                            ClipRRect(
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(8.0)),
+                                child: CachedNetworkImage(
+                                    imageUrl: e.logo!,
+                                    height:
+                                        MediaQuery.of(Get.context!).size.height *
+                                            0.04,
+                                    width:
+                                        MediaQuery.of(Get.context!).size.height *
+                                            0.04,
+                                    fit: BoxFit.cover,
+                                    errorWidget: (_, url, err) => Image.asset(
+                                        "assets/profile.jpg",
+                                        fit: BoxFit.cover),
+                                    progressIndicatorBuilder:
+                                        (context, url, downloadProgress) => Center(
+                                            child: CircularProgressIndicator.adaptive(
+                                                backgroundColor:
+                                                    Appcolors.appgreencolor,
+                                                value: downloadProgress.progress)))),
+                            Container(
+                                margin: EdgeInsets.only(
+                                    left:
+                                        MediaQuery.of(Get.context!).size.width *
+                                            0.05),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(e.name!,
+                                          style: const TextStyle(fontSize: 18)),
+                                      SizedBox(
+                                          height: MediaQuery.of(Get.context!)
+                                                  .size
+                                                  .width *
+                                              0.01),
+                                      const Text("Grand Sponsor",
+                                          style: TextStyle(
+                                              color: Colors.black38,
+                                              fontSize: 14))
+                                    ]))
+                          ]),
+                          const SizedBox(height: 15),
+                        ],
+                      ),
+                    )
+                    .toList(),
+              )),
+          const SizedBox(height: 10),
+        ],
+      ),
+    );
+  }
+
+  aboutEvent() {
+    return Column(
+      children: [
+        const AppLargeText(text: "About Event", size: 25, color: Colors.black),
+        Padding(
+          padding:
+              const EdgeInsets.only(top: 5, left: 25, right: 5, bottom: 15),
+          child: ReadMoreText(
+            event.description!,
+            textAlign: TextAlign.start,
+            style: const TextStyle(
+                fontSize: 17, color: Colors.black87, wordSpacing: 0.7),
+            trimLines: 5,
+            colorClickableText: Appcolors.appbluecolor,
+            trimMode: TrimMode.Line,
+            trimCollapsedText: 'Read more',
+            trimExpandedText: '  .Read less',
+            moreStyle: const TextStyle(color: Appcolors.appgreencolor),
+            lessStyle: const TextStyle(color: Appcolors.appgreencolor),
+          ),
+        ),
+        SizedBox(height: Get.height * 0.02)
+      ],
+    );
   }
 }

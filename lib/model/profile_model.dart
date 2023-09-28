@@ -57,19 +57,19 @@ class ProfileModel {
 //   String? description;
 //   int? startDate;
 //   int? endDate;
-//   String? location;
+//   Location? location;
 //   Gallery? gallery;
 //   bool? deletedCheck;
 //   String? eventStatus;
 //   List<Agenda>? agenda;
 //   String? type;
-//   // String? organizer;
-//   String? organizerContact;
-//   String? featuredImage;
-//   bool? isFavourite;
-//   bool? isAttended;
-//
+//   GrandSponsor? grandSponsor;
+//   String? grandSponsorContact;
+//   bool? openForPublic;
 //   int? fees;
+//   bool? isFavorite;
+//   bool? isAttended;
+//   String? featuredImage;
 //
 //   EventModel({
 //     this.id,
@@ -83,10 +83,13 @@ class ProfileModel {
 //     this.eventStatus,
 //     this.agenda,
 //     this.type,
-//     // this.organizer,
-//     this.organizerContact,
+//     this.grandSponsor,
+//     this.grandSponsorContact,
+//     this.openForPublic,
+//     this.fees,
+//     this.isFavorite,
+//     this.isAttended,
 //     this.featuredImage,
-//     this.fees
 //   });
 //
 //   EventModel.fromJson(dynamic json) {
@@ -95,12 +98,9 @@ class ProfileModel {
 //     description = json['description'];
 //     startDate = json['startDate'];
 //     endDate = json['endDate'];
-//     location = json['location'];
-//     if (json['gallery'] is List) {
-//       gallery = Gallery.fromJson((json['gallery'] as List).first);
-//     } else {
-//       gallery = Gallery.fromJson(json['gallery']);
-//     }
+//     location =
+//     json['location'] != null ? Location.fromJson(json['location']) : null;
+//     gallery = Gallery.fromJson((json['gallery'] as List).first);
 //     deletedCheck = json['deletedCheck'];
 //     eventStatus = json['eventStatus'];
 //     if (json['agenda'] != null) {
@@ -110,12 +110,104 @@ class ProfileModel {
 //       });
 //     }
 //     type = json['type'];
-//     // organizer = json['organizer']??'';
-//     organizerContact = json['organizerContact'];
-//     featuredImage = json['featuredImage'];
-//     isFavourite = json['isFavorite'];
-//     isAttended = json['isAttended'];
+//     grandSponsor = json['grandSponsor'] != null
+//         ? GrandSponsor.fromJson(json['grandSponsor'])
+//         : null;
+//     grandSponsorContact = json['grandSponsorContact'];
+//     openForPublic = json['openForPublic'];
 //     fees = json['fees'];
+//     isFavorite = json['isFavorite'];
+//     isAttended = json['isAttended'];
+//     featuredImage = json['featuredImage'];
+//   }
+// }
+//
+// class GrandSponsor {
+//   String? id;
+//   String? name;
+//
+//   GrandSponsor({this.id, this.name});
+//
+//   GrandSponsor.fromJson(dynamic json) {
+//     id = json['id'];
+//     name = json['name'];
+//   }
+// }
+//
+// class Agenda {
+//   String? id;
+//   String? theme;
+//   String? sponsor;
+//   String? agendaTitle;
+//   int? day;
+//   String? from;
+//   String? to;
+//   String? hall;
+//   String? streamUrl;
+//   String? speaker;
+//   String? speakerImg;
+//   List<SpeakerTeam>? speakerTeam;
+//   List<String>? attachments;
+//
+//   Agenda({
+//     this.id,
+//     this.theme,
+//     this.sponsor,
+//     this.agendaTitle,
+//     this.day,
+//     this.from,
+//     this.to,
+//     this.hall,
+//     this.streamUrl,
+//     this.speaker,
+//     this.speakerImg,
+//     this.speakerTeam,
+//     this.attachments,
+//   });
+//
+//   Agenda.fromJson(dynamic json) {
+//     id = json['_id'];
+//     theme = json['theme'];
+//     sponsor = json['sponsor'];
+//     agendaTitle = json['agendaTitle'];
+//     day = json['day'];
+//     from = json['from'];
+//     to = json['to'];
+//     hall = json['hall'];
+//     streamUrl = json['streamUrl'];
+//     speaker = json['speaker'];
+//     speakerImg = json['speakerImg'];
+//     if (json['speakerTeam'] != null) {
+//       speakerTeam = [];
+//       json['speakerTeam'].forEach((v) {
+//         speakerTeam?.add(SpeakerTeam.fromJson(v));
+//       });
+//     }
+//     if (json['attachments'] != null) {
+//       attachments = [];
+//       json['attachments'].forEach((v) {
+//         attachments?.add(v);
+//       });
+//     }
+//   }
+// }
+//
+// class SpeakerTeam {
+//   String? name;
+//   String? role;
+//
+//   SpeakerTeam({this.name, this.role});
+//
+//   SpeakerTeam.fromJson(dynamic json) {
+//     name = json['name'];
+//     role = json['role'];
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final map = <String, dynamic>{};
+//     map['name'] = name;
+//     map['role'] = role;
+//     return map;
 //   }
 // }
 //
@@ -124,11 +216,7 @@ class ProfileModel {
 //   final String eventID;
 //   final List<String> mediaUrl;
 //
-//   Gallery({
-//     required this.id,
-//     required this.eventID,
-//     required this.mediaUrl,
-//   });
+//   Gallery({required this.id, required this.eventID, required this.mediaUrl});
 //
 //   factory Gallery.fromJson(Map<String, dynamic> json) {
 //     List<String> mediaUrlList = List<String>.from(json['mediaUrl']);
@@ -140,40 +228,21 @@ class ProfileModel {
 //   }
 // }
 //
-// class Agenda {
-//   Agenda({
-//     this.from,
-//     this.day,
-//     this.agendaTitle,
-//     this.to,
-//     this.venue,
-//     this.streamUrl,
-//     this.speaker,
-//     this.speakerImg,
-//     this.id,
-//   });
+// class Location {
+//   String? id;
+//   String? name;
 //
-//   Agenda.fromJson(dynamic json) {
-//     from = json['from'];
-//     day = json['day'];
-//     agendaTitle = json['agendaTitle'];
-//     to = json['to'];
-//     venue = json['venue'];
-//     streamUrl = json['streamUrl'];
-//     speaker = json['speaker'];
-//     speakerImg = json['speakerImg'];
-//     id = json['_id'];
+//   Location({this.id, this.name});
+//
+//   Location.fromJson(dynamic json) {
+//     id = json['id'];
+//     name = json['name'];
 //   }
 //
-//   String? from;
-//   int? day;
-//   String? agendaTitle;
-//   String? to;
-//   String? venue;
-//   String? streamUrl;
-//   String? speaker;
-//
-//   String? speakerImg;
-//   String? id;
+//   Map<String, dynamic> toJson() {
+//     final map = <String, dynamic>{};
+//     map['id'] = id;
+//     map['name'] = name;
+//     return map;
+//   }
 // }
-

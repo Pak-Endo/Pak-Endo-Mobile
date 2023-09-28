@@ -49,6 +49,8 @@ dependencies:
   is_first_run: ^1.0.0
   cached_network_image: ^3.2.3
   intl: ^0.18.1
+  readmore: ^2.2.0
+
 
 dev_dependencies:
   flutter_test:

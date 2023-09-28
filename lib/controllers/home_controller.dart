@@ -15,7 +15,8 @@ class HomeController extends GetxController {
   var listEventsPage = <EventModel>[].obs;
 
   Set<String> speakers = {};
-  var selectedSpeakers = <String>[].obs;
+  Set<String> themes = {};
+  var selectedFilters = <String>[].obs;
   List<Agenda> agenda = [];
 
   Map<String, dynamic> agendaByDay = {};
@@ -99,7 +100,6 @@ class HomeController extends GetxController {
 
       String venue = item.hall!;
 
-      // Check if the venue is already present in the sub-tabs
       if (!agendaByDay[formattedDate]!.containsKey(venue)) {
         agendaByDay[formattedDate]![venue] = [];
       }
@@ -108,22 +108,27 @@ class HomeController extends GetxController {
     }
   }
 
-  getSpeakersFromAgenda(List<Agenda> agenda) {
-    speakers = agenda.map((e) => e.speaker!).toSet();
+  getSpeakersAndThemesFromAgenda(List<Agenda> agenda) {
+    speakers =
+        agenda.where((e) => e.speaker != null).map((e) => e.speaker!).toSet();
+    themes =
+        agenda.where((e) => e.speaker != null).map((e) => e.theme!).toSet();
   }
 
-  selectedSpeaker(String speaker, List<Agenda> agendaItems) {
-    if (selectedSpeakers.contains(speaker)) {
-      selectedSpeakers.remove(speaker);
+  selectedSpeakerAndThemes(String filter, List<Agenda> agendaItems) {
+    if (selectedFilters.contains(filter)) {
+      selectedFilters.remove(filter);
     } else {
-      selectedSpeakers.add(speaker);
+      selectedFilters.add(filter);
     }
 
-    if (selectedSpeakers.isEmpty) {
+    if (selectedFilters.isEmpty) {
       agenda = agendaItems;
     } else {
       agenda = agendaItems
-          .where((e) => selectedSpeakers.contains(e.speaker))
+          .where((e) =>
+              selectedFilters.contains(e.speaker) ||
+              selectedFilters.contains(e.theme))
           .toList();
     }
     mapAgendasByDays(agenda);

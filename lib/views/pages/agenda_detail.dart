@@ -111,7 +111,15 @@ class AgendaDetail extends StatelessWidget {
                   color: Colors.black,
                   fontSize: 25,
                   fontFamily: 'Poppins-Medium',
-                  fontWeight: FontWeight.w400)))
+                  fontWeight: FontWeight.w400))),
+          Center(
+              child: Text(agenda.speakerDesignation!,
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 13,
+                      fontFamily: 'Poppins-Medium',
+                      fontWeight: FontWeight.w100)))
     ]));
   }
 
@@ -134,7 +142,9 @@ class AgendaDetail extends StatelessWidget {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title, style: const TextStyle(fontSize: 18)),
+                      SizedBox(
+                          width: Get.width * 0.64,
+                          child: Text(title, style: const TextStyle(fontSize: 18))),
                       SizedBox(
                           height:
                               MediaQuery.of(Get.context!).size.width * 0.01),
@@ -147,34 +157,63 @@ class AgendaDetail extends StatelessWidget {
   }
 
   getSponsor() {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Row(children: [
-          Container(
-              height: MediaQuery.of(Get.context!).size.height * 0.06,
-              width: MediaQuery.of(Get.context!).size.height * 0.06,
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                  color: Colors.grey.withOpacity(0.5),
-                  image: const DecorationImage(
-                      image: AssetImage("assets/profile.jpg"),
-                      fit: BoxFit.cover))),
-          Container(
-              margin: EdgeInsets.only(
-                  left: MediaQuery.of(Get.context!).size.width * 0.05),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(agenda.sponsor!, style: const TextStyle(fontSize: 18)),
-                    SizedBox(
-                        height: MediaQuery.of(Get.context!).size.width * 0.01),
-                    const Text("Sponsor",
-                        style: TextStyle(color: Colors.black38, fontSize: 14))
-                  ]))
-        ]));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Sponsored by',
+            style: Theme.of(Get.context!)
+                .textTheme
+                .bodyLarge!
+                .copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
+        const Padding(
+            padding: EdgeInsets.only(right: 250),
+            child: Divider(color: Appcolors.appgreencolor, thickness: 2)),
+        const SizedBox(height: 5),
+
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(children: [
+              ClipRRect(
+                  borderRadius:
+                  const BorderRadius.all(Radius.circular(8.0)),
+                  child: CachedNetworkImage(
+                      imageUrl: agenda.sponsor?.sponsorLogo??'',
+                      height: MediaQuery.of(Get.context!).size.height *
+                          0.04,
+                      width: MediaQuery.of(Get.context!).size.height *
+                          0.04,
+                      fit: BoxFit.cover,
+                      errorWidget: (_, url, err) => Image.asset(
+                          "assets/profile.jpg",
+                          fit: BoxFit.cover),
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => Center(
+                          child: CircularProgressIndicator.adaptive(
+                              backgroundColor:
+                              Appcolors.appgreencolor,
+                              value: downloadProgress.progress)))),
+              Container(
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(Get.context!).size.width * 0.05),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(agenda.sponsor!.sponsorName!, style: const TextStyle(fontSize: 18)),
+                        SizedBox(
+                            height: MediaQuery.of(Get.context!).size.width * 0.01),
+                        const Text("Sponsor",
+                            style: TextStyle(color: Colors.black38, fontSize: 14))
+                      ]))
+            ])),
+      ],
+    );
   }
 
   getSpeakerTeam() {
+    if(agenda.speakerTeam!.isEmpty){
+      return const SizedBox.shrink();
+    }
+
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       const SizedBox(height: 25),
       Text('Speaker\'s Team',
