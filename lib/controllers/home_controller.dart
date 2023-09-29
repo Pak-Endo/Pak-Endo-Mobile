@@ -16,6 +16,7 @@ class HomeController extends GetxController {
 
   Set<String> speakers = {};
   Set<String> themes = {};
+  Set<String> timings = {};
   var selectedFilters = <String>[].obs;
   List<Agenda> agenda = [];
 
@@ -113,6 +114,7 @@ class HomeController extends GetxController {
         agenda.where((e) => e.speaker != null).map((e) => e.speaker!).toSet();
     themes =
         agenda.where((e) => e.speaker != null).map((e) => e.theme!).toSet();
+    timings = agenda.map((e) => '${e.from} to ${e.to}').toSet();
   }
 
   selectedSpeakerAndThemes(String filter, List<Agenda> agendaItems) {
@@ -128,7 +130,8 @@ class HomeController extends GetxController {
       agenda = agendaItems
           .where((e) =>
               selectedFilters.contains(e.speaker) ||
-              selectedFilters.contains(e.theme))
+              selectedFilters.contains(e.theme) ||
+              selectedFilters.contains('${e.from} to ${e.to}'))
           .toList();
     }
     mapAgendasByDays(agenda);

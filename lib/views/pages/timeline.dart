@@ -62,16 +62,24 @@ class _TimeLineBarState extends State<TimeLineBar> {
                                   onTap: () => _showBottomSheetThemes(context)),
                             ],
                           ),
-                          getFilters(),
-                          const SizedBox(height: 10),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: const Text('Timeline:',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold)),
-                          ),
-                          parentTabView(),
+                              CustomButton2(
+                                  width: Get.width / 2.5,
+                                  text: 'Show Event Timings',
+                                  height: 40,
+                                  onTap: () =>
+                                      _showBottomSheetEventTimes(context)),
+                              getFilters(),
+                              const SizedBox(height: 10),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8),
+                                child: const Text('Timeline:',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                              parentTabView(),
                           Expanded(
                             child: TabBarView(
                                 children: homeController.agendaByDay.values
@@ -376,7 +384,7 @@ class _TimeLineBarState extends State<TimeLineBar> {
         return Container(
             padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
             height: Get.height * 0.7,
-            child: Column(
+            child: ListView(
               children: [
                 GestureDetector(
                   onTap: () => navigatorKey.currentState!.pop(),
@@ -398,6 +406,11 @@ class _TimeLineBarState extends State<TimeLineBar> {
                           const SizedBox(height: 20),
                           const AppLargeText(
                               text: "Speakers:", size: 20, color: Colors.black),
+                          const Padding(
+                              padding: EdgeInsets.only(right: 270),
+                              child: Divider(color: Appcolors.appgreencolor,
+                                  thickness: 2)),
+                          const SizedBox(height: 10),
                           Padding(
                               padding: const EdgeInsets.only(left: 20),
                               child: Wrap(
@@ -470,7 +483,7 @@ class _TimeLineBarState extends State<TimeLineBar> {
               padding:
                   const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
               height: Get.height * 0.7,
-              child: Column(children: [
+              child: ListView(children: [
                 GestureDetector(
                   onTap: () => navigatorKey.currentState!.pop(),
                   child: Column(
@@ -491,6 +504,11 @@ class _TimeLineBarState extends State<TimeLineBar> {
                           const SizedBox(height: 20),
                           const AppLargeText(
                               text: "Themes:", size: 20, color: Colors.black),
+                          const Padding(
+                              padding: EdgeInsets.only(right: 280),
+                              child: Divider(color: Appcolors.appgreencolor,
+                                  thickness: 2)),
+                          const SizedBox(height: 10),
                           Padding(
                               padding: const EdgeInsets.only(left: 20),
                               child: Wrap(
@@ -550,64 +568,111 @@ class _TimeLineBarState extends State<TimeLineBar> {
         });
   }
 
-// getAllAgendaSpeakers() {
-//   return Padding(
-//       padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20),
-//       child: Align(
-//           alignment: Alignment.topLeft,
-//           child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               children: [
-//                 const AppLargeText(
-//                     text: "Speakers:", size: 20, color: Colors.black),
-//                 Padding(
-//                     padding: const EdgeInsets.only(left: 20),
-//                     child: Wrap(
-//                         spacing: 12.0,
-//                         runSpacing: 4.0,
-//                         children: homeController.speakers
-//                             .map((speaker) => Obx(() {
-//                                   return Padding(
-//                                       padding:
-//                                           const EdgeInsets.only(right: 8.0),
-//                                       child: ChoiceChip(
-//                                           label: Text(
-//                                             speaker,
-//                                             style: Theme.of(context)
-//                                                 .textTheme
-//                                                 .bodyMedium!
-//                                                 .copyWith(
-//                                                     color: homeController
-//                                                         .selectedFilters
-//                                                             .contains(speaker)
-//                                                         ? Colors.white
-//                                                         : Colors.black,
-//                                                     fontSize: 15),
-//                                           ),
-//                                           shape: const RoundedRectangleBorder(
-//                                               borderRadius: BorderRadius.all(
-//                                                   Radius.circular(5))),
-//                                           selected: homeController
-//                                               .selectedFilters
-//                                               .contains(speaker),
-//                                           onSelected: (bool newValue) =>
-//                                               homeController.selectedSpeaker(
-//                                                   speaker,
-//                                                   widget.event.agenda!),
-//                                           selectedColor:
-//                                           Appcolors.appgreencolor,
-//                                           selectedShadowColor:
-//                                           Appcolors.appgreencolor,
-//                                           avatar: homeController
-//                                               .selectedFilters
-//                                               .contains(speaker)
-//                                               ? const Icon(Icons.check,
-//                                               color: Colors.white)
-//                                               : null // Add a check mark icon for the selected chip
-//                                       ));
-//                         }))
-//                             .toList()))
-//               ])));
-// }
+  void _showBottomSheetEventTimes(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20.0))),
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return SingleChildScrollView(
+            child: Container(
+                padding:
+                const EdgeInsets.symmetric(vertical: 14.0, horizontal: 6),
+                height: Get.height * 0.5,
+                child: ListView(children: [
+                  GestureDetector(
+                    onTap: () => navigatorKey.currentState!.pop(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(height: 3, width: 100, color: Colors.grey),
+                        const SizedBox(height: 2),
+                        Container(height: 3, width: 70, color: Colors.grey)
+                      ],
+                    ),
+                  ),
+                  Align(
+                      alignment: Alignment.topLeft,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 20),
+                            const AppLargeText(
+                                text: "Event Timings:",
+                                size: 20,
+                                color: Colors.black),
+                            const Padding(
+                                padding: EdgeInsets.only(right: 260),
+                                child: Divider(color: Appcolors.appgreencolor,
+                                    thickness: 2)),
+                            const SizedBox(height: 10),
+
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Wrap(
+                                  spacing: 12.0,
+                                  runSpacing: 4.0,
+                                  children: homeController.timings
+                                      .map((theme) =>
+                                      Obx(() {
+                                        return Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 8.0),
+                                            child: ChoiceChip(
+                                                label: Text(
+                                                  theme,
+                                                  style: Theme
+                                                      .of(context)
+                                                      .textTheme
+                                                      .bodyMedium!
+                                                      .copyWith(
+                                                      color: homeController
+                                                          .selectedFilters
+                                                          .contains(
+                                                          theme)
+                                                          ? Colors.white
+                                                          : Colors
+                                                          .black,
+                                                      fontSize: 15),
+                                                ),
+                                                shape: const RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius
+                                                        .all(
+                                                        Radius.circular(
+                                                            5))),
+                                                selected: homeController
+                                                    .selectedFilters
+                                                    .contains(theme),
+                                                onSelected: (bool newValue) =>
+                                                    homeController
+                                                        .selectedSpeakerAndThemes(
+                                                        theme,
+                                                        widget.event.agenda!),
+                                                selectedColor:
+                                                Appcolors.appgreencolor,
+                                                selectedShadowColor:
+                                                Appcolors.appgreencolor,
+                                                avatar: homeController
+                                                    .selectedFilters
+                                                    .contains(theme)
+                                                    ? const Icon(Icons.check,
+                                                    color: Colors.white)
+                                                    : null // Add a check mark icon for the selected chip
+                                            ));
+                                      }))
+                                      .toList()),
+                            ),
+                            const SizedBox(height: 10),
+                            const Center(
+                                child: AppLargeText(
+                                    text: "Select to apply filters",
+                                    size: 12,
+                                    color: Colors.grey))
+                          ]))
+                ])),
+          );
+        });
+  }
 }

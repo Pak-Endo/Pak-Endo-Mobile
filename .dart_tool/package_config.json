@@ -350,6 +350,12 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "readmore",
+      "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/readmore-2.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
+    },
+    {
       "name": "rxdart",
       "rootUri": "file:///Users/apple/.pub-cache/hosted/pub.dev/rxdart-0.27.7",
       "packageUri": "lib/",
@@ -566,7 +572,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2023-09-27T13:55:00.861452Z",
+  "generated": "2023-09-28T18:31:39.698529Z",
   "generator": "pub",
   "generatorVersion": "3.0.6"
 }
