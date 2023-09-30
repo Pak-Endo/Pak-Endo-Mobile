@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:pak_endo/constants/consts.dart';
 import 'package:pak_endo/constants/preferences.dart';
+import 'package:pak_endo/model/profile_model.dart';
 import 'package:pak_endo/providers/api_service.dart';
 
 class ApiController {
@@ -11,6 +12,23 @@ class ApiController {
         'memberID': memberID,
         'password': password,
       });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  register(ProfileModel model) async {
+    try {
+      return await Api()
+          .post_('${MyConsts.baseUrl}auth/signup', params: model.toJson());
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  sendResetLink(String email) async {
+    try {
+      return await Api().post_('${MyConsts.baseUrl}auth/forgotPassword/$email');
     } catch (e) {
       rethrow;
     }

@@ -64,10 +64,10 @@ class PageNavigator extends StatelessWidget {
               builder = (context) => const Landing();
               break;
             case PageRoutes.forgetPassword:
-              builder = (context) => const ForgetPassword();
+              builder = (context) => ForgetPassword();
               break;
             case PageRoutes.signup:
-              builder = (context) => const register();
+              builder = (context) => const Register();
               break;
             case PageRoutes.home:
               builder = (context) => const HomePage();
@@ -88,7 +88,7 @@ class PageNavigator extends StatelessWidget {
               builder = (context) => AgendaDetail(settings.arguments as Agenda);
               break;
             case PageRoutes.feedbackForm:
-              builder = (context) => FeedbackForm();
+              builder = (context) => const FeedbackForm();
               break;
             case PageRoutes.youtubeVideo:
               builder = (context) =>

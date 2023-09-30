@@ -5,10 +5,14 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:pak_endo/constants/preferences.dart';
 import 'package:pak_endo/controllers/api_controller.dart';
+import 'package:pak_endo/model/profile_model.dart';
 
 import '../views/widgets/loaders.dart';
 
 class AuthController extends GetxController {
+  final selectedGender = "Male".obs;
+
+
   Future<bool> login(String email, String password) async {
     try {
       getLoader();
@@ -19,6 +23,22 @@ class AuthController extends GetxController {
       await Pref.setString(Pref.TOKEN_KEY, res['token']);
       await Pref.setString(Pref.USER_KEY, jsonEncode(res['user']));
 
+      getSuccess();
+      return true;
+    } catch (e) {
+      debugPrint(e.toString());
+      getError(e.toString());
+      return false;
+    }
+  }
+
+  Future<bool> signup(ProfileModel model) async {
+    try {
+      getLoader();
+      var res = await ApiController().register(model);
+      if (res.containsKey('error') || res.containsKey('errors')) {
+        throw res['message'];
+      }
       getSuccess();
       return true;
     } catch (e) {
@@ -43,6 +63,17 @@ class AuthController extends GetxController {
       debugPrint(e.toString());
       getError(e.toString());
       return false;
+    }
+  }
+
+  Future<void> sendResetLink(String email) async {
+    try {
+      getLoader();
+      await ApiController().sendResetLink(email);
+      getSuccess();
+    } catch (e) {
+      debugPrint(e.toString());
+      getError(e.toString());
     }
   }
 }

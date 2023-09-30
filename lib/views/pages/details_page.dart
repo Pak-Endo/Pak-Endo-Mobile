@@ -238,7 +238,7 @@ class DetailPage extends StatelessWidget {
                 fontWeight: FontWeight.w400)),
         const SizedBox(height: 20),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(children: [
             Container(
                 height: MediaQuery.of(Get.context!).size.height * 0.06,
@@ -269,7 +269,7 @@ class DetailPage extends StatelessWidget {
                     ]))
           ]),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 15),
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(children: [
@@ -290,6 +290,27 @@ class DetailPage extends StatelessWidget {
                       child: Text(event.location!.name!,
                           style: const TextStyle(fontSize: 18))))
             ])),
+        const SizedBox(height: 15),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(children: [
+              Container(
+                  height: MediaQuery.of(Get.context!).size.height * 0.06,
+                  width: MediaQuery.of(Get.context!).size.height * 0.06,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                    color: Colors.grey.withOpacity(0.5),
+                  ),
+                  child: const Icon(Icons.event,
+                      color: Appcolors.Appbuttoncolor, size: 30)),
+              Container(
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(Get.context!).size.width * 0.05),
+                  child: SizedBox(
+                      width: 190,
+                      child: Text(event.type!,
+                          style: const TextStyle(fontSize: 18))))
+            ])),
         const SizedBox(height: 20),
       ]),
     );
@@ -301,7 +322,7 @@ class DetailPage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-            padding: EdgeInsets.only(right: Get.width / 2,left: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: CustomButton2(
                 height: 40,
                 textfont: 16,

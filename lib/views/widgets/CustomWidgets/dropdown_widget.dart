@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class MyDropdownWidget extends StatefulWidget {
   final Function(String) onValueChanged; // Callback function
 
-  MyDropdownWidget({super.key, required this.onValueChanged});
+  const MyDropdownWidget({super.key, required this.onValueChanged});
 
   @override
-  _MyDropdownWidgetState createState() => _MyDropdownWidgetState();
+  State<MyDropdownWidget> createState() => _MyDropdownWidgetState();
 }
 
 class _MyDropdownWidgetState extends State<MyDropdownWidget> {
@@ -16,24 +16,17 @@ class _MyDropdownWidgetState extends State<MyDropdownWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(8.0),
-        ),
-        border: Border.all(color: Colors.white),
-      ),
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          color: Colors.white),
       child: Padding(
         padding: const EdgeInsets.only(left: 12, right: 15),
         child: DropdownButton<String>(
           value: selectedItem,
           items: dropdownItems.map((String item) {
             return DropdownMenuItem<String>(
-              value: item,
-              child: Text(
-                item,
-                style: TextStyle(color: Colors.white),
-              ),
-            );
+                value: item,
+                child: Text(item, style: const TextStyle(color: Colors.black)));
           }).toList(),
           underline: Container(),
           onChanged: (String? newValue) {
