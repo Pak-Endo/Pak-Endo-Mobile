@@ -298,9 +298,9 @@ class DetailPage extends StatelessWidget {
                   height: MediaQuery.of(Get.context!).size.height * 0.06,
                   width: MediaQuery.of(Get.context!).size.height * 0.06,
                   decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                    color: Colors.grey.withOpacity(0.5),
-                  ),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(8.0)),
+                      color: Colors.grey.withOpacity(0.5)),
                   child: const Icon(Icons.event,
                       color: Appcolors.Appbuttoncolor, size: 30)),
               Container(
@@ -311,6 +311,35 @@ class DetailPage extends StatelessWidget {
                       child: Text(event.type!,
                           style: const TextStyle(fontSize: 18))))
             ])),
+        const SizedBox(height: 15),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(children: [
+            Container(
+                height: MediaQuery.of(Get.context!).size.height * 0.06,
+                width: MediaQuery.of(Get.context!).size.height * 0.06,
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                    color: Colors.grey.withOpacity(0.5)),
+                child: const Icon(Icons.person,
+                    color: Appcolors.Appbuttoncolor, size: 30)),
+            Container(
+                margin: EdgeInsets.only(
+                    left: MediaQuery.of(Get.context!).size.width * 0.05),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(event.contactNumber.toString(),
+                          style: const TextStyle(fontSize: 18)),
+                      SizedBox(
+                          height:
+                              MediaQuery.of(Get.context!).size.width * 0.01),
+                      Text('Contact Person: ${event.contactPerson!}',
+                          style: const TextStyle(
+                              color: Colors.black26, fontSize: 14))
+                    ]))
+          ]),
+        ),
         const SizedBox(height: 20),
       ]),
     );

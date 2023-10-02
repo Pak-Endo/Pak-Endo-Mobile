@@ -17,17 +17,19 @@ class EventModel {
   bool? isAttended;
   String? createdAt;
   String? featuredImage;
+  int? contactNumber;
+  String? contactPerson;
 
-  EventModel({
-    this.id,
-    this.title,
-    this.description,
-    this.startDate,
-    this.endDate,
-    this.location,
-    this.gallery,
-    this.deletedCheck,
-    this.eventStatus,
+  EventModel(
+      {this.id,
+      this.title,
+      this.description,
+      this.startDate,
+      this.endDate,
+      this.location,
+      this.gallery,
+      this.deletedCheck,
+      this.eventStatus,
     this.agenda,
     this.type,
     this.grandSponsor,
@@ -37,6 +39,8 @@ class EventModel {
     this.isAttended,
     this.createdAt,
     this.featuredImage,
+    this.contactNumber,
+    this.contactPerson
   });
 
   EventModel.fromJson(dynamic json) {
@@ -76,6 +80,8 @@ class EventModel {
     isAttended = json['isAttended'];
     createdAt = json['createdAt'];
     featuredImage = json['featuredImage'];
+    contactNumber = json['contactNumber'];
+    contactPerson = json['contactPerson'];
   }
 }
 

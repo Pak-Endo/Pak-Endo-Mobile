@@ -113,7 +113,7 @@ class AgendaDetail extends StatelessWidget {
                   fontFamily: 'Poppins-Medium',
                   fontWeight: FontWeight.w400))),
           Center(
-              child: Text(agenda.speakerDesignation!,
+              child: Text(agenda.speakerDesignation??'',
                   textAlign: TextAlign.start,
                   style: const TextStyle(
                       color: Colors.grey,

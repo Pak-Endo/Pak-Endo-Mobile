@@ -30,10 +30,6 @@ class _RegisterState extends State<Register> {
   String prefix = "";
   String _city = "";
 
-  bool myvalue = false;
-  bool malecheckbox = false;
-  bool femalecheckbox = false;
-
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
