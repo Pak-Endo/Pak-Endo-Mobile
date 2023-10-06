@@ -32,19 +32,32 @@ class _HomePageState extends State<HomePage> {
           homePageBar(),
 
           /// ONGOING EVENTS
-          SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-          eventHeading('Ongoing Events', EventStatus.Ongoing),
-          OngoingEventsCard(ongoingEvents: homeController.ongoingEvents),
+          Visibility(
+              visible: homeController.ongoingEvents.isNotEmpty,
+              child: Column(children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                eventHeading('Ongoing Events', EventStatus.Ongoing),
+                OngoingEventsCard(ongoingEvents: homeController.ongoingEvents)
+              ])),
 
           /// UPCOMING EVENTS
-          SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-          eventHeading('Upcoming Events', EventStatus.Upcoming),
-          UpcomingEventsCard(upcomingEvents: homeController.upcomingEvents),
+          Visibility(
+              visible: homeController.upcomingEvents.isNotEmpty,
+              child: Column(children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+                eventHeading('Upcoming Events', EventStatus.Upcoming),
+                UpcomingEventsCard(
+                    upcomingEvents: homeController.upcomingEvents)
+              ])),
 
           /// FINISHED EVENTS
-          SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-          eventHeading('Finished Events', EventStatus.Finished),
-          FinishedEventCard(finishedEvents: homeController.finishedEvents),
+          Visibility(
+              visible: homeController.finishedEvents.isNotEmpty,
+              child: Column(children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+                eventHeading('Finished Events', EventStatus.Finished),
+                FinishedEventCard(finishedEvents: homeController.finishedEvents)
+              ])),
 
           SizedBox(height: MediaQuery.of(context).size.height * 0.15)
         ],

@@ -157,6 +157,9 @@ class AgendaDetail extends StatelessWidget {
   }
 
   getSponsor() {
+    if (agenda.sponsor?.sponsorName == null) {
+      return const SizedBox.shrink();
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

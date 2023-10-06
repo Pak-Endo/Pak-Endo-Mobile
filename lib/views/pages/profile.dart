@@ -6,6 +6,7 @@ import 'package:pak_endo/controllers/profile_controller.dart';
 import 'package:pak_endo/routes/navigations.dart';
 import 'package:pak_endo/views/widgets/event_cards/AttendedEvents.dart';
 
+import '../../controllers/home_controller.dart';
 import '../widgets/AppButtons/custom_button.dart';
 import '../widgets/custom_text/app_large_text.dart';
 
@@ -36,6 +37,7 @@ class ProfilePage extends StatelessWidget {
             width: 130,
             onTap: () => authController.logout().then((value) {
                   if (value == true) {
+                    Get.delete<HomeController>();
                     navigatorKey.currentState!
                         .pushReplacementNamed(PageRoutes.login);
                   }

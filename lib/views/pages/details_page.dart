@@ -312,35 +312,40 @@ class DetailPage extends StatelessWidget {
                           style: const TextStyle(fontSize: 18))))
             ])),
         const SizedBox(height: 15),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(children: [
-            Container(
-                height: MediaQuery.of(Get.context!).size.height * 0.06,
-                width: MediaQuery.of(Get.context!).size.height * 0.06,
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                    color: Colors.grey.withOpacity(0.5)),
-                child: const Icon(Icons.person,
-                    color: Appcolors.Appbuttoncolor, size: 30)),
-            Container(
-                margin: EdgeInsets.only(
-                    left: MediaQuery.of(Get.context!).size.width * 0.05),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(event.contactNumber.toString(),
-                          style: const TextStyle(fontSize: 18)),
-                      SizedBox(
-                          height:
-                              MediaQuery.of(Get.context!).size.width * 0.01),
-                      Text('Contact Person: ${event.contactPerson!}',
-                          style: const TextStyle(
-                              color: Colors.black26, fontSize: 14))
-                    ]))
-          ]),
-        ),
-        const SizedBox(height: 20),
+        event.contactPerson == null
+            ? const SizedBox.shrink()
+            : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(children: [
+                  Container(
+                      height: MediaQuery.of(Get.context!).size.height * 0.06,
+                      width: MediaQuery.of(Get.context!).size.height * 0.06,
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8.0)),
+                          color: Colors.grey.withOpacity(0.5)),
+                      child: const Icon(Icons.person,
+                          color: Appcolors.Appbuttoncolor, size: 30)),
+                  Container(
+                      margin: EdgeInsets.only(
+                          left: MediaQuery.of(Get.context!).size.width * 0.05),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(event.contactNumber.toString(),
+                                style: const TextStyle(fontSize: 18)),
+                            SizedBox(
+                                height: MediaQuery.of(Get.context!).size.width *
+                                    0.01),
+                            Text('Contact Person: ${event.contactPerson!}',
+                                style: const TextStyle(
+                                    color: Colors.black26, fontSize: 14))
+                          ]))
+                ]),
+              ),
+        event.contactPerson == null
+            ? const SizedBox.shrink()
+            : const SizedBox(height: 20),
       ]),
     );
   }
@@ -417,7 +422,9 @@ class DetailPage extends StatelessWidget {
   }
 
   getFeedBackButton() {
-    if (event.eventStatus!.toUpperCase() == 'UPCOMING') {}
+    if (event.eventStatus!.toUpperCase() == 'UPCOMING') {
+      return const SizedBox.shrink();
+    }
 
     if (homeController.isLoggedIn == null) {
       return const SizedBox.shrink();

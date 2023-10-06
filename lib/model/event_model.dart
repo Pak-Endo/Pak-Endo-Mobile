@@ -97,7 +97,7 @@ class Fees {
   }
 
   String? feeType;
-  String? feeValue;
+  int? feeValue;
 }
 
 class GrandSponsor {
