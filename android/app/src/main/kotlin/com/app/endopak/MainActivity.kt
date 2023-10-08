@@ -1,4 +1,4 @@
-package com.example.pak_endo
+package com.app.endopak
 
 import io.flutter.embedding.android.FlutterActivity
 
