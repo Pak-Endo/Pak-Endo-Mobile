@@ -15,7 +15,7 @@ class AppConfig {
   }
 
   static const String appName = 'Endo Pak App';
-  static const String packageName = '';
+  static const String packageName = 'com.app.endopak';
   static const String languageDefault = "en";
 
   late final bool isNewUser;
