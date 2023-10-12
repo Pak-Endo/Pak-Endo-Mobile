@@ -98,7 +98,7 @@ class UpcomingEventsCard extends StatelessWidget {
                               style: const TextStyle(
                                   color: Colors.grey, fontSize: 12))),
                       const SizedBox(height: 5),
-                      Row(children: [
+                      Row(mainAxisSize:MainAxisSize.min,children: [
                         const Icon(Icons.location_pin,
                             color: Appcolors.Appbuttoncolor, size: 16),
                         const SizedBox(width: 5),

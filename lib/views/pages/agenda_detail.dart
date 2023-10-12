@@ -5,6 +5,7 @@ import 'package:pak_endo/Constants/app_colors.dart';
 import 'package:pak_endo/controllers/home_controller.dart';
 import 'package:pak_endo/model/event_model.dart';
 import 'package:pak_endo/routes/navigations.dart';
+import 'package:readmore/readmore.dart';
 
 class AgendaDetail extends StatelessWidget {
   AgendaDetail(this.agenda, {super.key});
@@ -32,6 +33,7 @@ class AgendaDetail extends StatelessWidget {
                   getTile(Icons.view_agenda, agenda.agendaTitle!, agenda.hall!),
                   const SizedBox(height: 10),
                   getSponsor(),
+                  aboutSpeaker(),
                   getSpeakerTeam()
                 ])));
   }
@@ -64,7 +66,8 @@ class AgendaDetail extends StatelessWidget {
   }
 
   getImage() {
-    if (agenda.speakerImg == null || agenda.speakerImg!.isEmpty) {
+    if (agenda.speaker?.speakerImg == null ||
+        agenda.speaker!.speakerImg!.isEmpty) {
       return const SizedBox.shrink();
     }
 
@@ -90,7 +93,7 @@ class AgendaDetail extends StatelessWidget {
                 child: Hero(
                     tag: agenda.id!,
                     child: CachedNetworkImage(
-                        imageUrl: agenda.speakerImg!,
+                        imageUrl: agenda.speaker!.speakerImg!,
                         height: 200.0,
                         width: 200,
                         fit: BoxFit.cover,
@@ -105,21 +108,32 @@ class AgendaDetail extends StatelessWidget {
       ]),
       const SizedBox(height: 10),
       Center(
-          child: Text(agenda.speaker!,
+          child: Text(agenda.speaker?.speakerName ?? '',
               textAlign: TextAlign.start,
               style: const TextStyle(
                   color: Colors.black,
                   fontSize: 25,
                   fontFamily: 'Poppins-Medium',
                   fontWeight: FontWeight.w400))),
-          Center(
-              child: Text(agenda.speakerDesignation??'',
-                  textAlign: TextAlign.start,
-                  style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 13,
-                      fontFamily: 'Poppins-Medium',
-                      fontWeight: FontWeight.w100)))
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Center(
+            child: Text(agenda.speaker?.city ?? '',
+                textAlign: TextAlign.start,
+                style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 13,
+                    fontFamily: 'Poppins-Medium',
+                    fontWeight: FontWeight.w100))),
+        const SizedBox(width: 5),
+        Center(
+            child: Text(agenda.speaker?.country ?? '',
+                textAlign: TextAlign.start,
+                style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 13,
+                    fontFamily: 'Poppins-Medium',
+                    fontWeight: FontWeight.w100)))
+      ]),
     ]));
   }
 
@@ -203,17 +217,57 @@ class AgendaDetail extends StatelessWidget {
                       children: [
                         Text(agenda.sponsor!.sponsorName!, style: const TextStyle(fontSize: 18)),
                         SizedBox(
-                            height: MediaQuery.of(Get.context!).size.width * 0.01),
+                            height:
+                                MediaQuery.of(Get.context!).size.width * 0.01),
                         const Text("Sponsor",
-                            style: TextStyle(color: Colors.black38, fontSize: 14))
+                            style:
+                                TextStyle(color: Colors.black38, fontSize: 14))
                       ]))
             ])),
       ],
     );
   }
 
+  aboutSpeaker() {
+    if (agenda.speaker?.description == null) {
+      return const SizedBox.shrink();
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 25),
+        Text('About Me',
+            style: Theme.of(Get.context!)
+                .textTheme
+                .bodyLarge!
+                .copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
+        const Padding(
+            padding: EdgeInsets.only(right: 250),
+            child: Divider(color: Appcolors.appgreencolor, thickness: 2)),
+        const SizedBox(height: 5),
+        Padding(
+          padding:
+              const EdgeInsets.only(top: 5, left: 25, right: 5),
+          child: ReadMoreText(
+            agenda.speaker!.description!,
+            textAlign: TextAlign.start,
+            style: const TextStyle(
+                fontSize: 17, color: Colors.black87, wordSpacing: 0.7),
+            trimLines: 5,
+            colorClickableText: Appcolors.appbluecolor,
+            trimMode: TrimMode.Line,
+            trimCollapsedText: 'Read more',
+            trimExpandedText: '  .Read less',
+            moreStyle: const TextStyle(color: Appcolors.appgreencolor),
+            lessStyle: const TextStyle(color: Appcolors.appgreencolor),
+          ),
+        ),
+      ],
+    );
+  }
+
   getSpeakerTeam() {
-    if(agenda.speakerTeam!.isEmpty){
+    if (agenda.speakerTeam!.isEmpty) {
       return const SizedBox.shrink();
     }
 

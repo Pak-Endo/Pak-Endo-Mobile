@@ -92,9 +92,7 @@ class _RegisterState extends State<Register> {
                       const SizedBox(height: 20),
 
                       ///BUTTON
-                      Padding(
-                          padding: EdgeInsets.only(left: screenWidth * 0.065),
-                          child: customButton("Register"))
+                      customButton("Register")
                     ]))
           ]))
     ]));
@@ -177,21 +175,23 @@ class _RegisterState extends State<Register> {
           }
         }
       },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 25, top: 5, left: 40),
-        height: 50,
-        width: 180,
-        decoration: const BoxDecoration(
-            color: Appcolors.Appbuttoncolor,
-            borderRadius: BorderRadius.all(Radius.circular(42))),
-        child: Center(
-          child: Text(
-            text,
-            style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                letterSpacing: 2.2),
+      child: Center(
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 25, top: 5),
+          height: 50,
+          width: 180,
+          decoration: const BoxDecoration(
+              color: Appcolors.Appbuttoncolor,
+              borderRadius: BorderRadius.all(Radius.circular(42))),
+          child: Center(
+            child: Text(
+              text,
+              style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  letterSpacing: 2.2),
+            ),
           ),
         ),
       ),

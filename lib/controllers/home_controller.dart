@@ -114,14 +114,17 @@ class HomeController extends GetxController {
     // speakers =
     //     agenda.where((e) => e.speaker != null).map((e) => e.speaker!).toSet();
     selectedFilters.clear();
-    themes =
-        agenda.where((e) => e.speaker != null).map((e) => e.theme!).toSet();
+    themes = agenda
+        .where((e) => e.speaker != null)
+        .where((e) => e.speaker!.speakerName != null)
+        .map((e) => e.theme!)
+        .toSet();
     timings = agenda.map((e) => '${e.from} to ${e.to}').toSet();
 
     for (Agenda item in agenda) {
-      if (item.speaker != null) {
-        if (!speakers.contains(item.speaker)) {
-          speakers.add(item.speaker!);
+      if (item.speaker?.speakerName != null) {
+        if (!speakers.contains(item.speaker!.speakerName)) {
+          speakers.add(item.speaker!.speakerName!);
           speakersDetail.add(item);
         }
       }
@@ -140,7 +143,7 @@ class HomeController extends GetxController {
     } else {
       agenda = agendaItems
           .where((e) =>
-              selectedFilters.contains(e.speaker) ||
+              selectedFilters.contains(e.speaker?.speakerName) ||
               selectedFilters.contains(e.theme) ||
               selectedFilters.contains('${e.from} to ${e.to}'))
           .toList();

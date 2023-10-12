@@ -22,7 +22,7 @@ class Login extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: Stack(fit: StackFit.expand, children: [
             getBackground(),
-            Padding(
+            SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,

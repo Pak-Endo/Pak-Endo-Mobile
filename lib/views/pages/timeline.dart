@@ -193,7 +193,7 @@ class _TimeLineBarState extends State<TimeLineBar> {
                           getTitle(_agenda, index % 2 == 0),
                           getSpeaker(_agenda, index % 2 == 0),
                           getTheme(_agenda, index % 2 == 0),
-                          getDesignation(_agenda, index % 2 == 0),
+                          // getDesignation(_agenda, index % 2 == 0),
                           getTime(_agenda, index % 2 == 0),
                           getLive(_agenda, index % 2 == 0),
                         ]),
@@ -203,12 +203,6 @@ class _TimeLineBarState extends State<TimeLineBar> {
                   margin: EdgeInsets.only(left: Get.width * 0.05),
                   child: GestureDetector(
                     onTap: () {
-                      // if (_agenda.streamUrl != null) {
-                      //   print('STREAM URL: ${_agenda.streamUrl!}');
-                      //   navigatorKey.currentState!.pushNamed(
-                      //       PageRoutes.youtubeVideo,
-                      //       arguments: _agenda.streamUrl!);
-                      // }
                       if (_agenda.theme != null) {
                         navigatorKey.currentState!.pushNamed(
                             PageRoutes.agendaDetail,
@@ -222,7 +216,7 @@ class _TimeLineBarState extends State<TimeLineBar> {
                           getTitle(_agenda, index % 2 != 0),
                           getSpeaker(_agenda, index % 2 != 0),
                           getTheme(_agenda, index % 2 != 0),
-                          getDesignation(_agenda, index % 2 != 0),
+                          // getDesignation(_agenda, index % 2 != 0),
                           getTime(_agenda, index % 2 != 0),
                           getLive(_agenda, index % 2 != 0),
                         ]),
@@ -233,7 +227,7 @@ class _TimeLineBarState extends State<TimeLineBar> {
   }
 
   getImage(Agenda agenda, bool displayData) {
-    if (agenda.speakerImg == null) {
+    if (agenda.speaker?.speakerImg == null) {
       return const SizedBox.shrink();
     }
 
@@ -246,15 +240,15 @@ class _TimeLineBarState extends State<TimeLineBar> {
               height: 50,
               width: 50,
               fit: BoxFit.cover,
-              imageUrl: agenda.speakerImg!,
+              imageUrl: agenda.speaker!.speakerImg!,
               errorWidget: (_, url, err) =>
                   Image.asset("assets/profile.jpg", fit: BoxFit.cover),
               progressIndicatorBuilder: (context, url, downloadProgress) =>
                   Center(
                       child: CircularProgressIndicator.adaptive(
-                    backgroundColor: Appcolors.appgreencolor,
-                    value: downloadProgress.progress,
-                  ))),
+                        backgroundColor: Appcolors.appgreencolor,
+                        value: downloadProgress.progress,
+                      ))),
         ),
       );
     }
@@ -277,19 +271,20 @@ class _TimeLineBarState extends State<TimeLineBar> {
 
     if (displayData) {
       return Text('Theme: ${agenda.theme!}',
-          style: const TextStyle(fontSize: 12, color: Colors.black));
+          style: const TextStyle(fontSize: 12, color: Colors.brown));
     }
     return const SizedBox.shrink();
   }
 
   getSpeaker(Agenda agenda, bool displayData) {
-    if (agenda.speaker == null) {
+    if (agenda.speaker?.speakerName == null) {
       return const SizedBox.shrink();
     }
 
     if (displayData) {
-      return Text(agenda.speaker!,
-          style: const TextStyle(fontSize: 16, color: Colors.black));
+      return Text(agenda.speaker!.speakerName!,
+          style: const TextStyle(
+              fontSize: 16, color: Color.fromARGB(255, 139, 0, 0)));
     }
     return const SizedBox.shrink();
   }
@@ -302,16 +297,16 @@ class _TimeLineBarState extends State<TimeLineBar> {
     return const SizedBox.shrink();
   }
 
-  getDesignation(Agenda agenda, bool displayData) {
-    if (agenda.speakerDesignation == null) {
-      return const SizedBox.shrink();
-    }
-    if (displayData) {
-      return Text("Designation: ${agenda.speakerDesignation}",
-          style: const TextStyle(fontSize: 15, color: Colors.grey));
-    }
-    return const SizedBox.shrink();
-  }
+  // getDesignation(Agenda agenda, bool displayData) {
+  //   if (agenda.speakerDesignation == null) {
+  //     return const SizedBox.shrink();
+  //   }
+  //   if (displayData) {
+  //     return Text("Designation: ${agenda.speakerDesignation}",
+  //         style: const TextStyle(fontSize: 15, color: Colors.grey));
+  //   }
+  //   return const SizedBox.shrink();
+  // }
 
   getLive(Agenda agenda, bool displayData) {
     if (agenda.streamUrl == null || agenda.streamUrl!.isEmpty) {
@@ -319,11 +314,21 @@ class _TimeLineBarState extends State<TimeLineBar> {
     }
 
     if (displayData) {
-      return const Text('Watch Live',
-          style: TextStyle(
-              decoration: TextDecoration.underline,
-              fontWeight: FontWeight.w500,
-              color: Colors.red));
+      return InkWell(onTap:
+          () {
+        if (agenda.streamUrl != null) {
+          print('STREAM URL: ${agenda.streamUrl!}');
+          navigatorKey.currentState!.pushNamed(
+              PageRoutes.youtubeVideo,
+              arguments: agenda.streamUrl!);
+        }
+      },
+        child: const Text('Watch Live',
+            style: TextStyle(
+                decoration: TextDecoration.underline,
+                fontWeight: FontWeight.w500,
+                color: Colors.red)),
+      );
     }
 
     return const SizedBox.shrink();
@@ -447,8 +452,9 @@ class _TimeLineBarState extends State<TimeLineBar> {
                                           Container(
                                             decoration: BoxDecoration(
                                                 color: homeController
-                                                        .selectedFilters
-                                                        .contains(e.speaker!)
+                                                    .selectedFilters
+                                                    .contains(
+                                                    e.speaker!.speakerName)
                                                     ? Appcolors.appgreencolor
                                                         .withOpacity(0.4)
                                                     : Colors.grey
@@ -459,41 +465,50 @@ class _TimeLineBarState extends State<TimeLineBar> {
                                                 visualDensity: VisualDensity
                                                     .adaptivePlatformDensity,
                                                 style: ListTileStyle.list,
-                                                onTap: () => homeController
-                                                    .selectedSpeakerAndThemes(
-                                                        e.speaker!,
+                                                onTap: () =>
+                                                    homeController
+                                                        .selectedSpeakerAndThemes(
+                                                        e.speaker!.speakerName!,
                                                         widget.event.agenda!),
                                                 leading: ClipRRect(
                                                   borderRadius:
-                                                      BorderRadius.circular(8),
+                                                  BorderRadius.circular(8),
                                                   child: CachedNetworkImage(
                                                       height: 50,
                                                       width: 50,
                                                       fit: BoxFit.cover,
                                                       imageUrl:
-                                                          e.speakerImg ?? '',
-                                                      errorWidget: (_, url, err) => Image.asset(
-                                                          "assets/profile.jpg",
-                                                          fit: BoxFit.cover),
-                                                      progressIndicatorBuilder: (context,
-                                                              url,
-                                                              downloadProgress) =>
+                                                      e.speaker?.speakerImg ??
+                                                          '',
+                                                      errorWidget: (_, url,
+                                                          err) =>
+                                                          Image.asset(
+                                                              "assets/profile.jpg",
+                                                              fit: BoxFit
+                                                                  .cover),
+                                                      progressIndicatorBuilder: (
+                                                          context,
+                                                          url,
+                                                          downloadProgress) =>
                                                           Center(
-                                                              child: CircularProgressIndicator.adaptive(
+                                                              child: CircularProgressIndicator
+                                                                  .adaptive(
                                                                   backgroundColor:
-                                                                      Appcolors
-                                                                          .appgreencolor,
+                                                                  Appcolors
+                                                                      .appgreencolor,
                                                                   value: downloadProgress
                                                                       .progress))),
                                                 ),
-                                                title: Text(e.speaker!),
+                                                title: Text(
+                                                    e.speaker!.speakerName!),
                                                 subtitle: Text(
-                                                    e.speakerDesignation ?? ''),
+                                                    e.speaker?.city ?? ''),
                                                 trailing: homeController
-                                                        .selectedFilters
-                                                        .contains(e.speaker!)
+                                                    .selectedFilters
+                                                    .contains(
+                                                    e.speaker!.speakerName!)
                                                     ? const Icon(Icons.check,
-                                                        color: Colors.white)
+                                                    color: Colors.white)
                                                     : null),
                                           ),
                                           const SizedBox(height: 5),
@@ -502,60 +517,6 @@ class _TimeLineBarState extends State<TimeLineBar> {
                                     }))
                                 .toList(),
                           ),
-                          // Padding(
-                          //     padding: const EdgeInsets.only(left: 20),
-                          //     child: Wrap(
-                          //         spacing: 12.0,
-                          //         runSpacing: 4.0,
-                          //         children: homeController.speakers
-                          //             .map((speaker) =>
-                          //             Obx(() {
-                          //               return Padding(
-                          //                   padding: const EdgeInsets.only(
-                          //                       right: 8.0),
-                          //                   child: ChoiceChip(
-                          //                       label: Text(
-                          //                         speaker,
-                          //                         style: Theme
-                          //                             .of(context)
-                          //                             .textTheme
-                          //                             .bodyMedium!
-                          //                             .copyWith(
-                          //                             color: homeController
-                          //                                 .selectedFilters
-                          //                                 .contains(
-                          //                                 speaker)
-                          //                                 ? Colors.white
-                          //                                 : Colors
-                          //                                 .black,
-                          //                             fontSize: 15),
-                          //                       ),
-                          //                       shape: const RoundedRectangleBorder(
-                          //                           borderRadius: BorderRadius
-                          //                               .all(
-                          //                               Radius.circular(
-                          //                                   5))),
-                          //                       selected: homeController
-                          //                           .selectedFilters
-                          //                           .contains(speaker),
-                          //                       onSelected: (bool newValue) =>
-                          //                           homeController
-                          //                               .selectedSpeakerAndThemes(
-                          //                               speaker,
-                          //                               widget.event.agenda!),
-                          //                       selectedColor:
-                          //                       Appcolors.appgreencolor,
-                          //                       selectedShadowColor:
-                          //                       Appcolors.appgreencolor,
-                          //                       avatar: homeController
-                          //                           .selectedFilters
-                          //                           .contains(speaker)
-                          //                           ? const Icon(Icons.check,
-                          //                           color: Colors.white)
-                          //                           : null // Add a check mark icon for the selected chip
-                          //                   ));
-                          //             }))
-                          //             .toList())),
                           const SizedBox(height: 10),
                           const Center(
                               child: AppLargeText(

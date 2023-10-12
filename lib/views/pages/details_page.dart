@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_media_downloader/flutter_media_downloader.dart';
 import 'package:get/get.dart';
 import 'package:pak_endo/constants/preferences.dart';
 import 'package:pak_endo/controllers/fav_controller.dart';
@@ -31,7 +32,7 @@ class DetailPage extends StatelessWidget {
 
     return Scaffold(
         appBar: getAppBar(),
-        floatingActionButton: getFAB(),
+        // floatingActionButton: getFAB(),
         body: Container(
             margin: const EdgeInsets.only(top: 5),
             height: double.maxFinite,
@@ -50,6 +51,9 @@ class DetailPage extends StatelessWidget {
 
                   /// INFORMATION
                   eventInfo(),
+
+                  /// DOWNLOAD PDF
+                  downloadPdf(),
 
                   ///ENTRY FEE
                   entryFee(),
@@ -611,6 +615,42 @@ class DetailPage extends StatelessWidget {
         ),
         SizedBox(height: Get.height * 0.02)
       ],
+    );
+  }
+
+  downloadPdf() {
+    if (event.eventPdf == null) {
+      return const SizedBox.shrink();
+    }
+    final _flutterMediaDownloaderPlugin = MediaDownload();
+
+    return InkWell(
+      onTap: () async {
+        await _flutterMediaDownloaderPlugin.downloadMedia(
+            Get.context!, event.eventPdf!);
+      },
+      child: Padding(
+          padding: const EdgeInsets.only(left: 30.0, bottom: 20),
+          child: Row(children: [
+            Container(
+                height: MediaQuery.of(Get.context!).size.height * 0.06,
+                width: MediaQuery.of(Get.context!).size.height * 0.06,
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                    color: Colors.grey.withOpacity(0.5)),
+                child: const Icon(Icons.picture_as_pdf_outlined,
+                    color: Appcolors.Appbuttoncolor, size: 30)),
+            Container(
+                margin: EdgeInsets.only(
+                    left: MediaQuery.of(Get.context!).size.width * 0.05),
+                child: const SizedBox(
+                    width: 190,
+                    child: Text('Download PDF',
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 18,
+                            decoration: TextDecoration.underline))))
+          ])),
     );
   }
 }

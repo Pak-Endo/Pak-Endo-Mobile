@@ -17,8 +17,9 @@ class EventModel {
   bool? isAttended;
   String? createdAt;
   String? featuredImage;
-  int? contactNumber;
+  String? contactNumber;
   String? contactPerson;
+  String? eventPdf;
 
   EventModel(
       {this.id,
@@ -30,18 +31,18 @@ class EventModel {
       this.gallery,
       this.deletedCheck,
       this.eventStatus,
-    this.agenda,
-    this.type,
-    this.grandSponsor,
-    this.openForPublic,
-    this.fees,
-    this.isFavorite,
-    this.isAttended,
-    this.createdAt,
-    this.featuredImage,
-    this.contactNumber,
-    this.contactPerson
-  });
+      this.agenda,
+      this.type,
+      this.grandSponsor,
+      this.openForPublic,
+      this.fees,
+      this.isFavorite,
+      this.isAttended,
+      this.createdAt,
+      this.featuredImage,
+      this.contactNumber,
+      this.contactPerson,
+      this.eventPdf});
 
   EventModel.fromJson(dynamic json) {
     id = json['_id'];
@@ -82,6 +83,7 @@ class EventModel {
     featuredImage = json['featuredImage'];
     contactNumber = json['contactNumber'];
     contactPerson = json['contactPerson'];
+    eventPdf = json['eventPdf'];
   }
 }
 
@@ -133,8 +135,6 @@ class Agenda {
     this.hall,
     this.streamUrl,
     this.speaker,
-    this.speakerDesignation,
-    this.speakerImg,
     this.speakerTeam,
     this.attachments,
   });
@@ -144,15 +144,14 @@ class Agenda {
     theme = json['theme'];
     sponsor =
         json['sponsor'] != null ? Sponsor.fromJson(json['sponsor']) : null;
+    speaker =
+        json['speaker'] != null ? Speaker.fromJson(json['speaker']) : null;
     agendaTitle = json['agendaTitle'];
     day = json['day'];
     from = json['from'];
     to = json['to'];
     hall = json['hall'];
     streamUrl = json['streamUrl'];
-    speaker = json['speaker'];
-    speakerDesignation = json['speakerDesignation'];
-    speakerImg = json['speakerImg'];
     if (json['speakerTeam'] != null) {
       speakerTeam = [];
       json['speakerTeam'].forEach((v) {
@@ -176,9 +175,7 @@ class Agenda {
   String? to;
   String? hall;
   String? streamUrl;
-  String? speaker;
-  String? speakerDesignation;
-  String? speakerImg;
+  Speaker? speaker;
   List<SpeakerTeam>? speakerTeam;
   List<String>? attachments;
 }
@@ -274,4 +271,34 @@ class Location {
     map['name'] = name;
     return map;
   }
+}
+
+class Speaker {
+  Speaker({
+    this.speakerName,
+    this.speakerContact,
+    this.country,
+    this.city,
+    this.speakerImg,
+    this.email,
+    this.description,
+  });
+
+  Speaker.fromJson(dynamic json) {
+    speakerName = json['speakerName'];
+    speakerContact = json['speakerContact'];
+    country = json['country'];
+    city = json['city'];
+    speakerImg = json['speakerImg'];
+    email = json['email'];
+    description = json['description'];
+  }
+
+  String? speakerName;
+  String? speakerContact;
+  String? country;
+  String? city;
+  String? speakerImg;
+  String? email;
+  String? description;
 }
