@@ -23,8 +23,14 @@ class AgendaDetail extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  /// SPEAKER IMAGE
                   getImage(),
+
+                  /// SPEAKER INFORMATION
+                  getSpeakerInfo(),
                   const Divider(),
+
+                  /// AGENDA INFORMATION
                   getTile(
                       Icons.calendar_month,
                       homeController.getDay(agenda.day!),
@@ -32,8 +38,14 @@ class AgendaDetail extends StatelessWidget {
                   getTile(Icons.topic_outlined, agenda.theme!, 'Theme'),
                   getTile(Icons.view_agenda, agenda.agendaTitle!, agenda.hall!),
                   const SizedBox(height: 10),
+
+                  /// SPONSORS
                   getSponsor(),
+
+                  /// ABOUT SPEAKERS
                   aboutSpeaker(),
+
+                  /// TEAM or PARTICIPANTS
                   getSpeakerTeam()
                 ])));
   }
@@ -106,34 +118,7 @@ class AgendaDetail extends StatelessWidget {
                                     backgroundColor: Appcolors.appgreencolor,
                                     value: downloadProgress.progress))))))
       ]),
-      const SizedBox(height: 10),
-      Center(
-          child: Text(agenda.speaker?.speakerName ?? '',
-              textAlign: TextAlign.start,
-              style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 25,
-                  fontFamily: 'Poppins-Medium',
-                  fontWeight: FontWeight.w400))),
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Center(
-            child: Text(agenda.speaker?.city ?? '',
-                textAlign: TextAlign.start,
-                style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 13,
-                    fontFamily: 'Poppins-Medium',
-                    fontWeight: FontWeight.w100))),
-        const SizedBox(width: 5),
-        Center(
-            child: Text(agenda.speaker?.country ?? '',
-                textAlign: TextAlign.start,
-                style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 13,
-                    fontFamily: 'Poppins-Medium',
-                    fontWeight: FontWeight.w100)))
-      ]),
+          const SizedBox(height: 10)
     ]));
   }
 
@@ -194,38 +179,33 @@ class AgendaDetail extends StatelessWidget {
                   borderRadius:
                   const BorderRadius.all(Radius.circular(8.0)),
                   child: CachedNetworkImage(
-                      imageUrl: agenda.sponsor?.sponsorLogo??'',
-                      height: MediaQuery.of(Get.context!).size.height *
-                          0.04,
-                      width: MediaQuery.of(Get.context!).size.height *
-                          0.04,
-                      fit: BoxFit.cover,
-                      errorWidget: (_, url, err) => Image.asset(
-                          "assets/profile.jpg",
-                          fit: BoxFit.cover),
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) => Center(
-                          child: CircularProgressIndicator.adaptive(
-                              backgroundColor:
-                              Appcolors.appgreencolor,
-                              value: downloadProgress.progress)))),
-              Container(
-                  margin: EdgeInsets.only(
-                      left: MediaQuery.of(Get.context!).size.width * 0.05),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(agenda.sponsor!.sponsorName!, style: const TextStyle(fontSize: 18)),
-                        SizedBox(
-                            height:
-                                MediaQuery.of(Get.context!).size.width * 0.01),
-                        const Text("Sponsor",
-                            style:
-                                TextStyle(color: Colors.black38, fontSize: 14))
-                      ]))
-            ])),
-      ],
-    );
+                    imageUrl: agenda.sponsor?.sponsorLogo ?? '',
+                    height: MediaQuery.of(Get.context!).size.height * 0.04,
+                    width: MediaQuery.of(Get.context!).size.height * 0.04,
+                    fit: BoxFit.cover,
+                    errorWidget: (_, url, err) =>
+                        Image.asset("assets/profile.jpg", fit: BoxFit.cover),
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => Center(
+                            child: CircularProgressIndicator.adaptive(
+                                backgroundColor: Appcolors.appgreencolor,
+                                value: downloadProgress.progress)))),
+            Container(
+                margin: EdgeInsets.only(
+                    left: MediaQuery.of(Get.context!).size.width * 0.05),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(agenda.sponsor?.sponsorName ?? '',
+                          style: const TextStyle(fontSize: 18)),
+                      SizedBox(
+                          height:
+                              MediaQuery.of(Get.context!).size.width * 0.01),
+                      const Text("Sponsor",
+                          style: TextStyle(color: Colors.black38, fontSize: 14))
+                    ]))
+          ]))
+    ]);
   }
 
   aboutSpeaker() {
@@ -273,7 +253,7 @@ class AgendaDetail extends StatelessWidget {
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       const SizedBox(height: 25),
-      Text('Speaker\'s Team',
+      Text('Participants',
           style: Theme.of(Get.context!)
               .textTheme
               .bodyLarge!
@@ -305,18 +285,50 @@ class AgendaDetail extends StatelessWidget {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(e.name!,
+                            Text(e.name ?? '',
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     letterSpacing: 1.1,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w700)),
-                            Text(e.role!,
+                            Text(e.role ?? '',
                                 style: const TextStyle(
                                     fontSize: 11.0, color: Colors.black87))
                           ]))))
               .toList()),
+    ]);
+  }
+
+  getSpeakerInfo() {
+    return Column(children: [
+      Center(
+          child: Text(agenda.speaker?.speakerName ?? '',
+              textAlign: TextAlign.start,
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 25,
+                  fontFamily: 'Poppins-Medium',
+                  fontWeight: FontWeight.w400))),
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Center(
+            child: Text(agenda.speaker?.city ?? '',
+                textAlign: TextAlign.start,
+                style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 13,
+                    fontFamily: 'Poppins-Medium',
+                    fontWeight: FontWeight.w100))),
+        const SizedBox(width: 5),
+        Center(
+            child: Text(agenda.speaker?.country ?? '',
+                textAlign: TextAlign.start,
+                style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 13,
+                    fontFamily: 'Poppins-Medium',
+                    fontWeight: FontWeight.w100)))
+      ])
     ]);
   }
 }

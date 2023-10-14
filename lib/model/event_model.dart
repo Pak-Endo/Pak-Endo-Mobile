@@ -111,9 +111,9 @@ class GrandSponsor {
   });
 
   GrandSponsor.fromJson(dynamic json) {
-    id = json['id'];
-    name = json['name'];
-    logo = json['logo'];
+    id = json['_id'];
+    name = json['sponsorName'];
+    logo = json['sponsorLogo'];
     contact = json['contact'];
   }
 

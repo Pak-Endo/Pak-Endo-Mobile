@@ -52,6 +52,9 @@ class DetailPage extends StatelessWidget {
                   /// INFORMATION
                   eventInfo(),
 
+                  /// CONTACT PERSON
+                  contactPerson(),
+
                   /// DOWNLOAD PDF
                   downloadPdf(),
 
@@ -231,71 +234,17 @@ class DetailPage extends StatelessWidget {
 
   eventInfo() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 22),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(event.title!,
-            textAlign: TextAlign.start,
-            style: const TextStyle(
-                color: Colors.black,
-                fontSize: 25,
-                fontFamily: 'Poppins-Medium',
-                fontWeight: FontWeight.w400)),
-        const SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(children: [
-            Container(
-                height: MediaQuery.of(Get.context!).size.height * 0.06,
-                width: MediaQuery.of(Get.context!).size.height * 0.06,
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                    color: Colors.grey.withOpacity(0.5)),
-                child: const Icon(Icons.calendar_month,
-                    color: Appcolors.Appbuttoncolor, size: 30)),
-            Container(
-                margin: EdgeInsets.only(
-                    left: MediaQuery.of(Get.context!).size.width * 0.05),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                          homeController.getStartAndEndDate(
-                              event.startDate!, event.endDate!),
-                          style: const TextStyle(fontSize: 18)),
-                      SizedBox(
-                          height:
-                              MediaQuery.of(Get.context!).size.width * 0.01),
-                      Text(
-                          homeController.getStartAndEndTime(
-                              event.startDate!, event.endDate!),
-                          style: const TextStyle(
-                              color: Colors.black26, fontSize: 14))
-                    ]))
-          ]),
-        ),
-        const SizedBox(height: 15),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(children: [
-              Container(
-                  height: MediaQuery.of(Get.context!).size.height * 0.06,
-                  width: MediaQuery.of(Get.context!).size.height * 0.06,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                    color: Colors.grey.withOpacity(0.5),
-                  ),
-                  child: const Icon(Icons.location_pin,
-                      color: Appcolors.Appbuttoncolor, size: 30)),
-              Container(
-                  margin: EdgeInsets.only(
-                      left: MediaQuery.of(Get.context!).size.width * 0.05),
-                  child: SizedBox(
-                      width: 190,
-                      child: Text(event.location!.name!,
-                          style: const TextStyle(fontSize: 18))))
-            ])),
-        const SizedBox(height: 15),
-        Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 22),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(event.title!,
+              textAlign: TextAlign.start,
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 25,
+                  fontFamily: 'Poppins-Medium',
+                  fontWeight: FontWeight.w400)),
+          const SizedBox(height: 20),
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(children: [
               Container(
@@ -305,53 +254,74 @@ class DetailPage extends StatelessWidget {
                       borderRadius:
                           const BorderRadius.all(Radius.circular(8.0)),
                       color: Colors.grey.withOpacity(0.5)),
-                  child: const Icon(Icons.event,
+                  child: const Icon(Icons.calendar_month,
                       color: Appcolors.Appbuttoncolor, size: 30)),
               Container(
                   margin: EdgeInsets.only(
                       left: MediaQuery.of(Get.context!).size.width * 0.05),
-                  child: SizedBox(
-                      width: 190,
-                      child: Text(event.type!,
-                          style: const TextStyle(fontSize: 18))))
-            ])),
-        const SizedBox(height: 15),
-        event.contactPerson == null
-            ? const SizedBox.shrink()
-            : Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(children: [
-                  Container(
-                      height: MediaQuery.of(Get.context!).size.height * 0.06,
-                      width: MediaQuery.of(Get.context!).size.height * 0.06,
-                      decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8.0)),
-                          color: Colors.grey.withOpacity(0.5)),
-                      child: const Icon(Icons.person,
-                          color: Appcolors.Appbuttoncolor, size: 30)),
-                  Container(
-                      margin: EdgeInsets.only(
-                          left: MediaQuery.of(Get.context!).size.width * 0.05),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(event.contactNumber.toString(),
-                                style: const TextStyle(fontSize: 18)),
-                            SizedBox(
-                                height: MediaQuery.of(Get.context!).size.width *
-                                    0.01),
-                            Text('Contact Person: ${event.contactPerson!}',
-                                style: const TextStyle(
-                                    color: Colors.black26, fontSize: 14))
-                          ]))
-                ]),
-              ),
-        event.contactPerson == null
-            ? const SizedBox.shrink()
-            : const SizedBox(height: 20),
-      ]),
-    );
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                            homeController.getStartAndEndDate(
+                                event.startDate!, event.endDate!),
+                            style: const TextStyle(fontSize: 18)),
+                        SizedBox(
+                            height:
+                                MediaQuery.of(Get.context!).size.width * 0.01),
+                        Text(
+                            homeController.getStartAndEndTime(
+                                event.startDate!, event.endDate!),
+                            style: const TextStyle(
+                                color: Colors.black26, fontSize: 14))
+                      ]))
+            ]),
+          ),
+          const SizedBox(height: 15),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(children: [
+                Container(
+                    height: MediaQuery.of(Get.context!).size.height * 0.06,
+                    width: MediaQuery.of(Get.context!).size.height * 0.06,
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(8.0)),
+                      color: Colors.grey.withOpacity(0.5),
+                    ),
+                    child: const Icon(Icons.location_pin,
+                        color: Appcolors.Appbuttoncolor, size: 30)),
+                Container(
+                    margin: EdgeInsets.only(
+                        left: MediaQuery.of(Get.context!).size.width * 0.05),
+                    child: SizedBox(
+                        width: 190,
+                        child: Text(event.location!.name!,
+                            style: const TextStyle(fontSize: 18))))
+              ])),
+          const SizedBox(height: 15),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(children: [
+                Container(
+                    height: MediaQuery.of(Get.context!).size.height * 0.06,
+                    width: MediaQuery.of(Get.context!).size.height * 0.06,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8.0)),
+                        color: Colors.grey.withOpacity(0.5)),
+                    child: const Icon(Icons.event,
+                        color: Appcolors.Appbuttoncolor, size: 30)),
+                Container(
+                    margin: EdgeInsets.only(
+                        left: MediaQuery.of(Get.context!).size.width * 0.05),
+                    child: SizedBox(
+                        width: 190,
+                        child: Text(event.type!,
+                            style: const TextStyle(fontSize: 18))))
+              ])),
+          const SizedBox(height: 15)
+        ]));
   }
 
   timelines() {
@@ -443,7 +413,7 @@ class DetailPage extends StatelessWidget {
   }
 
   entryFee() {
-    if (event.fees == null) {
+    if (event.fees == null || event.fees!.isEmpty) {
       return const SizedBox.shrink();
     }
     return Padding(
@@ -541,7 +511,7 @@ class DetailPage extends StatelessWidget {
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(8.0)),
                                 child: CachedNetworkImage(
-                                    imageUrl: e.logo!,
+                                    imageUrl: e.logo ?? '',
                                     height:
                                         MediaQuery.of(Get.context!).size.height *
                                             0.04,
@@ -597,22 +567,19 @@ class DetailPage extends StatelessWidget {
       children: [
         const AppLargeText(text: "About Event", size: 25, color: Colors.black),
         Padding(
-          padding:
-              const EdgeInsets.only(top: 5, left: 25, right: 5, bottom: 15),
-          child: ReadMoreText(
-            event.description!,
-            textAlign: TextAlign.start,
-            style: const TextStyle(
-                fontSize: 17, color: Colors.black87, wordSpacing: 0.7),
-            trimLines: 5,
-            colorClickableText: Appcolors.appbluecolor,
-            trimMode: TrimMode.Line,
-            trimCollapsedText: 'Read more',
-            trimExpandedText: '  .Read less',
-            moreStyle: const TextStyle(color: Appcolors.appgreencolor),
-            lessStyle: const TextStyle(color: Appcolors.appgreencolor),
-          ),
-        ),
+            padding:
+                const EdgeInsets.only(top: 5, left: 25, right: 5, bottom: 15),
+            child: ReadMoreText(event.description!,
+                textAlign: TextAlign.start,
+                style: const TextStyle(
+                    fontSize: 17, color: Colors.black87, wordSpacing: 0.7),
+                trimLines: 5,
+                colorClickableText: Appcolors.appbluecolor,
+                trimMode: TrimMode.Line,
+                trimCollapsedText: 'Read more',
+                trimExpandedText: '  .Read less',
+                moreStyle: const TextStyle(color: Appcolors.appgreencolor),
+                lessStyle: const TextStyle(color: Appcolors.appgreencolor))),
         SizedBox(height: Get.height * 0.02)
       ],
     );
@@ -622,13 +589,10 @@ class DetailPage extends StatelessWidget {
     if (event.eventPdf == null) {
       return const SizedBox.shrink();
     }
-    final _flutterMediaDownloaderPlugin = MediaDownload();
 
     return InkWell(
-      onTap: () async {
-        await _flutterMediaDownloaderPlugin.downloadMedia(
-            Get.context!, event.eventPdf!);
-      },
+      onTap: () async =>
+          await MediaDownload().downloadMedia(Get.context!, event.eventPdf!),
       child: Padding(
           padding: const EdgeInsets.only(left: 30.0, bottom: 20),
           child: Row(children: [
@@ -651,6 +615,46 @@ class DetailPage extends StatelessWidget {
                             fontSize: 18,
                             decoration: TextDecoration.underline))))
           ])),
+    );
+  }
+
+  contactPerson() {
+    if (event.contactPerson == null) {
+      return const SizedBox.shrink();
+    }
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 22),
+      child: Column(children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(children: [
+            Container(
+                height: MediaQuery.of(Get.context!).size.height * 0.06,
+                width: MediaQuery.of(Get.context!).size.height * 0.06,
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                    color: Colors.grey.withOpacity(0.5)),
+                child: const Icon(Icons.person,
+                    color: Appcolors.Appbuttoncolor, size: 30)),
+            Container(
+                margin: EdgeInsets.only(
+                    left: MediaQuery.of(Get.context!).size.width * 0.05),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(event.contactNumber ?? '',
+                          style: const TextStyle(fontSize: 18)),
+                      SizedBox(
+                          height:
+                              MediaQuery.of(Get.context!).size.width * 0.01),
+                      Text('Contact Person: ${event.contactPerson!}',
+                          style: const TextStyle(
+                              color: Colors.black26, fontSize: 14))
+                    ]))
+          ]),
+        ),
+        const SizedBox(height: 20),
+      ]),
     );
   }
 }

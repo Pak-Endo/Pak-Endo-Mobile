@@ -106,7 +106,7 @@ class HomeController extends GetxController {
         agendaByDay[formattedDate]![venue] = [];
       }
 
-      agendaByDay[formattedDate]![venue]!.add(item); // Add an empty object
+      agendaByDay[formattedDate]![venue]!.add(item);
     }
   }
 
