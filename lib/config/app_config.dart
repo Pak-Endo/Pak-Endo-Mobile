@@ -1,9 +1,20 @@
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:is_first_run/is_first_run.dart';
 import 'package:pak_endo/Constants/app_colors.dart';
 import 'package:pak_endo/constants/preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
+import '../firebase_options.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 
+import '../providers/notification_services.dart';
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("Handling a background message: ${message.messageId}");
+}
 
 class AppConfig {
   static final AppConfig _instance = AppConfig._internal();
@@ -20,10 +31,16 @@ class AppConfig {
 
   late final bool isNewUser;
   late final bool isSignedIn;
+  late String? deviceId;
+
 
   init() async {
 
     await Pref.init();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
     isNewUser = await IsFirstRun.isFirstRun();
     isSignedIn = Pref.getString(Pref.TOKEN_KEY) == null ? false : true;
 
@@ -39,5 +56,31 @@ class AppConfig {
       ..indicatorColor = Appcolors.appgreencolor
       ..backgroundColor = Colors.white
       ..textColor = Appcolors.appbluecolor;
+
+    deviceId = await _getId();
+    // <======= Notifications =============
+    await _initializeNotifications();
+
+  }
+  Future<String?> _getId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) {
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    } else if (Platform.isAndroid) {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      return androidDeviceInfo.id; // unique ID on Android
+    }
+    return null;
+  }
+
+  _initializeNotifications() async {
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    print('FCM TOKEN $fcmToken');
+
+    await NotificationServices.instance.initializePlatformNotifications();
+    NotificationServices.instance.showForegroundNotifications();
+    // await ApiProvider().createDevice(deviceId!, fcmToken!);
   }
 }

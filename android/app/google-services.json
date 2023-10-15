@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "584641050203",
+    "project_id": "pakendo-society",
+    "storage_bucket": "pakendo-society.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584641050203:android:1cfc2fa2af9b2f6a3f317e",
+        "android_client_info": {
+          "package_name": "com.app.endopak"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkBDD18fB08Ad5zM6W48PJv1Tt_JFRGdY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
               width: MediaQuery.of(context).size.width * 0.130,
               decoration: const BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("assets/Logo_Icon.png"),
+                      image: AssetImage("assets/icons/logo.png"),
                       fit: BoxFit.fill),
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(8.0)))),
