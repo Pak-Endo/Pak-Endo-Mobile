@@ -51,10 +51,18 @@ class ApiController {
     }
   }
 
-  getAllEvents() async {
+  getAllEvents(String? isLoggedIn) async {
     try {
-      return await Api().get_(
-          '${MyConsts.baseUrl}events/getAllEventsByCategory?limit=5&offset=0');
+      if (isLoggedIn == null) {
+        return await Api().get_(
+            '${MyConsts.baseUrl}events/getAllEventsByCategory?limit=5&offset=0');
+      } else {
+        final profileMap = jsonDecode(Pref.getString(Pref.USER_KEY)!);
+        ProfileModel user = ProfileModel.fromJson(profileMap);
+
+        return await Api().get_(
+            '${MyConsts.baseUrl}events/getAllEventsByCategory?limit=5&offset=0&userID=${user.id}');
+      }
     } catch (e) {
       rethrow;
     }

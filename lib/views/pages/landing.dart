@@ -1,5 +1,6 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pak_endo/constants/app_colors.dart';
 import 'package:pak_endo/views/pages/faviortes.dart';
 import 'package:pak_endo/views/pages/homepage.dart';
@@ -41,14 +42,10 @@ class _LandingState extends State<Landing> {
         extendBody: true,
         bottomNavigationBar: (bottomBarPages.length <= maxCount)
             ? AnimatedNotchBottomBar(
-
-                /// Provide NotchBottomBarController
                 notchBottomBarController: _controller,
                 color: Colors.white,
                 showLabel: false,
                 notchColor: Appcolors.appgreencolor,
-
-                /// restart app if you change removeMargins
                 removeMargins: false,
                 bottomBarWidth: 500,
                 durationInMilliSeconds: 300,
@@ -68,31 +65,30 @@ class _LandingState extends State<Landing> {
   }
 }
 
-// void _showSignInDialog() {
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return AlertDialog(
-//         title: const Text('Not Signed In'),
-//         content:
-//             const Text('You are not signed in. Please sign in to continue.'),
-//         actions: <Widget>[
-//           TextButton(
-//             onPressed: () {
-//               Navigator.of(context).pop();
-//               Navigator.pushReplacementNamed(context, "/signin");
-//             },
-//             child: const Text('Sign In'),
-//           ),
-//           TextButton(
-//             onPressed: () {
-//               setState(() {});
-//               Navigator.of(context).pop();
-//             },
-//             child: const Text('Cancel'),
-//           ),
-//         ],
-//       );
-//     },
-//   );
-// }
+void _showSignInDialog() {
+  showDialog(
+    context: Get.context!,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Not Signed In'),
+        content:
+            const Text('You are not signed in. Please sign in to continue.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.pushReplacementNamed(context, "/signin");
+            },
+            child: const Text('Sign In'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      );
+    },
+  );
+}

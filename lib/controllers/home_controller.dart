@@ -39,7 +39,7 @@ class HomeController extends GetxController {
   getAllEvents() async {
     try {
       getLoader();
-      var json = await ApiController().getAllEvents();
+      var json = await ApiController().getAllEvents(isLoggedIn);
 
       // Assign upcoming events
       upcomingEvents.assignAll((json['upcomingEvents'] as List)
