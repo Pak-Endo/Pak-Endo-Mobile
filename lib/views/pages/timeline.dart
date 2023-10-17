@@ -5,7 +5,6 @@ import 'package:pak_endo/Constants/app_colors.dart';
 import 'package:pak_endo/controllers/home_controller.dart';
 import 'package:pak_endo/model/event_model.dart';
 import 'package:pak_endo/routes/navigations.dart';
-import 'package:pak_endo/views/widgets/AppButtons/custom_button2.dart';
 import 'package:pak_endo/views/widgets/CustomWidgets/custom_view.dart';
 import 'package:pak_endo/views/widgets/custom_chips.dart';
 import 'package:pak_endo/views/widgets/custom_divider.dart';
@@ -23,6 +22,7 @@ class TimeLineBar extends StatefulWidget {
 
 class _TimeLineBarState extends State<TimeLineBar> {
   final HomeController homeController = Get.find<HomeController>();
+  double customAppBarHeight = 73.2;
 
   @override
   void initState() {
@@ -34,65 +34,76 @@ class _TimeLineBarState extends State<TimeLineBar> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height - MediaQuery
+        .of(context)
+        .padding.top- MediaQuery
+        .of(context)
+        .padding.bottom - customAppBarHeight;
+
+
+
     return Scaffold(
         appBar: getAppBar(),
         body: homeController.agenda.isEmpty
             ? const Center(
-                child: CustomView(
-                    'No Agenda for this event', Icons.no_adult_content))
+            child: CustomView(
+                'No Agenda for this event', Icons.no_adult_content))
             : GetBuilder<HomeController>(builder: (logic) {
-                return SingleChildScrollView(
-                  child: DefaultTabController(
-                      length: homeController.agendaByDay.keys.length,
-                      child: SizedBox(
-                          height: Get.height,
-                          child:
-                              Column(mainAxisSize: MainAxisSize.min, children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                CustomButton2(
-                                    width: Get.width / 2.5,
-                                    text: 'Show Speakers',
-                                    height: 40,
-                                    onTap: () =>
-                                        _showBottomSheetSpeakers(context)),
-                                CustomButton2(
-                                    width: Get.width / 2.5,
-                                    text: 'Show Themes',
-                                    height: 40,
-                                    onTap: () =>
-                                        _showBottomSheetThemes(context)),
-                              ],
-                            ),
-                            CustomButton2(
-                                width: Get.width / 2.5,
-                                text: 'Show Event Timings',
-                                height: 40,
-                                onTap: () =>
-                                    _showBottomSheetEventTimes(context)),
-                            getFilters(),
-                            const SizedBox(height: 10),
-                            Container(
-                                alignment: Alignment.centerLeft,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                child: const Text('Timeline:',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold))),
-                            parentTabView(),
-                            const CustomDivider(),
-                            Expanded(
-                              child: TabBarView(
-                                  children: homeController.agendaByDay.values
-                                      .map<Widget>(
-                                          (venueTab) => childTabView(venueTab))
-                                      .toList()),
-                            )
-                          ]))),
-                );
-              }));
+          return SingleChildScrollView(
+            child: DefaultTabController(
+                length: homeController.agendaByDay.keys.length,
+                child: SizedBox(
+                    height: screenHeight,
+                    child:
+                    Column(mainAxisSize: MainAxisSize.min, children: [
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //   children: [
+                      //     CustomButton2(
+                      //         width: Get.width / 2.5,
+                      //         text: 'Show Speakers',
+                      //         height: 40,
+                      //         onTap: () =>
+                      //             _showBottomSheetSpeakers(context)),
+                      //     CustomButton2(
+                      //         width: Get.width / 2.5,
+                      //         text: 'Show Themes',
+                      //         height: 40,
+                      //         onTap: () =>
+                      //             _showBottomSheetThemes(context)),
+                      //   ],
+                      // ),
+                      // CustomButton2(
+                      //     width: Get.width / 2,
+                      //     text: 'Show Event Timings',
+                      //     height: 40,
+                      //     onTap: () =>
+                      //         _showBottomSheetEventTimes(context)),
+                      getFilters(),
+                      const SizedBox(height: 10),
+                      Container(
+                          alignment: Alignment.centerLeft,
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 8),
+                          child: const Text('Timeline:',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold))),
+                      parentTabView(),
+                      const CustomDivider(),
+                      Expanded(
+                        child: TabBarView(
+                            children: homeController.agendaByDay.values
+                                .map<Widget>(
+                                    (venueTab) => childTabView(venueTab))
+                                .toList()),
+                      )
+                    ]))),
+          );
+        }));
   }
 
   parentTabView() {
@@ -340,9 +351,42 @@ class _TimeLineBarState extends State<TimeLineBar> {
             onTap: () => navigatorKey.currentState!.pop(),
             child: const Icon(Icons.arrow_back)),
         title: const Text("Agenda"),
+        actions: [PopupMenuButton<String>(
+            onSelected: (value) {
+              print('Selected: $value');
+              if (value == '0') {
+                _showBottomSheetSpeakers(context);
+              } else if (value == '1') {
+                _showBottomSheetThemes(context);
+              } else {
+                _showBottomSheetEventTimes(context);
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return <PopupMenuEntry<String>>[
+                const PopupMenuItem<String>(
+                  value: '0',
+                  child: Row(
+                    children: [
+                      Text('Show Speakers'),
+                    ],
+                  ),
+                ),
+                const PopupMenuItem<String>(
+                    value: '1',
+                    child: Text('Show Themes')
+                ),
+                const PopupMenuItem<String>(
+                    value: '2',
+                    child: Text('Show Event Timings')
+                )
+              ];
+            }
+        )
+        ],
         titleSpacing: 0.0,
         centerTitle: true,
-        toolbarHeight: 73.2,
+        toolbarHeight: customAppBarHeight,
         toolbarOpacity: 0.8,
         shadowColor: Appcolors.appbluecolor.withOpacity(0.8),
         shape: const RoundedRectangleBorder(
@@ -370,12 +414,11 @@ class _TimeLineBarState extends State<TimeLineBar> {
         ? const SizedBox.shrink()
         : Column(
             children: [
-              const Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Padding(
-                      padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 10),
+                      padding: EdgeInsets.only(left: 8.0, right: 8.0),
                       child: Align(
                           alignment: Alignment.topLeft,
                           child: Text('Filters:',
@@ -390,12 +433,26 @@ class _TimeLineBarState extends State<TimeLineBar> {
                       child: const Text('Remove All')),
                 ],
               ),
-              Wrap(
-                  runSpacing: 1.2,
-                  spacing: 10,
-                  children: homeController.selectedFilters
-                      .map<Widget>((element) => CustomChip(label: element))
-                      .toList()),
+              SizedBox(
+                height: 30,
+                child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    children: homeController.selectedFilters
+                        .map<Widget>((element) =>
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: CustomChip(label: element),
+                        ))
+                        .toList()),
+              ),
+              // Wrap(
+              //     runSpacing: 1.2,
+              //     spacing: 10,
+              //     children: homeController.selectedFilters
+              //         .map<Widget>((element) => CustomChip(label: element))
+              //         .toList()),
               const Divider()
             ],
           ));
@@ -733,4 +790,5 @@ class _TimeLineBarState extends State<TimeLineBar> {
           );
         });
   }
+
 }

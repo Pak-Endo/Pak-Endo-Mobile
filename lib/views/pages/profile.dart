@@ -23,7 +23,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 20),
+          padding: const EdgeInsets.only(top: 30,bottom: 150),
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
             header(),
 

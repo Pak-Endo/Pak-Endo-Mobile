@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:pak_endo/constants/preferences.dart';
@@ -16,7 +17,9 @@ class AuthController extends GetxController {
   Future<bool> login(String email, String password) async {
     try {
       getLoader();
-      var res = await ApiController().login(email, password);
+      final fcmToken = await FirebaseMessaging.instance.getToken();
+      print('FCM TOKEN $fcmToken');
+      var res = await ApiController().login(email, password, fcmToken);
       if (res.containsKey('error') || res.containsKey('errors')) {
         throw res['message'];
       }

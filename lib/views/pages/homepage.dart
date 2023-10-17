@@ -31,11 +31,14 @@ class _HomePageState extends State<HomePage> {
           /// HOMEPAGE BAR
           homePageBar(),
 
+          /// BANNERS
+          showBanners(),
+
           /// ONGOING EVENTS
           Visibility(
               visible: homeController.ongoingEvents.isNotEmpty,
               child: Column(children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 eventHeading('Ongoing Events', EventStatus.Ongoing),
                 OngoingEventsCard(ongoingEvents: homeController.ongoingEvents)
               ])),
@@ -44,7 +47,7 @@ class _HomePageState extends State<HomePage> {
           Visibility(
               visible: homeController.upcomingEvents.isNotEmpty,
               child: Column(children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 eventHeading('Upcoming Events', EventStatus.Upcoming),
                 UpcomingEventsCard(
                     upcomingEvents: homeController.upcomingEvents)
@@ -54,7 +57,7 @@ class _HomePageState extends State<HomePage> {
           Visibility(
               visible: homeController.finishedEvents.isNotEmpty,
               child: Column(children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.06),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                 eventHeading('Finished Events', EventStatus.Finished),
                 FinishedEventCard(finishedEvents: homeController.finishedEvents)
               ])),
@@ -103,7 +106,7 @@ class _HomePageState extends State<HomePage> {
           Container(
               margin: const EdgeInsets.only(left: 5),
               child: const AppLargeText(
-                  text: "Endo-Pak",
+                  text: "PES 2023",
                   size: 20.5,
                   color: Color.fromARGB(255, 65, 163, 110),
                   fontFamily: "Poppins-SemiBold")),
@@ -120,6 +123,18 @@ class _HomePageState extends State<HomePage> {
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) => const SearchPage(),
+    );
+  }
+
+  showBanners() {
+    return Card(
+      child: Container(
+          height: MediaQuery.of(context).size.height * 0.1,
+          width: MediaQuery.of(context).size.width,
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("assets/banner2.png"), fit: BoxFit.fitWidth),
+              borderRadius: BorderRadius.all(Radius.circular(8.0)))),
     );
   }
 }

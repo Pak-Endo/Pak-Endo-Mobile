@@ -19,18 +19,20 @@ class CustomView extends StatelessWidget {
                 color: Appcolors.appgreencolor.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(12)),
             alignment: Alignment.center,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(title,
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w500)),
-                  Container(
-                    padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                          color: Appcolors.appgreencolor,
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Icon(icon, size: 15, color: Colors.white))
-                ])));
+            child: FittedBox(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(title,
+                        style: const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500)),
+                    Container(
+                      padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                            color: Appcolors.appgreencolor,
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Icon(icon, size: 15, color: Colors.white))
+                  ]),
+            )));
   }
 }

@@ -71,23 +71,25 @@ class EventListCard extends StatelessWidget {
                                     text: event.title!,
                                     size: 16,
                                     color: Colors.black),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      const Icon(Icons.location_pin,
-                                          color: Appcolors.Appbuttoncolor,
-                                          size: 14),
-                                      SizedBox(
-                                        width: 180,
-                                        child: Text(event.location!.name!,
-                                            style: const TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                color: Colors.blueGrey,
-                                                fontSize: 12)),
-                                      )
-                                    ]),
+                                FittedBox(
+                                  child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.location_pin,
+                                            color: Appcolors.Appbuttoncolor,
+                                            size: 14),
+                                        SizedBox(
+                                          width: 180,
+                                          child: Text(event.location!.name!,
+                                              style: const TextStyle(
+                                                  overflow: TextOverflow.ellipsis,
+                                                  color: Colors.blueGrey,
+                                                  fontSize: 12)),
+                                        )
+                                      ]),
+                                ),
                                 const SizedBox(height: 4),
                                 Text(event.description!,
                                     style: const TextStyle(

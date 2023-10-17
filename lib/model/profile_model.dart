@@ -1,3 +1,5 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 class ProfileModel {
   String? email;
   String? phoneNumber;
@@ -14,6 +16,7 @@ class ProfileModel {
   String? lastName;
   String? prefix;
   String? password;
+  String? fcmToken;
 
   ProfileModel(
       {this.email,
@@ -25,11 +28,11 @@ class ProfileModel {
       this.type,
       this.status,
       this.role,
-      this.id,
-      this.firstName,
-      this.lastName,
-      this.password,
-      this.prefix});
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.password,
+    this.prefix});
 
   ProfileModel.fromJson(dynamic json) {
     email = json['email'];
@@ -54,6 +57,7 @@ class ProfileModel {
     map['city'] = city;
     map['prefix'] = prefix;
     map['password'] = password;
+    map['deviceToken'] = FirebaseMessaging.instance.getToken();
     return map;
   }
 

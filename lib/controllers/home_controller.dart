@@ -121,6 +121,8 @@ class HomeController extends GetxController {
         .toSet();
     timings = agenda.map((e) => '${e.from} to ${e.to}').toSet();
 
+    speakers.clear();
+    speakersDetail.clear();
     for (Agenda item in agenda) {
       if (item.speaker?.speakerName != null) {
         if (!speakers.contains(item.speaker!.speakerName)) {

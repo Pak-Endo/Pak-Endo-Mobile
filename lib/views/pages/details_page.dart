@@ -371,23 +371,26 @@ class DetailPage extends StatelessWidget {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(children: [
-                      const SizedBox(
-                          width: 150,
+                    Row(mainAxisSize: MainAxisSize.max, children: [
+                      const Flexible(
+                          flex: 2,
                           child: Text("Have you attended this event?",
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.w500))),
-                      const Spacer(),
-                      TextButton(
-                          onPressed: () => homeController.addToAttendedEvents(
-                              event.id!, false),
-                          child:
-                              const Text("No", style: TextStyle(fontSize: 15))),
-                      TextButton(
-                          onPressed: () => homeController.addToAttendedEvents(
-                              event.id!, true),
-                          child:
-                              const Text("Yes", style: TextStyle(fontSize: 15)))
+                      Flexible(
+                        child: TextButton(
+                            onPressed: () => homeController.addToAttendedEvents(
+                                event.id!, false),
+                            child: const Text("No",
+                                style: TextStyle(fontSize: 15))),
+                      ),
+                      Flexible(
+                        child: TextButton(
+                            onPressed: () => homeController.addToAttendedEvents(
+                                event.id!, true),
+                            child: const Text("Yes",
+                                style: TextStyle(fontSize: 15))),
+                      )
                     ])
                   ])),
         );
@@ -565,21 +568,24 @@ class DetailPage extends StatelessWidget {
   aboutEvent() {
     return Column(
       children: [
-        const AppLargeText(text: "About Event", size: 25, color: Colors.black),
-        Padding(
-            padding:
-                const EdgeInsets.only(top: 5, left: 25, right: 5, bottom: 15),
-            child: ReadMoreText(event.description!,
-                textAlign: TextAlign.start,
-                style: const TextStyle(
-                    fontSize: 17, color: Colors.black87, wordSpacing: 0.7),
-                trimLines: 5,
-                colorClickableText: Appcolors.appbluecolor,
-                trimMode: TrimMode.Line,
-                trimCollapsedText: 'Read more',
-                trimExpandedText: '  .Read less',
-                moreStyle: const TextStyle(color: Appcolors.appgreencolor),
-                lessStyle: const TextStyle(color: Appcolors.appgreencolor))),
+        const Center(child: AppLargeText(text: "About Event", size: 25, color: Colors.black)),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+              padding:
+                  const EdgeInsets.only(top: 5, left: 25, right: 5, bottom: 15),
+              child: ReadMoreText(event.description!,
+                  textAlign: TextAlign.start,
+                  style: const TextStyle(
+                      fontSize: 17, color: Colors.black87, wordSpacing: 0.7),
+                  trimLines: 5,
+                  colorClickableText: Appcolors.appbluecolor,
+                  trimMode: TrimMode.Line,
+                  trimCollapsedText: 'Read more',
+                  trimExpandedText: '  .Read less',
+                  moreStyle: const TextStyle(color: Appcolors.appgreencolor),
+                  lessStyle: const TextStyle(color: Appcolors.appgreencolor))),
+        ),
         SizedBox(height: Get.height * 0.02)
       ],
     );
@@ -627,31 +633,33 @@ class DetailPage extends StatelessWidget {
       child: Column(children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Row(children: [
-            Container(
-                height: MediaQuery.of(Get.context!).size.height * 0.06,
-                width: MediaQuery.of(Get.context!).size.height * 0.06,
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                    color: Colors.grey.withOpacity(0.5)),
-                child: const Icon(Icons.person,
-                    color: Appcolors.Appbuttoncolor, size: 30)),
-            Container(
-                margin: EdgeInsets.only(
-                    left: MediaQuery.of(Get.context!).size.width * 0.05),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(event.contactNumber ?? '',
-                          style: const TextStyle(fontSize: 18)),
-                      SizedBox(
-                          height:
-                              MediaQuery.of(Get.context!).size.width * 0.01),
-                      Text('Contact Person: ${event.contactPerson!}',
-                          style: const TextStyle(
-                              color: Colors.black26, fontSize: 14))
-                    ]))
-          ]),
+          child: FittedBox(
+            child: Row(children: [
+              Container(
+                  height: MediaQuery.of(Get.context!).size.height * 0.06,
+                  width: MediaQuery.of(Get.context!).size.height * 0.06,
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                      color: Colors.grey.withOpacity(0.5)),
+                  child: const Icon(Icons.person,
+                      color: Appcolors.Appbuttoncolor, size: 30)),
+              Container(
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(Get.context!).size.width * 0.05),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(event.contactNumber ?? '',
+                            style: const TextStyle(fontSize: 18)),
+                        SizedBox(
+                            height:
+                                MediaQuery.of(Get.context!).size.width * 0.01),
+                        Text('Contact Person: ${event.contactPerson!}',
+                            style: const TextStyle(
+                                color: Colors.black26, fontSize: 14))
+                      ]))
+            ]),
+          ),
         ),
         const SizedBox(height: 20),
       ]),

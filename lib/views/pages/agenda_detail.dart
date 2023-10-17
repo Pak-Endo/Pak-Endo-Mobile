@@ -127,31 +127,33 @@ class AgendaDetail extends StatelessWidget {
       const SizedBox(height: 5),
       Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(children: [
-            Container(
-                height: MediaQuery.of(Get.context!).size.height * 0.06,
-                width: MediaQuery.of(Get.context!).size.height * 0.06,
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-                    color: Colors.grey.withOpacity(0.5)),
-                child: Icon(icon, color: Appcolors.Appbuttoncolor, size: 30)),
-            Container(
-                margin: EdgeInsets.only(
-                    left: MediaQuery.of(Get.context!).size.width * 0.05),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                          width: Get.width * 0.64,
-                          child: Text(title, style: const TextStyle(fontSize: 18))),
-                      SizedBox(
-                          height:
-                              MediaQuery.of(Get.context!).size.width * 0.01),
-                      Text(subTitle,
-                          style: const TextStyle(
-                              color: Colors.black26, fontSize: 14))
-                    ]))
-          ]))
+          child: FittedBox(
+            child: Row(children: [
+              Container(
+                  height: MediaQuery.of(Get.context!).size.height * 0.06,
+                  width: MediaQuery.of(Get.context!).size.height * 0.06,
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                      color: Colors.grey.withOpacity(0.5)),
+                  child: Icon(icon, color: Appcolors.Appbuttoncolor, size: 30)),
+              Container(
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(Get.context!).size.width * 0.05),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                            width: Get.width * 0.64,
+                            child: Text(title, style: const TextStyle(fontSize: 18))),
+                        SizedBox(
+                            height:
+                                MediaQuery.of(Get.context!).size.width * 0.01),
+                        Text(subTitle,
+                            style: const TextStyle(
+                                color: Colors.black26, fontSize: 14))
+                      ]))
+            ]),
+          ))
     ]);
   }
 
@@ -282,20 +284,23 @@ class AgendaDetail extends StatelessWidget {
                   margin: const EdgeInsets.all(8.0),
                   child: Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(e.name ?? '',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    letterSpacing: 1.1,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w700)),
-                            Text(e.role ?? '',
-                                style: const TextStyle(
-                                    fontSize: 11.0, color: Colors.black87))
-                          ]))))
+                      child: FittedBox(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(e.name ?? '',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      letterSpacing: 1.1,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w700)),
+                              Text(e.role ?? '',
+                                  style: const TextStyle(
+                                      fontSize: 11.0, color: Colors.black87))
+                            ]),
+                      ))))
               .toList()),
     ]);
   }

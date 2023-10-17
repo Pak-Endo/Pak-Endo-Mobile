@@ -98,18 +98,20 @@ class UpcomingEventsCard extends StatelessWidget {
                               style: const TextStyle(
                                   color: Colors.grey, fontSize: 12))),
                       const SizedBox(height: 5),
-                      Row(mainAxisSize:MainAxisSize.min,children: [
-                        const Icon(Icons.location_pin,
-                            color: Appcolors.Appbuttoncolor, size: 16),
-                        const SizedBox(width: 5),
-                        SizedBox(
-                          width: 150,
-                          child: Text(event.location!.name!,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: const TextStyle(fontSize: 13)),
-                        )
-                      ]),
+                      FittedBox(
+                        child: Row(mainAxisSize:MainAxisSize.min,children: [
+                          const Icon(Icons.location_pin,
+                              color: Appcolors.Appbuttoncolor, size: 16),
+                          const SizedBox(width: 5),
+                          SizedBox(
+                            width: 150,
+                            child: Text(event.location!.name!,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: const TextStyle(fontSize: 13)),
+                          )
+                        ]),
+                      ),
                       const Align(
                         alignment: Alignment.bottomRight,
                         child: Text("View More",

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:pak_endo/constants/consts.dart';
 import 'package:pak_endo/constants/preferences.dart';
@@ -6,11 +7,27 @@ import 'package:pak_endo/model/profile_model.dart';
 import 'package:pak_endo/providers/api_service.dart';
 
 class ApiController {
-  login(memberID, password) async {
+  Future<void> createDevice(String deviceId, String token) async {
+    var url = '${MyConsts.baseUrl}auth/addDevice';
+    var jsonStr = {
+      "email": "string",
+      "deviceId": deviceId,
+      "deviceToken": token,
+      "isAndroid": Platform.isAndroid ? true : false
+    };
+    try {
+      await Api().post_(url, params: jsonStr);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  login(memberID, password, token) async {
     try {
       return await Api().post_('${MyConsts.baseUrl}auth/login', params: {
         'memberID': memberID,
         'password': password,
+        'deviceToken': token
       });
     } catch (e) {
       rethrow;
