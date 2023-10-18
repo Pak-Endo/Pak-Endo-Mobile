@@ -241,7 +241,7 @@ class Login extends StatelessWidget {
         padding: EdgeInsets.all(8.0),
         child: Text(
             textAlign: TextAlign.center,
-            "Exclusive access for Endo-Pak members only. Sign in to continue.",
+            "Exclusive access for PES 2023 members only. Sign in to continue.",
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 16,
