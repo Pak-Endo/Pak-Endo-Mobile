@@ -35,7 +35,9 @@ class AgendaDetail extends StatelessWidget {
                       Icons.calendar_month,
                       homeController.getDay(agenda.day!),
                       '${agenda.from} - ${agenda.to}'),
-                  getTile(Icons.topic_outlined, agenda.theme!, 'Theme'),
+                  agenda.theme!.isEmpty
+                      ? const SizedBox.shrink()
+                      : getTile(Icons.topic_outlined, agenda.theme!, 'Theme'),
                   getTile(Icons.view_agenda, agenda.agendaTitle!, agenda.hall!),
                   const SizedBox(height: 10),
 
@@ -181,10 +183,10 @@ class AgendaDetail extends StatelessWidget {
                   borderRadius:
                   const BorderRadius.all(Radius.circular(8.0)),
                   child: CachedNetworkImage(
-                    imageUrl: agenda.sponsor?.sponsorLogo ?? '',
+                      imageUrl: agenda.sponsor?.sponsorLogo ?? '',
                     height: MediaQuery.of(Get.context!).size.height * 0.04,
                     width: MediaQuery.of(Get.context!).size.height * 0.04,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                     errorWidget: (_, url, err) =>
                         Image.asset("assets/profile.jpg", fit: BoxFit.cover),
                     progressIndicatorBuilder:
@@ -268,7 +270,7 @@ class AgendaDetail extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 1.7, crossAxisCount: 2),
+              childAspectRatio: 1.5, crossAxisCount: 2),
           children: agenda.speakerTeam!
               .map((e) => Container(
                   decoration: BoxDecoration(
@@ -284,23 +286,22 @@ class AgendaDetail extends StatelessWidget {
                   margin: const EdgeInsets.all(8.0),
                   child: Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: FittedBox(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Text(e.name ?? '',
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Expanded(
+                              child: Text(e.name ?? '',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
-                                      letterSpacing: 1.1,
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.w700)),
-                              Text(e.role ?? '',
-                                  style: const TextStyle(
-                                      fontSize: 11.0, color: Colors.black87))
-                            ]),
-                      ))))
+                            ),
+                            Text(e.role ?? '',
+                                style: const TextStyle(
+                                    fontSize: 11.0, color: Colors.black87))
+                          ]))))
               .toList()),
     ]);
   }

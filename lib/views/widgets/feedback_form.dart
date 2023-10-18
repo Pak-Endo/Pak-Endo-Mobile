@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pak_endo/constants/app_colors.dart';
-import 'package:pak_endo/routes/navigations.dart';
 
 import 'AppButtons/custom_button.dart';
 
@@ -21,7 +20,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-        initialChildSize: 9 / 11, // Cover 3/4 of the screen initially
+        initialChildSize: 9 / 11,
         minChildSize: 1 / 3,
         maxChildSize: 1.0,
         builder: (BuildContext context, ScrollController scrollController) {
@@ -42,7 +41,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
               child: ListView(controller: scrollController, children: [
                 Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   IconButton(
-                      onPressed: () => navigatorKey.currentState!.pop(),
+                      onPressed: () => Navigator.of(context).pop(),
                       icon: const Icon(Icons.close, color: Colors.grey)),
                   SizedBox(width: MediaQuery.of(context).size.width * 0.05),
                   const Expanded(
@@ -84,7 +83,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
                         border: OutlineInputBorder())),
                 const SizedBox(height: 20),
                 CustomButton(onTap: () {
-                  navigatorKey.currentState!.pop();
+                  Navigator.of(context).pop();
                 })
               ]));
         });

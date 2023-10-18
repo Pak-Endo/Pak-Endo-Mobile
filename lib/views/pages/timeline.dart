@@ -280,6 +280,10 @@ class _TimeLineBarState extends State<TimeLineBar> {
       return const SizedBox.shrink();
     }
 
+    if (agenda.theme!.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
     if (displayData) {
       return Text('Theme: ${agenda.theme!}',
           style: const TextStyle(fontSize: 12, color: Colors.brown));

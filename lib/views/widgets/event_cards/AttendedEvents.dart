@@ -38,7 +38,7 @@ class AttendedEventsCard extends StatelessWidget {
       }
 
       return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.53,
+          height: MediaQuery.of(context).size.height * 0.5,
           child: ListView.builder(
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.only(left: 5, top: 10),
@@ -169,29 +169,31 @@ class AttendedEventsCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.star_rate, color: Colors.grey, size: 15),
+                const Icon(Icons.event, color: Colors.grey, size: 15),
                 const SizedBox(width: 6),
-                GestureDetector(
-                  onTap: () => showModalBottomSheet(
-                    context: Get.context!,
-                    isScrollControlled: true,
-                    builder: (context) => const FeedbackForm(),
-                  ),
-                  child: const Text('Avg. Rating: 4.6',
-                      style: TextStyle(fontWeight: FontWeight.w500)),
-                ),
+                Text(event.type!,
+                    style: const TextStyle(fontWeight: FontWeight.w500))
+                // GestureDetector(
+                //   onTap: () => showModalBottomSheet(
+                //     context: Get.context!,
+                //     isScrollControlled: true,
+                //     builder: (context) => const FeedbackForm(),
+                //   ),
+                //   child: const Text('Avg. Rating: 4.6',
+                //       style: TextStyle(fontWeight: FontWeight.w500)),
+                // ),
               ],
             ),
-            SizedBox(height: MediaQuery.of(Get.context!).size.height * 0.002),
-            const Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Icons.person, color: Colors.grey, size: 15),
-                SizedBox(width: 6),
-                Text("Guests: 132 ",
-                    style: TextStyle(fontWeight: FontWeight.w500)),
-              ],
-            ),
+            // SizedBox(height: MediaQuery.of(Get.context!).size.height * 0.002),
+            // const Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Icon(Icons.person, color: Colors.grey, size: 15),
+            //     SizedBox(width: 6),
+            //     Text("Guests: 132 ",
+            //         style: TextStyle(fontWeight: FontWeight.w500)),
+            //   ],
+            // ),
           ],
         ));
   }

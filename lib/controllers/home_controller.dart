@@ -117,6 +117,7 @@ class HomeController extends GetxController {
     themes = agenda
         .where((e) => e.speaker != null)
         .where((e) => e.speaker!.speakerName != null)
+        .where((e) => e.theme != null)
         .map((e) => e.theme!)
         .toSet();
     timings = agenda.map((e) => '${e.from} to ${e.to}').toSet();

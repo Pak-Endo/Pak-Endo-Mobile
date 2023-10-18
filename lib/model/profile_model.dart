@@ -57,7 +57,7 @@ class ProfileModel {
     map['city'] = city;
     map['prefix'] = prefix;
     map['password'] = password;
-    map['deviceToken'] = FirebaseMessaging.instance.getToken();
+    map['deviceToken'] = FirebaseMessaging.instance.getToken().toString();
     return map;
   }
 
